@@ -6,7 +6,7 @@ import conceptos.Jugador;
 import jade.core.AID;
 
 public class EstadoPartida {
-	public enum EnumFase{ INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO;}
+	public enum EnumFase{INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO;}
 	private int turno;
 	private EnumFase fase;
 	private final int numJugador;
@@ -14,6 +14,8 @@ public class EstadoPartida {
 	private int jugActual;
 	private int pjActual;
 	private int corona;
+	
+	private int[] persoJugador;
 	
 	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el ag1, etc...
 	private ResumenJugador[] resJugadores;
@@ -29,6 +31,28 @@ public class EstadoPartida {
 		resJugadores=new ResumenJugador[numJugador];
 		Mazo.getInstance();
 		corona = -1;
+		persoJugador = new int[8];
+		resetPersoJugador();
+	}
+	
+	private void resetPersoJugador() {
+		for (int i = 0; i < persoJugador.length; i++) {
+			persoJugador[i] = -1;
+		}
+	}
+
+	public ResumenJugador nextPersonaje(){
+		ResumenJugador ret;
+		int jugador = persoJugador[pjActual++];
+		if(pjActual == 8)
+			pjActual = 0;
+		
+		if(jugador == -1){
+			ret = null;
+		}else{
+			ret = resJugadores[jugador];
+		}
+		return ret;
 	}
 
 	/**
@@ -46,11 +70,6 @@ public class EstadoPartida {
 	public int nextJugador(){
 		jugActual = (++jugActual)%numJugador;
 		return jugActual;
-	}
-	
-	public int nextPersonaje(){
-		pjActual = (++pjActual)%8;
-		return pjActual;
 	}
 
 	public int getJugActual() {

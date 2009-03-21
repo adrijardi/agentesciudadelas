@@ -12,8 +12,7 @@ public class SeleccionarPersonajes extends Behaviour {
 	}
 
 	@Override
-	public void action() {
-				
+	public void action() {		
 		// NotificarDescartados
 		
 			// 
