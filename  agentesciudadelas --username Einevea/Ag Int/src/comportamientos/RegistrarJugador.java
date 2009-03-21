@@ -52,14 +52,14 @@ public class RegistrarJugador extends Behaviour {
 
 	private void confirmarJugador(ResumenJugador rj) {
 		ACLMessage mensajeCartas = new ACLMessage(ACLMessage.INFORM);
-		ACLMessage mensajeMondeas = new ACLMessage(ACLMessage.INFORM);
+		ACLMessage mensajeMonedas = new ACLMessage(ACLMessage.INFORM);
 
 		mensajeCartas.setLanguage(agt.getCodec().getName());
-		mensajeMondeas.setLanguage(agt.getCodec().getName());
+		mensajeMonedas.setLanguage(agt.getCodec().getName());
 		mensajeCartas.addReceiver(rj.getIdentificador());
-		mensajeMondeas.addReceiver(rj.getIdentificador());
+		mensajeMonedas.addReceiver(rj.getIdentificador());
 		mensajeCartas.setOntology(agt.getOnto().getName());
-		mensajeMondeas.setOntology(agt.getOnto().getName());
+		mensajeMonedas.setOntology(agt.getOnto().getName());
 		
 		//Se obtiene el contenido de los mensajes
 		DarDistritos dd = new DarDistritos();
@@ -70,9 +70,11 @@ public class RegistrarJugador extends Behaviour {
 
 		try {
 			agt.getContentManager().fillContent(mensajeCartas, dd);
-			agt.getContentManager().fillContent(mensajeMondeas, dm);
+			agt.getContentManager().fillContent(mensajeMonedas, dm);
+			System.out.println(mensajeCartas);
+			System.out.println(mensajeMonedas);
 			agt.send(mensajeCartas);
-			agt.send(mensajeMondeas);
+			agt.send(mensajeMonedas);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
