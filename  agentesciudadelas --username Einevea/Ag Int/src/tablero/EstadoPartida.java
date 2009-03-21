@@ -13,7 +13,6 @@ public class EstadoPartida {
 	private final int numPersonajes;
 	private int jugActual;
 	private int pjActual;
-	private Mazo mazo;
 	private int corona;
 	
 	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el ag1, etc...
@@ -28,7 +27,7 @@ public class EstadoPartida {
 		jugActual = 0;
 		pjActual = 0;
 		resJugadores=new ResumenJugador[numJugador];
-		mazo = Mazo.getInstance();
+		Mazo.getInstance();
 		corona = -1;
 	}
 

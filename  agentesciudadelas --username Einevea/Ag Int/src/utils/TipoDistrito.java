@@ -5,7 +5,8 @@ public enum TipoDistrito {
 	MILITAR("militar", "rojo"),
 	NOBLE("noble","amarillo"),
 	RELIGIOSO("religioso","azul"),
-	COMERCIAL("comercial","verde");
+	COMERCIAL("comercial","verde"),
+	NULL("ninguno","ninguno");
 	
 	private final String name;
 	private final String color;
