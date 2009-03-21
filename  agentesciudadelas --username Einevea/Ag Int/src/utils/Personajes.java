@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.LinkedList;
+import java.util.Random;
+
 import conceptos.Personaje;
 
 public enum Personajes {
@@ -23,6 +26,41 @@ public enum Personajes {
 		pj.setNombre(nombre);
 		pj.setTurno(turno);
 		pj.setColor(tp.getColor());
+	}
+	
+	public static Personaje getPersonajeByTurno(int turno){
+		Personaje ret;
+		switch (turno) {
+		case 1:
+			ret = Personajes.ASESINO.getPj();
+			break;
+		case 2:
+			ret = Personajes.LADRON.getPj();
+			break;
+		case 3:
+			ret = Personajes.MAGO.getPj();
+			break;
+		case 4:
+			ret = Personajes.REY.getPj();
+			break;
+		case 5:
+			ret = Personajes.OBISPO.getPj();
+			break;
+		case 6:
+			ret = Personajes.MERCADER.getPj();
+			break;
+		case 7:
+			ret = Personajes.ARQUITECTO.getPj();
+			break;
+		case 8:
+			ret = Personajes.CONDOTIERO.getPj();
+			break;
+
+		default:
+			ret = null;
+			break;
+		}
+		return ret;
 	}
 
 }

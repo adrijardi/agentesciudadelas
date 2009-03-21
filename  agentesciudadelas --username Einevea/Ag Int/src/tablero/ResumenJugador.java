@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 import conceptos.Distrito;
 import conceptos.Jugador;
+import conceptos.Personaje;
 
 
 public class ResumenJugador {
@@ -14,7 +15,7 @@ public class ResumenJugador {
 	private int dinero;
 	private int puntos;
 	private final LinkedList<Distrito> cartasMano;
-	private String personaje;
+	private Personaje personaje;
 	private int[] colores= new int[5]; // amar, az, mar, roj, verd
 	private Vector<conceptos.Distrito> construido=new Vector<conceptos.Distrito>();
 	
@@ -132,15 +133,15 @@ public class ResumenJugador {
 	public void setConstruido(Vector<conceptos.Distrito> construido) {
 		this.construido = construido;
 	}
-
-	public String getPersonaje() {
+	
+	public Personaje getPersonaje() {
 		return personaje;
 	}
 
-	public void setPersonaje(String personaje) {
+	public void setPersonaje(Personaje personaje) {
 		this.personaje = personaje;
 	}
-	
+
 	public Jugador getJugador(){
 		Jugador j = new Jugador();
 		j.setMano(cartasMano.size());
