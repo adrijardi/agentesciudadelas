@@ -1,7 +1,11 @@
 package comportamientos;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import acciones.CobrarDistritosMercader;
 import acciones.CobrarPorDistritos;
+import acciones.DarDistritos;
+import acciones.DarMonedas;
 import conceptos.Jugador;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
@@ -52,20 +56,33 @@ public class EleccionCartasODinero extends Behaviour {
 			}
 			// tengo el mensaje y su contenido, ahora a actualizar el estado actual
 			
-			CobrarDistritosMercader mt=(CobrarDistritosMercader)contenido;
+			if(contenido instanceof DarDistritos){
+				DarDistritos dd=(DarDistritos)contenido;
+				/*
+				 * Preparar el mensaje de dar distritos
+				 */
+			}else if(contenido instanceof DarMonedas){
+				DarMonedas dm=(DarMonedas)contenido;
+				/*
+				 * Preparar el mensaje de dar monedas
+				 */
+			}
+			/*
 			Jugador jg=mt.getJugador();
 			
-
 			CobrarPorDistritos cb=new CobrarPorDistritos();
 			cb.setJugador(jg);
 			int monedas=ep.getResJugadorActual().getColores()[0];
 			cb.setCantidad(monedas);
 			ep.getResJugadorActual().setDinero(ep.getResJugadorActual().getDinero()+monedas);
 
+			 */
+			
 			/*
 			 * asi puesto son los propios agentes quienes tienen q comprobar que no es un mensaje para ellos, 
 			 * eso se hace comparando su jugador con el que enviamos
 			 */
+			/*
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setOntology("CobrarPorDistritos");
 			msg.setSender(agt.getAID());
@@ -78,6 +95,7 @@ public class EleccionCartasODinero extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} // contenido es el objeto que envia
+			*/
 		}
 		
 	}
