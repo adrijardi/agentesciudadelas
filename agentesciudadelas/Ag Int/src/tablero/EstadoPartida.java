@@ -242,6 +242,15 @@ public class EstadoPartida {
 	public void setNumJugHanJugado(int numJugHanJugado) {
 		this.numJugHanJugado = numJugHanJugado;
 	}
+	
+	public ResumenJugador getResumenJugador(String aid) {
+		ResumenJugador ret = null;
+		for (int i = 0; i < resJugadores.length; i++) {
+			if(resJugadores[i].getIdentificador().equals(aid))
+				ret = resJugadores[i];
+		}
+		return ret;
+	}
 
 	public String getNombreRobado() {
 		return nombreRobado;

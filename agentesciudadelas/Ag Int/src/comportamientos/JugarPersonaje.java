@@ -59,12 +59,9 @@ public class JugarPersonaje extends Behaviour {
 				jugAct=ep.nextPersonaje();
 			}while(jugAct==null);
 			ep.setNumJugHanJugado(ep.getNumJugHanJugado() + 1);
+			
+			agt.addBehaviour(new EleccionCartasODinero(agt));
 			agt.addBehaviour(new ConstruirDistrito(agt));
-
-			/*
-			 * Como pedir cartas O dinero??
-			 */
-// agt.addBehaviour(new EleccionCartasODinero(agt));
 
 			if (!jugAct.getPersonaje().getNombre().equalsIgnoreCase(ep.getNombreMuerto())) {
 				/*
@@ -95,6 +92,8 @@ public class JugarPersonaje extends Behaviour {
 					 * a–adir el comportamiento de la habilidad del jugador
 					 * Mago: habilidadMago(this)
 					 */
+					agt.addBehaviour(new HabilidadCambiarMano(agt));
+					agt.addBehaviour(new CambiarCartas(agt));
 					break;
 				case 4:
 					/*
