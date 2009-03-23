@@ -2,6 +2,7 @@ package tablero;
 
 import java.util.Random;
 
+import conceptos.Distrito;
 import conceptos.Jugador;
 import jade.core.AID;
 
@@ -19,6 +20,12 @@ public class EstadoPartida {
 	
 	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el ag1, etc...
 	private ResumenJugador[] resJugadores;
+	/*
+	 * A–adido por Pablo
+	 */
+	private String nombreMuerto;
+	private String nombreRobado;
+	private int numJugHanJugado;
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
 	private EstadoPartida() {
@@ -33,6 +40,8 @@ public class EstadoPartida {
 		corona = -1;
 		persoJugador = new int[8];
 		resetPersoJugador();
+		nombreMuerto=null;
+		numJugHanJugado=0;
 	}
 	
 	private void resetPersoJugador() {
@@ -46,13 +55,14 @@ public class EstadoPartida {
 		int jugador = persoJugador[pjActual++];
 		if(pjActual == 8)
 			pjActual = 0;
-		
+			
 		if(jugador == -1){
 			ret = null;
 		}else{
 			ret = resJugadores[jugador];
 		}
 		return ret;
+	
 	}
 
 	/**
@@ -76,11 +86,11 @@ public class EstadoPartida {
 		return jugActual;
 	}
 
-
+/*
 	public int getPjActual() {
 		return pjActual;
 	}
-
+*/
 
 	public int getTurno() {
 		return turno;
@@ -113,7 +123,8 @@ public class EstadoPartida {
 			return true;
 		return false;
 	}
-
+	
+	
 	public boolean isPartidaLibre() {
 		if(isFaseIniciada() && jugActual < 4)
 			return true;
@@ -163,6 +174,81 @@ public class EstadoPartida {
 		Random r = new Random();
 		corona = r.nextInt(numJugador);
 		return resJugadores[corona].getJugador();
+	}
+	
+	/*
+	 * 
+	 * a–adido por Pablo 
+	 * 
+	 * 
+	 */
+	
+	public boolean isJugarRonda() {
+		if(fase.equals(EnumFase.JUGAR_RONDA))
+			return true;
+		return false;
+	}
+	
+	public ResumenJugador getResJugadorActual() {
+		return resJugadores[jugActual];
+	}
+	
+	public boolean tieneDistrito(Jugador j, Distrito d){
+		boolean tiene=false;
+		for(int i=0;i<resJugadores.length;i++){
+			if(resJugadores[i].esJugador(j.getNombre())){
+				tiene=resJugadores[i].tieneDistrito(d);
+			}
+		}
+		return tiene;
+	}
+
+	public int getCorona() {
+		return corona;
+	}
+
+	public void setCorona(int corona) {
+		this.corona = corona;
+	}
+
+	public int[] getPersoJugador() {
+		return persoJugador;
+	}
+
+	public void setPersoJugador(int[] persoJugador) {
+		this.persoJugador = persoJugador;
+	}
+
+	public String getNombreMuerto() {
+		return nombreMuerto;
+	}
+
+	public void setNombreMuerto(String nombreMuerto) {
+		this.nombreMuerto = nombreMuerto;
+	}
+
+	public void setJugActual(int jugActual) {
+		this.jugActual = jugActual;
+	}
+/*
+	public void setPjActual(int pjActual) {
+		this.pjActual = pjActual;
+	}
+*/
+	public int getNumJugHanJugado() {
+		return numJugHanJugado;
+	}
+
+	public void setNumJugHanJugado(int numJugHanJugado) {
+		this.numJugHanJugado = numJugHanJugado;
+	}
+
+	public String getNombreRobado() {
+		return nombreRobado;
+	}
+
+	public void setNombreRobado(String nombreRobado) {
+		this.nombreRobado = nombreRobado;
 	}
 	
 }

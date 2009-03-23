@@ -151,5 +151,16 @@ public class ResumenJugador {
 		return j;
 	}
 	
+	public boolean esJugador(String nombre){
+		return nombre.equals(identificador.getName());
+	}
+	public boolean tieneDistrito(Distrito d){
+		for(int i=0;i<construido.size();i++){
+			if(construido.get(i).getNombre().equalsIgnoreCase(d.getNombre()))
+				return true;
+		}
+		return false;
+	}
+	
 	
 }
