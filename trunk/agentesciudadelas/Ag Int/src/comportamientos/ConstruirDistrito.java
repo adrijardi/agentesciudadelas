@@ -37,7 +37,7 @@ public class ConstruirDistrito extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("PedirConstruirDistrito");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().PEDIRCONSTRUIRDISTRITO);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
@@ -87,6 +87,7 @@ public class ConstruirDistrito extends Behaviour {
 			 */
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, cd);
+				myAgent.send(msgEnviar);
 			} catch (CodecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

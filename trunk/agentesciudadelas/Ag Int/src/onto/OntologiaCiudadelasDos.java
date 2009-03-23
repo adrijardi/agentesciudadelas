@@ -85,6 +85,11 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String SUSTITUIRMANO = "SustituirMano";
 	public static final String SUSTITUIRMANO_DISTRITOS = "distritos";
 	
+	public static final String DESTRUIRDISTRITO = "DestruirDistrito";
+	public static final String DESTRUIRDISTRITO_JUGADOR = "jugador";
+	public static final String DESTRUIRDISTRITO_DISTRITO = "distrito";
+	public static final String DESTRUIRDISTRITO_PAGO = "pago";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelasDos() {
@@ -94,7 +99,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			ConceptSchema cs;
 			AgentActionSchema as;
 			
-			// Añade los elementos
+			// A–ade los elementos
 			add(new ConceptSchema(DISTRITO), Distrito.class);
 			add(new ConceptSchema(JUGADOR), Jugador.class);
 			add(new ConceptSchema(PERSONAJE), Personaje.class);
@@ -115,6 +120,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(COBRARPORMERCADER), CobrarPorMercader.class);
 			add(new AgentActionSchema(CAMBIARMANO), CambiarMano.class);
 			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
+			add(new AgentActionSchema(DESTRUIRDISTRITO), DestruirDistrito.class);
 
 			// Estructura del esquema para el concepto DISTRITO
 			cs = (ConceptSchema) getSchema(DISTRITO);
@@ -201,6 +207,12 @@ public class OntologiaCiudadelasDos extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(SUSTITUIRMANO);
 			as.add(SUSTITUIRMANO_DISTRITOS, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			
+			as = (AgentActionSchema) getSchema(DESTRUIRDISTRITO);
+			as.add(DESTRUIRDISTRITO_DISTRITO, (ConceptSchema) getSchema(DISTRITO));
+			as.add(DESTRUIRDISTRITO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			as.add(DESTRUIRDISTRITO_PAGO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
