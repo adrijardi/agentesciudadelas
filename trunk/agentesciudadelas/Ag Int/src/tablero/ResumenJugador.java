@@ -162,5 +162,24 @@ public class ResumenJugador {
 		return false;
 	}
 	
+	public void cambiarMano(ResumenJugador rj){
+		Distrito[] orig=getCartasMano();
+		Distrito[] dest=rj.getCartasMano();
+		cartasMano.clear();
+		for (int i=0;i<dest.length;i++){
+			cartasMano.add(dest[i]);
+		}
+		rj.cartasMano.clear();
+		for (int i=0;i<orig.length;i++){
+			rj.cartasMano.add(orig[i]);
+		}
+	}
 	
+	// Sin probar
+	public void quitarCartaMano(conceptos.Distrito carta){
+		cartasMano.remove((conceptos.Distrito)carta);
+	}
+	public void anyadirCartaMano(conceptos.Distrito carta){
+		cartasMano.add(carta);
+	}
 }
