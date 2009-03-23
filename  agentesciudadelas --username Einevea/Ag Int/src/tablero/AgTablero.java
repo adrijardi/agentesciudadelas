@@ -15,13 +15,13 @@ public class AgTablero extends jade.core.Agent {
 
 	private Behaviour beh;
 	private final Codec codec = new SLCodec();
-	private final Ontology onto = OntologiaCiudadelasDos.getInstance();
+	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
 
 	
 	public Codec getCodec() {
 		return codec;
 	}
-	public Ontology getOnto() {
+	public OntologiaCiudadelasDos getOnto() {
 		return onto;
 	}
 	/*
