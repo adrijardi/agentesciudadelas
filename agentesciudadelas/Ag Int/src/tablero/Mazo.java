@@ -109,7 +109,7 @@ public class Mazo {
 	}
 	
 	public void trashDistrito(Distrito d){
-		descarte.push(d);
+		descarte.addFirst(d);
 	}
 	
 	public void printMazo(){
