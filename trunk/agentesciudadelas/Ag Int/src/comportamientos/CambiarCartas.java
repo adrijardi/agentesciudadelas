@@ -96,6 +96,7 @@ public class CambiarCartas extends Behaviour {
 
 	@Override
 	public boolean done() {
+		agt.removeBehaviour(new HabilidadCambiarMano(agt));
 		return true;// siempre termina
 	}
 }
