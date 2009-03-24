@@ -58,7 +58,7 @@ public class EleccionCartasODinero extends Behaviour {
 			}
 			// tengo el mensaje y su contenido, ahora a actualizar el estado actual
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msg.setSender(agt.getAID());
+			msgEnviar.setSender(agt.getAID());
 			
 			if(contenido instanceof DarDistritos){
 				/*

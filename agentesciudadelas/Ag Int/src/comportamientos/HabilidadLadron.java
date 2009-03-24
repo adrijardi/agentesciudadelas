@@ -9,6 +9,7 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import utils.Personajes;
 import acciones.CobrarDistritos;
 import acciones.NotificarRobado;
 import acciones.PagarDistrito;
@@ -70,7 +71,7 @@ public class HabilidadLadron extends Behaviour {
 			
 			ep.setNombreRobado(pr.getNombre());
 			
-			if(pr.getNombre().equals(ep.getNombreMuerto()) || pr.getNombre().equals("asesino")){
+			if(pr.getNombre().equals(ep.getNombreMuerto()) || pr.getNombre().equalsIgnoreCase(Personajes.ASESINO.name())){
 				/*
 				 * si intenta robar al asesino o al que ha sido asesinado se notifica NULL
 				 */
@@ -84,6 +85,7 @@ public class HabilidadLadron extends Behaviour {
 			msgEnviar.setOntology("NotificarRobado");
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, nt);
+				myAgent.send(msgEnviar);
 			} catch (CodecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
