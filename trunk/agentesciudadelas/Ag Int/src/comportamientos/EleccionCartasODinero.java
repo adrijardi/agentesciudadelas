@@ -60,6 +60,8 @@ public class EleccionCartasODinero extends Behaviour {
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setSender(agt.getAID());
 			
+			msgEnviar.addReceiver(ep.getResJugadorActual().getIdentificador());
+			
 			if(contenido instanceof DarDistritos){
 				/*
 				 * Preparar el mensaje de dar distritos
@@ -78,6 +80,7 @@ public class EleccionCartasODinero extends Behaviour {
 				
 				try {
 					myAgent.getContentManager().fillContent(msgEnviar, obj);
+					myAgent.send(msgEnviar);
 				} catch (CodecException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -96,6 +99,7 @@ public class EleccionCartasODinero extends Behaviour {
 				
 				try {
 					myAgent.getContentManager().fillContent(msgEnviar, obj);
+					myAgent.send(msgEnviar);
 				} catch (CodecException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

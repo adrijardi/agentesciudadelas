@@ -15,6 +15,7 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.EstadoPartida;
+import utils.Filtros;
 import utils.Personajes;
 
 public class JugarPersonaje extends Behaviour {
@@ -78,7 +79,7 @@ public class JugarPersonaje extends Behaviour {
 					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 					msgEnviar.setSender(agt.getAID());
 					msgEnviar.setOntology(agt.getOnto().DARMONEDAS);
-msgEnviar.setConversationId(Personajes.LADRON.name());
+msgEnviar.setConversationId(Filtros.cobraLadron);
 					DarMonedas dm=new DarMonedas();
 					dm.setMonedas(ep.getResJugadorActual().getDinero());
 					ep.getJugLadron().setDinero(ep.getJugLadron().getDinero()+ep.getResJugadorActual().getDinero());
