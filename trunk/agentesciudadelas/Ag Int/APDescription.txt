@@ -1,1 +1,1 @@
-( ap-description  :name "eineveaVista:1100/JADE" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://eineveaVista:7778/acc))))
+( ap-description  :name "wifi-82-212.uc3m.es:1099/JADE" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://wifi-82-212.uc3m.es:7778/acc))))

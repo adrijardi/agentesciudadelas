@@ -7,7 +7,7 @@ import conceptos.Personaje;
 
 public enum Personajes {
 	ASESINO("Asesino",1,TipoDistrito.NULL),
-	LADRON("Ladrón",2,TipoDistrito.NULL),
+	LADRON("Ladron",2,TipoDistrito.NULL),
 	MAGO("Mago",3,TipoDistrito.NULL),
 	REY("Rey",4,TipoDistrito.NOBLE),
 	OBISPO("Obispo",5,TipoDistrito.RELIGIOSO),
@@ -63,4 +63,38 @@ public enum Personajes {
 		return ret;
 	}
 
+	public static String getNombre(int num){
+		String ret;
+		switch (num) {
+		case 1:
+			ret = Personajes.ASESINO.name();
+			break;
+		case 2:
+			ret = Personajes.LADRON.name();
+			break;
+		case 3:
+			ret = Personajes.MAGO.name();
+			break;
+		case 4:
+			ret = Personajes.REY.name();
+			break;
+		case 5:
+			ret = Personajes.OBISPO.name();
+			break;
+		case 6:
+			ret = Personajes.MERCADER.name();
+			break;
+		case 7:
+			ret = Personajes.ARQUITECTO.name();
+			break;
+		case 8:
+			ret = Personajes.CONDOTIERO.name();
+			break;
+
+		default:
+			ret = null;
+			break;
+		}
+		return ret;
+	}
 }

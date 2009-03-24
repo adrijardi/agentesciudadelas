@@ -3,6 +3,7 @@ package comportamientos;
 import conceptos.Jugador;
 import conceptos.Personaje;
 import acciones.CobrarDistritos;
+import acciones.DarMonedas;
 import acciones.NotificarFinTurnoJugador;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
@@ -14,6 +15,7 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.EstadoPartida;
+import utils.Personajes;
 
 public class JugarPersonaje extends Behaviour {
 
@@ -65,39 +67,63 @@ public class JugarPersonaje extends Behaviour {
 
 			if (!jugAct.getPersonaje().getNombre().equalsIgnoreCase(ep.getNombreMuerto())) {
 				/*
-				 * a–adir el comportamiento generico ConstruirDistrito(this);
+				 * aï¿½adir el comportamiento generico ConstruirDistrito(this);
 				 * este comportamiento debe finalizarse al final en el propio
 				 * done()
 				 */
+				if(jugAct.getPersonaje().getNombre()==ep.getNombreRobado()){
+					/*
+					 * Cambia el dinero de manos
+					 */
+					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
+					msgEnviar.setSender(agt.getAID());
+					msgEnviar.setOntology(agt.getOnto().DARMONEDAS);
+msgEnviar.setConversationId(Personajes.LADRON.name());
+					DarMonedas dm=new DarMonedas();
+					dm.setMonedas(ep.getResJugadorActual().getDinero());
+					ep.getJugLadron().setDinero(ep.getJugLadron().getDinero()+ep.getResJugadorActual().getDinero());
+					ep.getResJugadorActual().setDinero(0);
+					try {
+						myAgent.getContentManager().fillContent(msgEnviar,dm);
+						myAgent.send(msgEnviar);
+					} catch (CodecException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (OntologyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // contenido es el objeto que envia
+				}
 				switch (jugAct.getPersonaje().getTurno()) {
 				case 1:
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Asesino: habilidadAsesino(this)
 					 */
 					agt.addBehaviour(new HabilidadAsesino(agt));
 					break;
 				case 2:
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Ladron: habilidadLadron(this)
 					 */
 					agt.addBehaviour(new HabilidadLadron(agt));
 /*
- * Falta que en HabilidadLadron se compruebe si se robo a alguien valido, en ese caso hay q a–adir la habilidad EsperaRobo(agt)
+ * Falta que en HabilidadLadron se compruebe si se robo a alguien valido, en ese caso hay q aï¿½adir la habilidad EsperaRobo(agt)
  */
 					break;
 				case 3:
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Mago: habilidadMago(this)
 					 */
 					agt.addBehaviour(new HabilidadCambiarMano(agt));
 					agt.addBehaviour(new CambiarCartas(agt));
+					ep.setJugLadron(ep.getResJugadorActual());
 					break;
 				case 4:
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador Rey:
+					 * aï¿½adir el comportamiento de la habilidad del jugador Rey:
 					 * habilidadRey(this)
 					 */
 					agt.addBehaviour(new HabilidadRey(agt));
@@ -105,7 +131,7 @@ public class JugarPersonaje extends Behaviour {
 					break;
 				case 5: //obispo
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Obispo: habilidadObispo(this) esta habilidad debe estar
 					 * siempre activada o hacerlo mediante control del tablero q
 					 * es mas comodo
@@ -115,7 +141,7 @@ public class JugarPersonaje extends Behaviour {
 					break;
 				case 6: //mercader
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Mercader: habilidadMercader(this)
 					 */
 					agt.addBehaviour(new HabilidadMercader(agt));
@@ -123,7 +149,7 @@ public class JugarPersonaje extends Behaviour {
 					break;
 				case 7:
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Arquitecto: habilidadArquitecto(this)
 					 *
 					 * Su habilidad se controla en el comportamiento que permite elegir entre cartas o dinero
@@ -131,7 +157,7 @@ public class JugarPersonaje extends Behaviour {
 					break;
 				case 8: //condotierro
 					/*
-					 * a–adir el comportamiento de la habilidad del jugador
+					 * aï¿½adir el comportamiento de la habilidad del jugador
 					 * Condotierro: habilidadCondotierro(this)
 					 */
 //					agt.addBehaviour(new HabilidadCondotierro(agt));
@@ -154,6 +180,7 @@ public class JugarPersonaje extends Behaviour {
 			ep.setNombreMuerto(null);
 			ep.setNumJugHanJugado(0);
 			ep.setNombreRobado(null);
+			ep.setJugLadron(null);
 			ep.setFase(EnumFase.SEL_PERSONAJES);
 			return true;
 		}

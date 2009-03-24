@@ -21,10 +21,11 @@ public class EstadoPartida {
 	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el ag1, etc...
 	private ResumenJugador[] resJugadores;
 	/*
-	 * A–adido por Pablo
+	 * Aï¿½adido por Pablo
 	 */
 	private String nombreMuerto;
 	private String nombreRobado;
+	private ResumenJugador jugLadron;
 	private int numJugHanJugado;
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
@@ -42,6 +43,7 @@ public class EstadoPartida {
 		resetPersoJugador();
 		nombreMuerto=null;
 		numJugHanJugado=0;
+		jugLadron=null;
 	}
 	
 	private void resetPersoJugador() {
@@ -142,7 +144,7 @@ public class EstadoPartida {
 		}
 		
 		if(no_coincide && jugActual < numJugador){
-			System.out.println("Añadido 1 jugador con id: "+name);
+			System.out.println("Aï¿½adido 1 jugador con id: "+name);
 			resJugadores[jugActual]= new ResumenJugador(name);
 			aux = resJugadores[jugActual];
 			jugActual++;
@@ -178,7 +180,7 @@ public class EstadoPartida {
 	
 	/*
 	 * 
-	 * a–adido por Pablo 
+	 * aï¿½adido por Pablo 
 	 * 
 	 * 
 	 */
@@ -259,5 +261,14 @@ public class EstadoPartida {
 	public void setNombreRobado(String nombreRobado) {
 		this.nombreRobado = nombreRobado;
 	}
+
+	public ResumenJugador getJugLadron() {
+		return jugLadron;
+	}
+
+	public void setJugLadron(ResumenJugador jugLadron) {
+		this.jugLadron = jugLadron;
+	}
+	
 	
 }
