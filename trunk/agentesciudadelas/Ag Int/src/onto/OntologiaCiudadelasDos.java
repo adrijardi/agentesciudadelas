@@ -10,7 +10,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 	// Nombre de la Ontologia
 	public static final String ONTOLOGY_NAME = "OntologiaCiudadelasDos";
 
-	// Vocabulario de la ontología
+	// Vocabulario de la ontologia
 	// /CONCEPTOS:
 	public static final String DISTRITO = "Distrito";
 	public static final String DISTRITO_NOMBRE = "nombre";
@@ -99,7 +99,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			ConceptSchema cs;
 			AgentActionSchema as;
 			
-			// A–ade los elementos
+			// Aï¿½ade los elementos
 			add(new ConceptSchema(DISTRITO), Distrito.class);
 			add(new ConceptSchema(JUGADOR), Jugador.class);
 			add(new ConceptSchema(PERSONAJE), Personaje.class);
@@ -144,9 +144,9 @@ public class OntologiaCiudadelasDos extends Ontology {
 			// PredicateSchema ps = (PredicateSchema) getSchema(OFERTA);
 			// ps.add(OFERTA_FRUTA, (ConceptSchema) getSchema(FRUTA));
 
-			// Estructura del esquema para la acción
+			// Estructura del esquema para la acciï¿½n
 			as = (AgentActionSchema) getSchema(DARDISTRITOS);
-			/* accion.añadir(<nombre del atributo>, <tipo_atrib>, <min>,<max>) */
+			/* accion.aï¿½adir(<nombre del atributo>, <tipo_atrib>, <min>,<max>) */
 			as.add(DARDISTRITOS_DISTRITOS, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 
 			as = (AgentActionSchema) getSchema(DARMONEDAS);
@@ -236,7 +236,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 	// Creamos referencia estatica a la propia onto
 	private static OntologiaCiudadelasDos instance = new OntologiaCiudadelasDos();
 
-	// Creamos método para devolver la referencia estatica
+	// Creamos mï¿½todo para devolver la referencia estatica
 	public static OntologiaCiudadelasDos getInstance() {
 		return instance;
 	}
