@@ -1,8 +1,5 @@
 package utils;
 
-import java.util.LinkedList;
-import java.util.Random;
-
 import conceptos.Personaje;
 
 public enum Personajes {
