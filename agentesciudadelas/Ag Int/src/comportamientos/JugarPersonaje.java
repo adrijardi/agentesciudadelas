@@ -21,33 +21,38 @@ import utils.Personajes;
 public class JugarPersonaje extends Behaviour {
 
 	private final AgTablero agt;
-	private EstadoPartida ep = EstadoPartida.getInstance();;
+	private EstadoPartida ep = EstadoPartida.getInstance();
+	private boolean primero;
 
 	public JugarPersonaje(AgTablero agTablero) {
 		agt = agTablero;
+		primero=true;
 	}
 
 	@Override
 	public void action() {
-		block();
+		
+		if(primero){
+			primero=false;
+		}else{
+			block();
+			
+			MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("NotificarFinTurnoJugador");
+			MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
+			MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,filtroIdentificador);
+
+			ACLMessage msg = myAgent.receive(plantilla);
+		}
 		/*
-		 * el fin de seleccionar personaje envia un mensaje diciendo q toca
-		 * JugarPersonaje estara a la espera de que le llege un mensaje de q
-		 * toca jugar a los personajes
+		 * el fin de seleccionar personaje añade el comportamiento este pero las demas veces q se tiene 
+		 * que ejecutar debera estar bloqueado hasta que se notifique el fin del turno del jugador
 		 * 
 		 * TODOS LOS PERSONAJES ACABAN COMUNICANDO QUE HAN ACABADO
 		 */
 
-		MessageTemplate filtroIdentificador = MessageTemplate
-				.MatchOntology("NotificarFinTurnoJugador");
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep
-				.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,
-				filtroIdentificador);
+		
 
-		ACLMessage msg = myAgent.receive(plantilla);
-
-		if (msg != null) {
+//		if (msg != null) {
 			/*
 			 * cuando se empieza a jugar lo primero es incrementar el jugador,
 			 * si el ultimo lo puso el jugador 7 ahora se pasara al valor 1
@@ -161,7 +166,7 @@ msgEnviar.setConversationId(Filtros.COBRA_LADRON);
 					 * a�adir el comportamiento de la habilidad del jugador
 					 * Condotierro: habilidadCondotierro(this)
 					 */
-//					agt.addBehaviour(new HabilidadCondotierro(agt));
+					agt.addBehaviour(new HabilidadCondotiero(agt));
 					agt.addBehaviour(new CobrarCondotierro(agt));
 					break;
 				default:
@@ -170,7 +175,7 @@ msgEnviar.setConversationId(Filtros.COBRA_LADRON);
 
 			}
 		}
-	}
+//	}
 
 	@Override
 	public boolean done() {
@@ -183,6 +188,10 @@ msgEnviar.setConversationId(Filtros.COBRA_LADRON);
 			ep.setNombreRobado(null);
 			ep.setJugLadron(null);
 			ep.setFase(EnumFase.SEL_PERSONAJES);
+			/*
+			 * tras terminar esta fase se entra en notificarDescartado otra vez
+			 */
+			agt.addBehaviour(new NotificarDescartado(agt));
 			return true;
 		}
 	}

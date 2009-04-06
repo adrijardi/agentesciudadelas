@@ -32,7 +32,7 @@ public class HabilidadMercader extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("CobrarMercader");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().COBRARDISTRITOSMERCADER);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
@@ -63,7 +63,7 @@ public class HabilidadMercader extends Behaviour {
 			
 // hay q informar al resto del mundo del cambio	
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology("CobrarPorMercader");
+			msgEnviar.setOntology(agt.getOnto().COBRARPORMERCADER);
 			msg.setSender(agt.getAID());
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, cm);

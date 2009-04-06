@@ -36,13 +36,13 @@ public class ElegirPersonajeJugador extends Behaviour {
 		
 		try {
 			OfertarPersonajes contenido = (OfertarPersonajes) myAgent.getContentManager().extractContent(msg);
-			Personaje seleccionado = (Personaje)contenido.getPersonajes().get(0); // Se selecciona el primer personaje que llega
+//			Personaje seleccionado = (Personaje)contenido.getPersonajes().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
 			Jugador yo = new Jugador();
 			yo.setNombre(_agj.getName());
 			salida.setJugador(yo);
-			salida.setPersonaje(seleccionado);
+//			salida.setPersonaje(seleccionado);
 			
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setSender(_agj.getAID());

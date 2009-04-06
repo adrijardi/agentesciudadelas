@@ -314,6 +314,14 @@ public class EstadoPartida {
 	public void set_personajeNoDisponibleOculto(int noDisponibleOculto) {
 		_personajeNoDisponibleOculto = noDisponibleOculto;
 	}
+
+	public int getPjActual() {
+		return pjActual;
+	}
+
+	public void setPjActual(int pjActual) {
+		this.pjActual = pjActual;
+	}
 	
 	
 }
