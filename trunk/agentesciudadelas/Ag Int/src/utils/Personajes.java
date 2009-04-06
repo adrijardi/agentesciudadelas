@@ -97,4 +97,6 @@ public enum Personajes {
 		}
 		return ret;
 	}
+	
+	
 }

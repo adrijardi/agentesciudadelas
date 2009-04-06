@@ -27,6 +27,7 @@ public class EstadoPartida {
 	private String nombreRobado;
 	private ResumenJugador jugLadron;
 	private int numJugHanJugado;
+	private int destapado;
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
 	private EstadoPartida() {
@@ -44,6 +45,7 @@ public class EstadoPartida {
 		nombreMuerto=null;
 		numJugHanJugado=0;
 		jugLadron=null;
+		destapado = 0;
 	}
 	
 	private void resetPersoJugador() {
@@ -97,6 +99,14 @@ public class EstadoPartida {
 	public int getTurno() {
 		return turno;
 	}
+	public int getDestapado() {
+		return destapado;
+	}
+
+	public void setDestapado(int destapado) {
+		this.destapado = destapado;
+	}
+
 	public void setTurno(int turno) {
 		this.turno = turno;
 	}
