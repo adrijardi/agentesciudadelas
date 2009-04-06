@@ -30,33 +30,15 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String PERSONAJE_COLOR = "color";
 	
 	// ACCIONES
-	public static final String DARDISTRITOS = "DarDistritos";
-	public static final String DARDISTRITOS_DISTRITOS = "distritos";
 
-	public static final String DARMONEDAS = "DarMonedas";
-	public static final String DARMONEDAS_MONEDAS = "monedas";
+	public static final String CAMBIARMANO = "CambiarMano";
+	public static final String CAMBIARMANO_JUGADOR1 = "jugador1";
+	public static final String CAMBIARMANO_JUGADOR2 = "jugador2";
 	
-	public static final String NOTIFICARCORONA = "NotificarCorona";
-	public static final String NOTIFICARCORONA_JUGADOR = "jugador";
-	
-	public static final String NOTIFICARFINTURNOJUGADOR = "NotificarFinTurnoJugador";
-	public static final String NOTIFICARFINTURNOJUGADOR_PERSONAJE = "personaje";
-	public static final String NOTIFICARFINTURNOJUGADOR_JUGADOR = "jugador";
-	
-	public static final String PEDIRCONSTRUIRDISTRITO = "PedirConstruirDistrito";
-	public static final String PEDIRCONSTRUIRDISTRITO_JUGADOR = "jugador"; 
-	public static final String PEDIRCONSTRUIRDISTRITO_PERSONAJE = "personaje";
-	public static final String PEDIRCONSTRUIRDISTRITO_DISTRITO = "distrito";
-
 	public static final String COBRARDISTRITOS = "CobrarDistritos";
 	public static final String COBRARDISTRITOS_JUGADOR = "jugador"; 
 	public static final String COBRARDISTRITOS_CANTIDAD = "cantidad";
 	public static final String COBRARDISTRITOS_DISTRITO = "distrito";
-	
-	public static final String PAGARDISTRITO = "PagarDistrito";
-	public static final String PAGARDISTRITO_JUGADOR = "jugador"; 
-	public static final String PAGARDISTRITO_CANTIDAD = "cantidad";
-	public static final String PAGARDISTRITO_DISTRITO = "distrito";
 	
 	public static final String COBRARDISTRITOSREY = "CobrarDistritosRey";
 	public static final String COBRARDISTRITOSREY_JUGADOR = "jugador";
@@ -77,18 +59,41 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String COBRARPORMERCADER = "CobrarPorMercader";
 	public static final String COBRARPORMERCADER_JUGADOR = "jugador"; 
 	public static final String COBRARPORMERCADER_CANTIDAD = "cantidad";
-
-	public static final String CAMBIARMANO = "CambiarMano";
-	public static final String CAMBIARMANO_JUGADOR1 = "jugador1";
-	public static final String CAMBIARMANO_JUGADOR2 = "jugador2";
 	
-	public static final String SUSTITUIRMANO = "SustituirMano";
-	public static final String SUSTITUIRMANO_DISTRITOS = "distritos";
+	public static final String DARDISTRITOS = "DarDistritos";
+	public static final String DARDISTRITOS_DISTRITOS = "distritos";
+
+	public static final String DARMONEDAS = "DarMonedas";
+	public static final String DARMONEDAS_MONEDAS = "monedas";
 	
 	public static final String DESTRUIRDISTRITO = "DestruirDistrito";
 	public static final String DESTRUIRDISTRITO_JUGADOR = "jugador";
 	public static final String DESTRUIRDISTRITO_DISTRITO = "distrito";
 	public static final String DESTRUIRDISTRITO_PAGO = "pago";
+	
+	public static final String ELEGIRPERSONAJE = "ElegirPersonaje";
+	public static final String ELEGIRPERSONAJE_PERSONAJE = "personaje";
+	public static final String ELEGIRPERSONAJE_JUGADOR = "jugador";
+	
+	public static final String NOTIFICARCORONA = "NotificarCorona";
+	public static final String NOTIFICARCORONA_JUGADOR = "jugador";
+	
+	public static final String NOTIFICARFINTURNOJUGADOR = "NotificarFinTurnoJugador";
+	public static final String NOTIFICARFINTURNOJUGADOR_PERSONAJE = "personaje";
+	public static final String NOTIFICARFINTURNOJUGADOR_JUGADOR = "jugador";
+	
+	public static final String PAGARDISTRITO = "PagarDistrito";
+	public static final String PAGARDISTRITO_JUGADOR = "jugador"; 
+	public static final String PAGARDISTRITO_CANTIDAD = "cantidad";
+	public static final String PAGARDISTRITO_DISTRITO = "distrito";
+	
+	public static final String PEDIRCONSTRUIRDISTRITO = "PedirConstruirDistrito";
+	public static final String PEDIRCONSTRUIRDISTRITO_JUGADOR = "jugador"; 
+	public static final String PEDIRCONSTRUIRDISTRITO_PERSONAJE = "personaje";
+	public static final String PEDIRCONSTRUIRDISTRITO_DISTRITO = "distrito";
+	
+	public static final String SUSTITUIRMANO = "SustituirMano";
+	public static final String SUSTITUIRMANO_DISTRITOS = "distritos";
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
@@ -99,28 +104,30 @@ public class OntologiaCiudadelasDos extends Ontology {
 			ConceptSchema cs;
 			AgentActionSchema as;
 			
-			// A�ade los elementos
+			// Anyade los elementos
 			add(new ConceptSchema(DISTRITO), Distrito.class);
 			add(new ConceptSchema(JUGADOR), Jugador.class);
 			add(new ConceptSchema(PERSONAJE), Personaje.class);
 			
 			// add(new PredicateSchema(OFERTA), Oferta.class);
-			add(new AgentActionSchema(DARDISTRITOS), DarDistritos.class);
-			add(new AgentActionSchema(DARMONEDAS), DarMonedas.class);
-			add(new AgentActionSchema(NOTIFICARCORONA), NotificarCorona.class);
-			add(new AgentActionSchema(NOTIFICARFINTURNOJUGADOR), NotificarFinTurnoJugador.class);
-			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
+			add(new AgentActionSchema(CAMBIARMANO), CambiarMano.class);
 			add(new AgentActionSchema(COBRARDISTRITOS), CobrarDistritos.class);
-			add(new AgentActionSchema(PAGARDISTRITO), PagarDistrito.class);
 			add(new AgentActionSchema(COBRARPORDISTRITOS), CobrarPorDistritos.class);
 			add(new AgentActionSchema(COBRARDISTRITOSREY), CobrarDistritosRey.class);
 			add(new AgentActionSchema(COBRARDISTRITOSOBISPO), CobrarDistritosObispo.class);
 			add(new AgentActionSchema(COBRARDISTRITOSMERCADER), CobrarDistritosMercader.class);
 			add(new AgentActionSchema(COBRARDISTRITOSCONDOTIERRO), CobrarDistritosCondotierro.class);
 			add(new AgentActionSchema(COBRARPORMERCADER), CobrarPorMercader.class);
-			add(new AgentActionSchema(CAMBIARMANO), CambiarMano.class);
-			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
+			add(new AgentActionSchema(DARDISTRITOS), DarDistritos.class);
+			add(new AgentActionSchema(DARMONEDAS), DarMonedas.class);
 			add(new AgentActionSchema(DESTRUIRDISTRITO), DestruirDistrito.class);
+			add(new AgentActionSchema(ELEGIRPERSONAJE), ElegirPersonaje.class);
+			add(new AgentActionSchema(NOTIFICARCORONA), NotificarCorona.class);
+			add(new AgentActionSchema(NOTIFICARFINTURNOJUGADOR), NotificarFinTurnoJugador.class);
+			add(new AgentActionSchema(PAGARDISTRITO), PagarDistrito.class);
+			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
+			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
+			
 
 			// Estructura del esquema para el concepto DISTRITO
 			cs = (ConceptSchema) getSchema(DISTRITO);
@@ -144,9 +151,9 @@ public class OntologiaCiudadelasDos extends Ontology {
 			// PredicateSchema ps = (PredicateSchema) getSchema(OFERTA);
 			// ps.add(OFERTA_FRUTA, (ConceptSchema) getSchema(FRUTA));
 
-			// Estructura del esquema para la acci�n
+			// Estructura del esquema para la accion
 			as = (AgentActionSchema) getSchema(DARDISTRITOS);
-			/* accion.a�adir(<nombre del atributo>, <tipo_atrib>, <min>,<max>) */
+			/* accion.anyadir(<nombre del atributo>, <tipo_atrib>, <min>,<max>) */
 			as.add(DARDISTRITOS_DISTRITOS, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 
 			as = (AgentActionSchema) getSchema(DARMONEDAS);
@@ -212,6 +219,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 			as.add(DESTRUIRDISTRITO_DISTRITO, (ConceptSchema) getSchema(DISTRITO));
 			as.add(DESTRUIRDISTRITO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			as.add(DESTRUIRDISTRITO_PAGO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			
+			as = (AgentActionSchema) getSchema(ELEGIRPERSONAJE);
+			as.add(ELEGIRPERSONAJE_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			as.add(ELEGIRPERSONAJE_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
 			
 			
 		} catch (OntologyException oe) {
