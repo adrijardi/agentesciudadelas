@@ -38,7 +38,7 @@ public class AgJugador extends jade.core.Agent {
 		sd.setType("jugador");
 		sd.setName("jugador1");
 		
-		///Se crea una descripci�n del agente
+		///Se crea una descripción del agente
 		DFAgentDescription dfd= new DFAgentDescription(); 
 		dfd.setName(getAID());
 		dfd.addServices(sd);
