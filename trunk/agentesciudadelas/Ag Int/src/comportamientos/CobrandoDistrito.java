@@ -34,7 +34,7 @@ public class CobrandoDistrito extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("PagarDistrito");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().PAGARDISTRITO);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);

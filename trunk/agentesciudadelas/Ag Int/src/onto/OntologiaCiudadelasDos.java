@@ -107,6 +107,22 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String  NOTIFICARDESCARTADOS = "NotificarDescartados";
 	public static final String  NOTIFICARDESCARTADOS_DESTAPADO = "destapado";
 	
+	public static final String  PEDIRDISTRITOSARQUITECTO = "PedirDistritosArquitecto";
+	public static final String  PEDIRDISTRITOSARQUITECTO_JUGADOR = "jugador";
+	
+	public static final String  NOTIFICARROBADO = "PedirDistritosArquitecto";
+	public static final String  NOTIFICARROBADO_PERSONAJE = "personaje";
+	public static final String  NOTIFICARROBADO_JUGADORLADRON = "jugadorLadron";
+	
+	public static final String  ROBAR = "Robar";
+	public static final String  ROBAR_PERSONAJE = "personaje";
+	
+	public static final String  MATAR = "Matar";
+	public static final String  MATAR_PERSONAJE = "personaje";
+	
+	public static final String  NOTIFICARASESINADO = "NotificarAsesinado";
+	public static final String  NOTIFICARASESINADO_PERSONAJE = "personaje";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelasDos() {
@@ -142,6 +158,11 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(OFERTARPERSONAJES), OfertarPersonajes.class);
 			add(new AgentActionSchema(SELECCIONARPERSONAJE), SeleccionarPersonaje.class);
 			add(new AgentActionSchema(NOTIFICARDESCARTADOS), NotificarDescartados.class);
+			add(new AgentActionSchema(PEDIRDISTRITOSARQUITECTO), PedirDistritosArquitecto.class);
+			add(new AgentActionSchema(NOTIFICARROBADO), NotificarRobado.class);
+			add(new AgentActionSchema(ROBAR), Robar.class);
+			add(new AgentActionSchema(MATAR), Matar.class);
+			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
 			
 
 			// Estructura del esquema para el concepto DISTRITO
@@ -248,6 +269,22 @@ public class OntologiaCiudadelasDos extends Ontology {
 
 			as = (AgentActionSchema) getSchema(NOTIFICARDESCARTADOS);
 			as.add(NOTIFICARDESCARTADOS_DESTAPADO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			
+			as = (AgentActionSchema) getSchema(PEDIRDISTRITOSARQUITECTO);
+			as.add(PEDIRDISTRITOSARQUITECTO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			
+			as = (AgentActionSchema) getSchema(NOTIFICARROBADO);
+			as.add(NOTIFICARROBADO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(NOTIFICARROBADO_JUGADORLADRON, (ConceptSchema) getSchema(JUGADOR));
+			
+			as = (AgentActionSchema) getSchema(ROBAR);
+			as.add(ROBAR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			
+			as = (AgentActionSchema) getSchema(MATAR);
+			as.add(MATAR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			
+			as = (AgentActionSchema) getSchema(NOTIFICARASESINADO);
+			as.add(NOTIFICARASESINADO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();

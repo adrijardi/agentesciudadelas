@@ -39,12 +39,9 @@ public class DestruirDistritoCondotiero extends Behaviour {
 
 		EstadoPartida ep = EstadoPartida.getInstance();
 
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt
-				.getOnto().DESTRUIRDISTRITO);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep
-				.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,
-				filtroIdentificador);
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().DESTRUIRDISTRITO);
+		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
+		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
 		if (msg != null) {
 			/* Se obtiene el jugador objetivo, el distrito */
@@ -72,10 +69,8 @@ public class DestruirDistritoCondotiero extends Behaviour {
 				System.out.println("Fallo, ese no es el dinero que necesitas para destuir el distrito.");
 
 				if (ep.tieneDistrito(jObjetivo, distrito)) {
-					ResumenJugador datosJugadorActual = ep
-							.getResJugadorActual();
-					if (distrito.getCoste() - 1 <= datosJugadorActual
-							.getDinero()) {
+					ResumenJugador datosJugadorActual = ep.getResJugadorActual();
+					if (distrito.getCoste() - 1 <= datosJugadorActual.getDinero()) {
 						/*
 						 * El jugador objetivo tiene el distrito y el jugador
 						 * actual tiene dinero para pagar la destrucción
@@ -84,25 +79,20 @@ public class DestruirDistritoCondotiero extends Behaviour {
 						// Se indica a todos los jagadores la acción
 						// TODO imprementar
 						// Se retira el dinero del jugador actual
-						datosJugadorActual.setDinero(datosJugadorActual
-								.getDinero()
-								- distrito.getCoste() - 1);
+						datosJugadorActual.setDinero(datosJugadorActual.getDinero()	- distrito.getCoste() - 1);
 
 						// Se retira el distrito del jugador objetivo
-						ResumenJugador datosContrario = ep
-								.getResumenJugador(jObjetivo.getNombre());
+						ResumenJugador datosContrario = ep.getResumenJugador(jObjetivo.getNombre());
 						datosContrario.quitarDistrito(distrito);
 					}
-					datosJugadorActual.setDinero(datosJugadorActual.getDinero()
-							- dinero);
+					datosJugadorActual.setDinero(datosJugadorActual.getDinero()	- dinero);
 					// enviar informacion de la destruccion del distrito
 
 					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 					msgEnviar.setSender(agt.getAID());
 					msgEnviar.setOntology(agt.getOnto().DESTRUIRDISTRITO);
 					try {
-						myAgent.getContentManager().fillContent(msgEnviar,
-								contenido);
+						myAgent.getContentManager().fillContent(msgEnviar, contenido);
 						myAgent.send(msgEnviar);
 					} catch (CodecException e) {
 						// TODO Auto-generated catch block

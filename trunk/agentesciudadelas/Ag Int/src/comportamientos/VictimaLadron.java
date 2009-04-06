@@ -1,5 +1,6 @@
 package comportamientos;
 
+import tablero.AgTablero;
 import tablero.EstadoPartida;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
@@ -12,6 +13,11 @@ import acciones.*;
 public class VictimaLadron extends Behaviour{
 	
 	EstadoPartida estPart;
+	private final AgTablero agt;
+	
+	public VictimaLadron(AgTablero agTablero) {
+		agt = agTablero;
+	}
 	/*
 	 * Accion a realizar por este comportamiento
 	 * @see jade.core.behaviours.Behaviour#action()
@@ -23,7 +29,7 @@ public class VictimaLadron extends Behaviour{
 		 * a la espera de llegar un mensaje
 		 */
 		/* a la espera de llegar un mensaje que siga el protocolo "VictimaLadron" */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("NotificarRobado");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().NOTIFICARROBADO);
 		ACLMessage msg = myAgent.receive(filtroIdentificador);
 		this.block();
 		
@@ -65,11 +71,12 @@ public class VictimaLadron extends Behaviour{
 
 				/* este si nos interesa y lo hemos tenido que averiguar */
 				//			msgEnviar.addReceiver(<AGENTE_Q_DEBE_RECIVIR_EL_MENSAJE>); 
-				msgEnviar.setOntology("NotificarRobado");
+				msgEnviar.setOntology(agt.getOnto().NOTIFICARROBADO);
 				//			msgEnviar.setOntology(acciones.NotificarRobado); // instancia de una onto que sigue
 				//			msgEnviar.setLanguage(FIPANames.ContentLanguage.FIPA_SL0); // 
 				try {
 					myAgent.getContentManager().fillContent(msgEnviar, contenido);
+					myAgent.send(msgEnviar);
 				} catch (CodecException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

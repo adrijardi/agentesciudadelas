@@ -36,9 +36,10 @@ public class HabilidadRey extends Behaviour {
 		nt.setJugador(jg);
 			
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.INFORM);
-		msgEnviar.setOntology("NotificarCorona");
+		msgEnviar.setOntology(agt.getOnto().NOTIFICARCORONA);
 		try {
 			myAgent.getContentManager().fillContent(msgEnviar, nt);
+			myAgent.send(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

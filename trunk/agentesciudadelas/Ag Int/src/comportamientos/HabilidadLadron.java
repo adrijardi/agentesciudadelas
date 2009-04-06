@@ -36,7 +36,7 @@ public class HabilidadLadron extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("Robar");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().ROBAR);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
@@ -82,7 +82,7 @@ public class HabilidadLadron extends Behaviour {
 			 * ahora se envia a todo el mundo el mensaje diciendo q personaje esta muerto, el contenido es el mismo que el del mensaje que hemos recibido
 			 */
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology("NotificarRobado");
+			msgEnviar.setOntology(agt.getOnto().NOTIFICARROBADO);
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, nt);
 				myAgent.send(msgEnviar);

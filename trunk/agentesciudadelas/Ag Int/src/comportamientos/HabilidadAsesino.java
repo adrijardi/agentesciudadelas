@@ -32,7 +32,7 @@ public class HabilidadAsesino extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("Matar");
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().MATAR);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
@@ -61,9 +61,10 @@ public class HabilidadAsesino extends Behaviour {
 			 * ahora se envia a todo el mundo el mensaje diciendo q personaje esta muerto, el contenido es el mismo que el del mensaje que hemos recibido
 			 */
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology("NotificarAsesinado");
+			msgEnviar.setOntology(agt.getOnto().NOTIFICARASESINADO);
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, mt);
+				myAgent.send(msgEnviar);
 			} catch (CodecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
