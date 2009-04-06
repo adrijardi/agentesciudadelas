@@ -79,7 +79,7 @@ public class JugarPersonaje extends Behaviour {
 					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 					msgEnviar.setSender(agt.getAID());
 					msgEnviar.setOntology(agt.getOnto().DARMONEDAS);
-msgEnviar.setConversationId(Filtros.cobraLadron);
+msgEnviar.setConversationId(Filtros.COBRA_LADRON);
 					DarMonedas dm=new DarMonedas();
 					dm.setMonedas(ep.getResJugadorActual().getDinero());
 					ep.getJugLadron().setDinero(ep.getJugLadron().getDinero()+ep.getResJugadorActual().getDinero());

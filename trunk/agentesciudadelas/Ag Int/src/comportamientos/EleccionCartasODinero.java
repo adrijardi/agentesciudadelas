@@ -37,7 +37,7 @@ public class EleccionCartasODinero extends Behaviour {
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtros.accionJugador);
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtros.ACCION_JUGADOR);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
