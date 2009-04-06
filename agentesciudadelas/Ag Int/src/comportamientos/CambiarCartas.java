@@ -35,7 +35,7 @@ public class CambiarCartas extends Behaviour {
 		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
 		 */
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().DARDISTRITOS);
-		MessageTemplate filtroPersonal = MessageTemplate.MatchConversationId(filtros.accionMago);
+		MessageTemplate filtroPersonal = MessageTemplate.MatchConversationId(filtros.ACCION_MAGO);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		plantilla = MessageTemplate.and(plantilla, filtroPersonal);
@@ -79,7 +79,7 @@ public class CambiarCartas extends Behaviour {
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setOntology(agt.getOnto().DARDISTRITOS);
 			msgEnviar.setSender(agt.getAID());
-			msgEnviar.setConversationId(filtros.accionMago);
+			msgEnviar.setConversationId(filtros.ACCION_MAGO);
 			
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, ddN);

@@ -2,8 +2,9 @@ package utils;
 
 public class Filtros {
 
-	public static final String accionJugador="accionJugador";
-	public static final String accionMago="accionMago";
-	public static final String cobraLadron="cobraLadron";
+	public static final String ACCION_JUGADOR="accionJugador";
+	public static final String ACCION_MAGO="accionMago";
+	public static final String COBRA_LADRON="cobraLadron";
+	public static final String ELEGIR_PERSONAJE = "elegirPersonaje";
 	
 }
