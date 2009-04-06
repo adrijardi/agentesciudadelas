@@ -14,7 +14,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 public class AgJugador extends jade.core.Agent {
 	
 	private Codec codec = new SLCodec();
-	private Ontology onto = OntologiaCiudadelasDos.getInstance();
+	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
+	
+	public OntologiaCiudadelasDos getOnto() {
+		return onto;
+	}
 	
 	/*
 	 * Codigo relacionado con la inicializacion del agente
@@ -24,7 +28,7 @@ public class AgJugador extends jade.core.Agent {
 		//Saludo del agente
 		System.out.println("Soy el agente "+ getAID()+" y represento a un Jugador.");
 		
-		//Se registra la ontología
+		//Se registra la ontologia
 		getContentManager().registerLanguage(codec);
 		getContentManager().registerOntology(onto);
 		
@@ -34,7 +38,7 @@ public class AgJugador extends jade.core.Agent {
 		sd.setType("jugador");
 		sd.setName("jugador1");
 		
-		///Se crea una descripción del agente
+		///Se crea una descripciï¿½n del agente
 		DFAgentDescription dfd= new DFAgentDescription(); 
 		dfd.setName(getAID());
 		dfd.addServices(sd);
@@ -58,6 +62,6 @@ public class AgJugador extends jade.core.Agent {
 	    }catch (FIPAException fe) {
 	    	fe.printStackTrace();
 	    }
-	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaci—n
+	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaciï¿½n
 	}	
 }
