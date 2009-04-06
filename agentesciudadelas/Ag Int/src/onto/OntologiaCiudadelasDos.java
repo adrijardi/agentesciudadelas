@@ -95,6 +95,18 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String SUSTITUIRMANO = "SustituirMano";
 	public static final String SUSTITUIRMANO_DISTRITOS = "distritos";
 	
+	public static final String  OFERTARPERSONAJES = "OfertarPersonajes";
+	public static final String  OFERTARPERSONAJES_JUGADOR = "jugador";
+	public static final String  OFERTARPERSONAJES_DISPONIBLES = "disponibles";
+
+	
+	public static final String  SELECCIONARPERSONAJE  = "SeleccionarPersonaje";
+	public static final String  SELECCIONARPERSONAJE_ID_JUGADOR = "id_jugador";
+
+
+	public static final String  NOTIFICARDESCARTADOS = "NotificarDescartados";
+	public static final String  NOTIFICARDESCARTADOS_DESTAPADO = "destapado";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelasDos() {
@@ -127,6 +139,9 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(PAGARDISTRITO), PagarDistrito.class);
 			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
 			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
+			add(new AgentActionSchema(OFERTARPERSONAJES), OfertarPersonajes.class);
+			add(new AgentActionSchema(SELECCIONARPERSONAJE), SeleccionarPersonaje.class);
+			add(new AgentActionSchema(NOTIFICARDESCARTADOS), NotificarDescartados.class);
 			
 
 			// Estructura del esquema para el concepto DISTRITO
@@ -224,6 +239,15 @@ public class OntologiaCiudadelasDos extends Ontology {
 			as.add(ELEGIRPERSONAJE_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			as.add(ELEGIRPERSONAJE_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
 			
+			as = (AgentActionSchema) getSchema(OFERTARPERSONAJES);
+			as.add(OFERTARPERSONAJES_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			as.add(OFERTARPERSONAJES_DISPONIBLES, (PrimitiveSchema) getSchema(BasicOntology.INTEGER), 0, ObjectSchema.UNLIMITED);
+
+			as = (AgentActionSchema) getSchema(SELECCIONARPERSONAJE);
+			as.add(SELECCIONARPERSONAJE_ID_JUGADOR, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+
+			as = (AgentActionSchema) getSchema(NOTIFICARDESCARTADOS);
+			as.add(NOTIFICARDESCARTADOS_DESTAPADO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
