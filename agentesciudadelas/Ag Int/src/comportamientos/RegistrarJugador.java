@@ -84,7 +84,7 @@ public class RegistrarJugador extends Behaviour {
 		}
 	}
 
-	@Override
+	@Override //Lo llama solo jade condicion de fin
 	public boolean done() {
 		EstadoPartida ep = EstadoPartida.getInstance();
 		if (ep.isFaseIniciada()) {

@@ -67,6 +67,7 @@ public class HabilidadMercader extends Behaviour {
 			msg.setSender(agt.getAID());
 			try {
 				myAgent.getContentManager().fillContent(msgEnviar, cm);
+				myAgent.send(msgEnviar);
 			} catch (CodecException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
