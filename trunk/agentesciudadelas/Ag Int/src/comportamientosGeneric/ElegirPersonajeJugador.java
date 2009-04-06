@@ -2,10 +2,8 @@ package comportamientosGeneric;
 
 import conceptos.Jugador;
 import conceptos.Personaje;
-import acciones.DestruirDistrito;
 import acciones.ElegirPersonaje;
 import acciones.OfertarPersonajes;
-import tablero.AgTablero;
 import tablero.EstadoPartida;
 import utils.Filtros;
 import jade.content.lang.Codec.CodecException;
