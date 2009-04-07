@@ -92,7 +92,7 @@ public class RegistrarJugador extends Behaviour {
 		} else {
 			//
 			seleccionarCoronaRandom();
-			agt.addBehaviour(new SeleccionarPersonajes(agt));
+			agt.addBehaviour(new NotificarDescartado(agt));
 			return true;
 		}
 	}

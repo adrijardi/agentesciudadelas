@@ -74,10 +74,12 @@ public class SeleccionarPersonajes extends Behaviour {
 			d[i]=disp.get(i);
 		}
 		op.setDisponibles(d);
-		
+		op.setJugador(ep.getResJugadorActual().getJugador());
+		System.out.println("<<<<<<<<<llega aqui 0");
 		try {
-			myAgent.getContentManager().fillContent(msgEnviar,op);
-			myAgent.send(msgEnviar);
+			agt.getContentManager().fillContent(msgEnviar,op);
+			agt.send(msgEnviar);
+			System.out.println(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,18 +87,20 @@ public class SeleccionarPersonajes extends Behaviour {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		
+		System.out.println("<<<<<<<<<llega aqui");		
 		block();
-		
+		System.out.println("<<<<<<<<<llega aqui 2");
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().SELECCIONARPERSONAJE);
 		
 
 		ACLMessage msg = myAgent.receive(filtroIdentificador);
-
+		System.out.println(msg);
+		
+		System.out.println("<<<<<<<<<llega aqui 3");
 		if (msg != null) {
 			ContentElement contenido = null;
 			try {
-				contenido=myAgent.getContentManager().extractContent(msg);
+				contenido=agt.getContentManager().extractContent(msg);
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -114,10 +118,12 @@ public class SeleccionarPersonajes extends Behaviour {
 			disp.removeElement(n);
 			contador++;
 		}
+		System.out.println("<<<<<<<<<llega aqui 4");
 	}
 
 	@Override
 	public boolean done() {
+		System.out.println("<<<<<<<<<llega aqui 5, contador "+contador);
 		if(contador==4){
 			agt.addBehaviour(new JugarPersonaje(agt));
 			return true;
