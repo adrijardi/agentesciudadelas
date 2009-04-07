@@ -7,6 +7,7 @@ import java.util.Random;
 
 import conceptos.Distrito;
 import conceptos.Jugador;
+import conceptos.Personaje;
 import jade.core.AID;
 
 public class EstadoPublico {
@@ -27,7 +28,7 @@ public class EstadoPublico {
 	private String nombreMuerto;
 	private String nombreRobado;
 	private int numJugHanJugado;
-	private int destapado;
+	private Personaje [] _personajesNoDisponibles = new Personaje[2];
 	
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
@@ -45,7 +46,7 @@ public class EstadoPublico {
 		corona = ep.getCorona();
 		nombreMuerto=ep.getNombreMuerto();
 		numJugHanJugado=ep.getNumJugHanJugado();
-		destapado=ep.getDestapado();
+		_personajesNoDisponibles = ep.get_personajesNoDisponibles();
 		
 	}
 	
@@ -81,12 +82,12 @@ public class EstadoPublico {
 	public int getTurno() {
 		return turno;
 	}
-	public int getDestapado() {
-		return destapado;
+	public Personaje[] get_personajesNoDisponibles() {
+		return _personajesNoDisponibles;
 	}
 
-	public void setDestapado(int destapado) {
-		this.destapado = destapado;
+	public void set_personajesNoDisponibles(Personaje[] noDisponibles) {
+		_personajesNoDisponibles = noDisponibles;
 	}
 
 	public void setTurno(int turno) {

@@ -42,8 +42,6 @@ public class Filtros {
 	public static final String SUSTITUIRMANO = "SustituirMano";
 	
 	public static final String  OFERTARPERSONAJES = "OfertarPersonajes";
-	
-	public static final String  SELECCIONARPERSONAJE  = "SeleccionarPersonaje";
 
 	public static final String  NOTIFICARDESCARTADOS = "NotificarDescartados";
 	

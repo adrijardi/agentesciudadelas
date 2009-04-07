@@ -48,12 +48,21 @@ public class NotificarDescartado extends Behaviour{
 	
 	@Override
 	public void action() {
-		int destapado = Personajes.REY.ordinal();
+		int destapado1 = Personajes.REY.ordinal();
 		EstadoPartida ep = EstadoPartida.getInstance();
-		while(destapado == Personajes.REY.ordinal()){
-			destapado = (int)(Math.random()*7)+1;
+		while(destapado1 == Personajes.REY.ordinal()){
+			destapado1 = (int)(Math.random()*7)+1;
 		}
-		ep.setDestapado(destapado);
+		int destapado2 = Personajes.REY.ordinal();
+		while(destapado2 == Personajes.REY.ordinal() || destapado2 == destapado1){
+			destapado2 = (int)(Math.random()*7)+1;
+		}
+		
+		Personaje[] noDisponibles = new Personaje[2];
+		noDisponibles[0] = Personajes.getPersonajeByTurno(destapado1);
+		noDisponibles[1] = Personajes.getPersonajeByTurno(destapado2);
+		
+		ep.set_personajesNoDisponibles(noDisponibles);
 		
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.INFORM);
 		msgEnviar.setSender(agt.getAID());
@@ -61,7 +70,7 @@ public class NotificarDescartado extends Behaviour{
 		msgEnviar.setLanguage(agt.getCodec().getName());
 		
 		NotificarDescartados nd=new NotificarDescartados();
-		nd.setDestapado(destapado);
+		nd.setDestapados(noDisponibles);
 		
 		try {
 			myAgent.getContentManager().fillContent(msgEnviar,nd);
