@@ -60,6 +60,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 		msgEnviar.setSender(agt.getAID());
 		msgEnviar.setOntology(agt.getOnto().OFERTARPERSONAJES);
+		msgEnviar.setLanguage(agt.getCodec().getName());
 		if(contador==0){
 			msgEnviar.addReceiver(ep.getResJugadores()[tieneCor].getIdentificador());
 		}else{
