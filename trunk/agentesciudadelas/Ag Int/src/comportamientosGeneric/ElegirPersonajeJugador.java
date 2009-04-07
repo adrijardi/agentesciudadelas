@@ -4,7 +4,6 @@ import conceptos.Jugador;
 import conceptos.Personaje;
 import acciones.ElegirPersonaje;
 import acciones.OfertarPersonajes;
-import acciones.SeleccionarPersonaje;
 import tablero.EstadoPartida;
 import utils.Filtros;
 import jade.content.ContentElement;
@@ -30,7 +29,6 @@ public class ElegirPersonajeJugador extends Behaviour {
 		ContentManager manager = _agj.getContentManager();
 		manager.registerOntology(_agj.getOnto());
 		manager.registerLanguage(_agj.getCodec());
-		System.err.println("Entra en ElegirPersonajeJugador");
 		
 		EstadoPartida ep = EstadoPartida.getInstance();
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.OFERTARPERSONAJES);
@@ -40,29 +38,22 @@ public class ElegirPersonajeJugador extends Behaviour {
 		msg.setOntology(_agj.getOnto().getName());
 		System.out.println("<Jugador> "+msg);
 		try {
-			System.out.println("_agj");
-			System.out.println(manager.getOntology(msg));
-			System.out.println(manager.getValidationMode());
-			manager.extractContent(msg);
-			System.out.println("Extraido!!!!");
-			/*
-			//Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
+			OfertarPersonajes contenido = (OfertarPersonajes)manager.extractContent(msg);
+			
+			Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
 			Jugador yo = new Jugador();
 			yo.setNombre(_agj.getName());
 			salida.setJugador(yo);
-			//salida.setPersonaje(seleccionado);
-			*/
-			SeleccionarPersonaje select = new SeleccionarPersonaje();
-			select.setId_jugador(3);
-			
+			salida.setPersonaje(seleccionado);
+						
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setSender(_agj.getAID());
 			msgEnviar.setOntology(_agj.getOnto().getName());
 			msgEnviar.setLanguage(_agj.getCodec().getName());
-			msgEnviar.setConversationId(Filtros.SELECCIONARPERSONAJE);
-			myAgent.getContentManager().fillContent(msgEnviar,select);
+			msgEnviar.setConversationId(Filtros.ELEGIRPERSONAJE);
+			myAgent.getContentManager().fillContent(msgEnviar,salida);
 
 			System.out.println("<J-envia> "+msgEnviar);
 			
