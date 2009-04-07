@@ -29,7 +29,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 		 * a la espera de q llege el mensaje del agente tablero
 		 */
 		EstadoPartida ep = EstadoPartida.getInstance();
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.ELEGIR_PERSONAJE);
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(_agj.getOnto().ELEGIRPERSONAJE);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.receive(plantilla);
