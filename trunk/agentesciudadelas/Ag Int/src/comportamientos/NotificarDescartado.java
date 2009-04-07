@@ -57,7 +57,8 @@ public class NotificarDescartado extends Behaviour{
 		
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.INFORM);
 		msgEnviar.setSender(agt.getAID());
-		msgEnviar.setOntology(agt.getOnto().NOTIFICARDESCARTADOS);
+		msgEnviar.setOntology(agt.getOnto().getName());
+		msgEnviar.setLanguage(agt.getCodec().getName());
 		
 		NotificarDescartados nd=new NotificarDescartados();
 		nd.setDestapado(destapado);
@@ -65,6 +66,7 @@ public class NotificarDescartado extends Behaviour{
 		try {
 			myAgent.getContentManager().fillContent(msgEnviar,nd);
 			myAgent.send(msgEnviar);
+			System.out.println(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
