@@ -6,6 +6,7 @@ import comportamientos.*;
 import comportamientosGeneric.ElegirPersonajeJugador;
 
 import jade.content.lang.Codec;
+import jade.content.lang.leap.LEAPCodec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
 import jade.domain.DFService;
@@ -17,11 +18,12 @@ import jade.lang.acl.MessageTemplate;
 
 public class AgJugador extends jade.core.Agent {
 	
-	private Codec codec = new SLCodec();
+	//private Codec codec = new SLCodec();
+	private Codec codec2 = new LEAPCodec();
 	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
 	
 	public Codec getCodec() {
-		return codec;
+		return codec2;
 	}
 	public OntologiaCiudadelasDos getOnto() {
 		return onto;
@@ -36,7 +38,7 @@ public class AgJugador extends jade.core.Agent {
 		System.out.println("Soy el agente "+ getAID()+" y represento a un Jugador.");
 		
 		//Se registra la ontologia
-		getContentManager().registerLanguage(codec);
+		getContentManager().registerLanguage(codec2);
 		getContentManager().registerOntology(onto);
 		
 		//Se registra el agente en el servicio del directorio

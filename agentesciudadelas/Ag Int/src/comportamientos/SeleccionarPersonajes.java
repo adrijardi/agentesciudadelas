@@ -59,8 +59,8 @@ public class SeleccionarPersonajes extends Behaviour {
 		int tieneCor=ep.getCorona();
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 		msgEnviar.setSender(agt.getAID());
-		msgEnviar.setOntology(agt.getOnto().getName());
 		msgEnviar.setLanguage(agt.getCodec().getName());
+		msgEnviar.setOntology(agt.getOnto().getName());
 		msgEnviar.setConversationId(Filtros.OFERTARPERSONAJES);
 		if(contador==0){
 			msgEnviar.addReceiver(ep.getResJugadores()[tieneCor].getIdentificador());
