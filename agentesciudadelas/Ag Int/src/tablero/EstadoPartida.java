@@ -4,6 +4,7 @@ import java.util.Random;
 
 import conceptos.Distrito;
 import conceptos.Jugador;
+import conceptos.Personaje;
 import jade.core.AID;
 
 public class EstadoPartida {
@@ -27,10 +28,9 @@ public class EstadoPartida {
 	private String nombreRobado;
 	private ResumenJugador jugLadron;
 	private int numJugHanJugado;
-	private int destapado;
 	
-	/*private int [] _personajesNoDisponibles;
-	private int _personajeNoDisponibleOculto;*/
+	private Personaje [] _personajesNoDisponibles = new Personaje[2];
+	private Personaje _personajeNoDisponibleOculto;
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
 	private EstadoPartida() {
@@ -49,7 +49,6 @@ public class EstadoPartida {
 		numJugHanJugado=0;
 		jugLadron=null;
 		//setPersonajesNoDisponibles();
-		destapado = 0;
 	}
 	
 	private void resetPersoJugador() {
@@ -102,13 +101,6 @@ public class EstadoPartida {
 
 	public int getTurno() {
 		return turno;
-	}
-	public int getDestapado() {
-		return destapado;
-	}
-
-	public void setDestapado(int destapado) {
-		this.destapado = destapado;
 	}
 
 	public void setTurno(int turno) {
@@ -297,23 +289,23 @@ public class EstadoPartida {
 			_personajesNoDisponibles[1]++;
 		if(_personajesNoDisponibles[1] == _personajeNoDisponibleOculto)
 			_personajesNoDisponibles[1]++;
-	}
+	}*/
 
-	public int[] get_personajesNoDisponibles() {
+	public Personaje[] get_personajesNoDisponibles() {
 		return _personajesNoDisponibles;
 	}
 
-	public void set_personajesNoDisponibles(int[] noDisponibles) {
+	public void set_personajesNoDisponibles(Personaje[] noDisponibles) {
 		_personajesNoDisponibles = noDisponibles;
 	}
 
-	public int get_personajeNoDisponibleOculto() {
+	public Personaje get_personajeNoDisponibleOculto() {
 		return _personajeNoDisponibleOculto;
 	}
 
-	public void set_personajeNoDisponibleOculto(int noDisponibleOculto) {
+	public void set_personajeNoDisponibleOculto(Personaje noDisponibleOculto) {
 		_personajeNoDisponibleOculto = noDisponibleOculto;
-	}*/
+	}
 
 	public int getPjActual() {
 		return pjActual;

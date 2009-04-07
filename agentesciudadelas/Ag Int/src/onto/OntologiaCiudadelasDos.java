@@ -99,13 +99,8 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String  OFERTARPERSONAJES_JUGADOR = "jugador";
 	public static final String  OFERTARPERSONAJES_DISPONIBLES = "disponibles";
 
-	
-	public static final String  SELECCIONARPERSONAJE  = "SeleccionarPersonaje";
-	public static final String  SELECCIONARPERSONAJE_ID_JUGADOR = "id_jugador";
-
-
 	public static final String  NOTIFICARDESCARTADOS = "NotificarDescartados";
-	public static final String  NOTIFICARDESCARTADOS_DESTAPADO = "destapado";
+	public static final String  NOTIFICARDESCARTADOS_DESTAPADOS = "destapados";
 	
 	public static final String  PEDIRDISTRITOSARQUITECTO = "PedirDistritosArquitecto";
 	public static final String  PEDIRDISTRITOSARQUITECTO_JUGADOR = "jugador";
@@ -156,7 +151,6 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
 			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
 			add(new AgentActionSchema(OFERTARPERSONAJES), OfertarPersonajes.class);
-			add(new AgentActionSchema(SELECCIONARPERSONAJE), SeleccionarPersonaje.class);
 			add(new AgentActionSchema(NOTIFICARDESCARTADOS), NotificarDescartados.class);
 			add(new AgentActionSchema(PEDIRDISTRITOSARQUITECTO), PedirDistritosArquitecto.class);
 			add(new AgentActionSchema(NOTIFICARROBADO), NotificarRobado.class);
@@ -262,13 +256,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(OFERTARPERSONAJES);
 			as.add(OFERTARPERSONAJES_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
-			as.add(OFERTARPERSONAJES_DISPONIBLES, (PrimitiveSchema) getSchema(BasicOntology.INTEGER), 0, ObjectSchema.UNLIMITED);
-
-			as = (AgentActionSchema) getSchema(SELECCIONARPERSONAJE);
-			as.add(SELECCIONARPERSONAJE_ID_JUGADOR, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			as.add(OFERTARPERSONAJES_DISPONIBLES, (ConceptSchema) getSchema(PERSONAJE));
 
 			as = (AgentActionSchema) getSchema(NOTIFICARDESCARTADOS);
-			as.add(NOTIFICARDESCARTADOS_DESTAPADO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			as.add(NOTIFICARDESCARTADOS_DESTAPADOS, (ConceptSchema) getSchema(PERSONAJE));
 			
 			as = (AgentActionSchema) getSchema(PEDIRDISTRITOSARQUITECTO);
 			as.add(PEDIRDISTRITOSARQUITECTO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));

@@ -1,52 +1,57 @@
 package comportamientos;
 
-import java.util.Vector;
-
-import conceptos.Distrito;
-import conceptos.Jugador;
-import acciones.DarDistritos;
-import acciones.DarMonedas;
-import acciones.NotificarDescartados;
-import acciones.OfertarPersonajes;
-import acciones.SeleccionarPersonaje;
-import tablero.AgTablero;
-import tablero.EstadoPartida;
-import tablero.Mazo;
-import utils.Filtros;
-import jade.core.behaviours.Behaviour;
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
+import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.util.leap.ArrayList;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
+
+import java.util.Vector;
+
+import tablero.AgTablero;
+import tablero.EstadoPartida;
+import utils.Filtros;
+import utils.Personajes;
+import acciones.ElegirPersonaje;
+import acciones.OfertarPersonajes;
+import conceptos.Personaje;
+
 
 public class SeleccionarPersonajes extends Behaviour {
 
 	private final AgTablero agt;
 	private final EstadoPartida ep;
 	private int contador;
-	private Vector<Integer> disp;
+	private Vector<Personaje> pDisponibles = new Vector<Personaje>();
 	
 	public SeleccionarPersonajes(AgTablero agTablero) {
 		agt = agTablero;
 		ep = EstadoPartida.getInstance();
+		
+		// Se seleccionan aleatoriamente los personajes que no van a estár disponibles en este turno.
 		contador = 0;
-		disp=new Vector<Integer>();
+		
 		Vector<Integer> num=new Vector<Integer>();
 		for(int i=0;i<8;i++){
 			num.add(i+1);
 		}
-		num.removeElement(ep.getDestapado());
-		for(int i=0;i<5;i++){
-			int aux=(int)(Math.random()*num.size());
-			disp.add(num.get(aux));
-			num.remove(aux);
+		
+		Personaje [] eliminadosNoOcultos = new Personaje[2];
+		
+		int eliminado = (int)Math.random()*num.size();
+		ep.set_personajeNoDisponibleOculto(Personajes.getPersonajeByTurno(num.get(eliminado)));
+		num.removeElement(eliminado);
+		
+		for(int i = 0; i < 2; i++){
+			eliminado = (int)Math.random()*num.size();
+			eliminadosNoOcultos[i] = Personajes.getPersonajeByTurno(num.get(eliminado));
+			num.removeElement(eliminado);
+		}
+		ep.set_personajesNoDisponibles(eliminadosNoOcultos);
+		
+		for(int i=0;i<num.size();i++){
+			pDisponibles.add(Personajes.getPersonajeByTurno(num.get(i)));
 		}
 	}
 
@@ -68,14 +73,12 @@ public class SeleccionarPersonajes extends Behaviour {
 			int num=(contador+tieneCor)%4;
 			msgEnviar.addReceiver(ep.getResJugadores()[num].getIdentificador());
 		}
+		
 		// crear la oferta de personajes
 		OfertarPersonajes op=new OfertarPersonajes();
-		int[] d =new int[disp.size()];
-		for(int i=0;i<d.length;i++){
-			d[i]=disp.get(i);
-		}
-		op.setDisponibles(d);
+		op.setDisponibles(pDisponibles.toArray(new Personaje[pDisponibles.size()]));
 		op.setJugador(ep.getResJugadorActual().getJugador());
+		
 		System.out.println("<<<<<<<<<llega aqui 0");
 		try {
 			agt.getContentManager().fillContent(msgEnviar,op);
@@ -91,7 +94,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		System.out.println("<<<<<<<<<llega aqui");		
 
 		System.out.println("<<<<<<<<<llega aqui 2");
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.SELECCIONARPERSONAJE);
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.ELEGIRPERSONAJE);
 		
 
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
@@ -99,9 +102,14 @@ public class SeleccionarPersonajes extends Behaviour {
 		
 		System.out.println("<<<<<<<<<llega aqui 3");
 		if (msg != null) {
-			ContentElement contenido = null;
+			ElegirPersonaje contenido = null;
 			try {
-				contenido=agt.getContentManager().extractContent(msg);
+				contenido = (ElegirPersonaje)agt.getContentManager().extractContent(msg);
+				
+				pDisponibles.removeElement(contenido.getPersonaje());
+				contador++;
+				
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -113,11 +121,7 @@ public class SeleccionarPersonajes extends Behaviour {
 				e.printStackTrace();
 			}
 			
-			SeleccionarPersonaje sp=(SeleccionarPersonaje)contenido;
 			
-			int n=sp.getId_jugador();
-			disp.removeElement(n);
-			contador++;
 		}
 		System.out.println("<<<<<<<<<llega aqui 4");
 	}

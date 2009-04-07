@@ -2,7 +2,7 @@ package conceptos;
 
 import jade.content.Concept;
 
-public class Personaje implements Concept {
+public class Personaje implements Concept, Comparable<Personaje> {
 	
 	private String nombre;
 	private Integer turno;
@@ -27,4 +27,8 @@ public class Personaje implements Concept {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	public int compareTo(Personaje o) {
+		return turno.compareTo(o.turno);
+	}
+
 }
