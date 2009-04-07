@@ -15,6 +15,7 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jugador.AgJugador;
+import jugador.InfoPartida;
 
 public class ElegirPersonajeJugador extends Behaviour {
 
@@ -43,9 +44,8 @@ public class ElegirPersonajeJugador extends Behaviour {
 			Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
-			Jugador yo = new Jugador();
-			yo.setNombre(_agj.getName());
-			salida.setJugador(yo);
+			
+			salida.setJugador(_agj.getJugador());
 			salida.setPersonaje(seleccionado);
 						
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
