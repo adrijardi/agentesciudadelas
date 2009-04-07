@@ -62,24 +62,21 @@ public class SeleccionarPersonajes extends Behaviour {
 		 * 2º me bloque hasta q recibo el mensaje de selecion de personaje
 		 */
 		int tieneCor=ep.getCorona();
+		int num=(contador+tieneCor)%4;
+		
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 		msgEnviar.setSender(agt.getAID());
 		msgEnviar.setLanguage(agt.getCodec().getName());
 		msgEnviar.setOntology(agt.getOnto().getName());
 		msgEnviar.setConversationId(Filtros.OFERTARPERSONAJES);
-		if(contador==0){
-			msgEnviar.addReceiver(ep.getResJugadores()[tieneCor].getIdentificador());
-		}else{
-			int num=(contador+tieneCor)%4;
-			msgEnviar.addReceiver(ep.getResJugadores()[num].getIdentificador());
-		}
+		msgEnviar.addReceiver(ep.getResJugadores()[num].getIdentificador());
+		
 		
 		// crear la oferta de personajes
 		OfertarPersonajes op=new OfertarPersonajes();
 		op.setDisponibles(pDisponibles.toArray(new Personaje[pDisponibles.size()]));
 		op.setJugador(ep.getResJugadorActual().getJugador());
 		
-		System.out.println("<<<<<<<<<llega aqui 0");
 		try {
 			agt.getContentManager().fillContent(msgEnviar,op);
 			System.out.println(msgEnviar);
@@ -91,16 +88,14 @@ public class SeleccionarPersonajes extends Behaviour {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		System.out.println("<<<<<<<<<llega aqui");		
 
-		System.out.println("<<<<<<<<<llega aqui 2");
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.ELEGIRPERSONAJE);
-		
-
+		System.out.println("<<<<<<<<<Esperando eleccion");
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
+		System.out.println("<<<<<<<<<llega aqui 3");
 		System.out.println(msg);
 		
-		System.out.println("<<<<<<<<<llega aqui 3");
+		
 		if (msg != null) {
 			ElegirPersonaje contenido = null;
 			try {

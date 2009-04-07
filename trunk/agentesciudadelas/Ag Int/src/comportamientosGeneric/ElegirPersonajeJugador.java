@@ -37,6 +37,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
 		msg.setOntology(_agj.getOnto().getName());
+		msg.getSender();
 		System.out.println("<Jugador> "+msg);
 		try {
 			OfertarPersonajes contenido = (OfertarPersonajes)manager.extractContent(msg);
@@ -44,7 +45,6 @@ public class ElegirPersonajeJugador extends Behaviour {
 			Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
-			
 			salida.setJugador(_agj.getJugador());
 			salida.setPersonaje(seleccionado);
 						
@@ -53,11 +53,13 @@ public class ElegirPersonajeJugador extends Behaviour {
 			msgEnviar.setOntology(_agj.getOnto().getName());
 			msgEnviar.setLanguage(_agj.getCodec().getName());
 			msgEnviar.setConversationId(Filtros.ELEGIRPERSONAJE);
-			myAgent.getContentManager().fillContent(msgEnviar,salida);
+			msgEnviar.addReceiver(msg.getSender());
+			_agj.getContentManager().fillContent(msgEnviar,salida);
 
-			System.out.println("<J-envia> "+msgEnviar);
-			
-			myAgent.send(msgEnviar);
+			System.out.println("<J-envia> "+_agj.getAID().getName()+" "+msgEnviar);
+			System.out.println("######### mandando ELEGIRPERSONAJE");
+			_agj.send(msgEnviar);
+			System.out.println("######### mensaje ELEGIRPERSONAJE mandado");
 			
 		} catch (UngroundedException e) {
 			System.out.println("UngroundedException!");
