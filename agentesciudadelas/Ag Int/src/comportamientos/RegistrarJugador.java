@@ -8,6 +8,7 @@ import conceptos.Jugador;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
+import utils.Filtros;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.core.behaviours.Behaviour;
@@ -60,6 +61,8 @@ public class RegistrarJugador extends Behaviour {
 		mensajeMondeas.addReceiver(rj.getIdentificador());
 		mensajeCartas.setOntology(agt.getOnto().getName());
 		mensajeMondeas.setOntology(agt.getOnto().getName());
+		
+		mensajeMondeas.setConversationId(Filtros.DARMONEDAS);
 		
 		//Se obtiene el contenido de los mensajes
 		DarDistritos dd = new DarDistritos();
