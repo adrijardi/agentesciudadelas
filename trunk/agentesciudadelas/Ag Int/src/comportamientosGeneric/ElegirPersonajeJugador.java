@@ -24,30 +24,30 @@ public class ElegirPersonajeJugador extends Behaviour {
 	
 	@Override
 	public void action() {
-		block();
-		/*
-		 * a la espera de q llege el mensaje del agente tablero
-		 */
-		EstadoPartida ep = EstadoPartida.getInstance();
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(_agj.getOnto().ELEGIRPERSONAJE);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.receive(plantilla);
+		System.err.println("Entra en ElegirPersonajeJugador");
 		
+		EstadoPartida ep = EstadoPartida.getInstance();
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.OFERTARPERSONAJES);
+		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
+		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
+		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
+		
+		System.out.println("<Jugador> "+msg);
 		try {
 			OfertarPersonajes contenido = (OfertarPersonajes) myAgent.getContentManager().extractContent(msg);
-//			Personaje seleccionado = (Personaje)contenido.getPersonajes().get(0); // Se selecciona el primer personaje que llega
+			//Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
 			Jugador yo = new Jugador();
 			yo.setNombre(_agj.getName());
 			salida.setJugador(yo);
-//			salida.setPersonaje(seleccionado);
+			//salida.setPersonaje(seleccionado);
 			
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setSender(_agj.getAID());
 			msgEnviar.setOntology(_agj.getOnto().ELEGIRPERSONAJE);
 			myAgent.getContentManager().fillContent(msgEnviar,contenido);
+
 			myAgent.send(msgEnviar);
 			
 		} catch (UngroundedException e) {
