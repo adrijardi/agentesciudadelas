@@ -102,7 +102,7 @@ System.out.println("<<<<Tablero<<<<<Eleccion realizada");
 			ElegirPersonaje contenido = null;
 			try {
 				contenido = (ElegirPersonaje)agt.getContentManager().extractContent(msg);
-				ep.setPersoJugador(persoJugador)
+				
 				pDisponibles.removeElement(contenido.getPersonaje());
 				contador++;
 				
