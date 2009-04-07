@@ -38,7 +38,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
 		msg.setOntology(_agj.getOnto().getName());
 		msg.getSender();
-		System.out.println("<Jugador> "+msg);
+//System.out.println("<Jugador> "+msg);
 		try {
 			OfertarPersonajes contenido = (OfertarPersonajes)manager.extractContent(msg);
 			
@@ -56,10 +56,10 @@ public class ElegirPersonajeJugador extends Behaviour {
 			msgEnviar.addReceiver(msg.getSender());
 			_agj.getContentManager().fillContent(msgEnviar,salida);
 
-			System.out.println("<J-envia> "+_agj.getAID().getName()+" "+msgEnviar);
-			System.out.println("######### mandando ELEGIRPERSONAJE");
+//System.out.println("<J-envia> "+_agj.getAID().getName()+" "+msgEnviar);
+System.out.println("######### mandando ELEGIRPERSONAJE");
 			_agj.send(msgEnviar);
-			System.out.println("######### mensaje ELEGIRPERSONAJE mandado");
+System.out.println("######### mensaje ELEGIRPERSONAJE mandado");
 			
 		} catch (UngroundedException e) {
 			System.out.println("UngroundedException!");

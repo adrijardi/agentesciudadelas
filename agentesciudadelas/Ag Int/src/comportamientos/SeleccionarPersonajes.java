@@ -64,6 +64,8 @@ public class SeleccionarPersonajes extends Behaviour {
 		int tieneCor=ep.getCorona();
 		int num=(contador+tieneCor)%4;
 		
+		ep.setPjActual(num);
+		
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 		msgEnviar.setSender(agt.getAID());
 		msgEnviar.setLanguage(agt.getCodec().getName());
@@ -79,7 +81,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		
 		try {
 			agt.getContentManager().fillContent(msgEnviar,op);
-			System.out.println(msgEnviar);
+//System.out.println(msgEnviar);
 			agt.send(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
@@ -90,10 +92,10 @@ public class SeleccionarPersonajes extends Behaviour {
 		} 
 
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.ELEGIRPERSONAJE);
-		System.out.println("<<<<<<<<<Esperando eleccion");
+System.out.println("<<<<Tablero<<<<<Esperando eleccion");
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
-		System.out.println("<<<<<<<<<llega aqui 3");
-		System.out.println(msg);
+System.out.println("<<<<Tablero<<<<<Eleccion realizada");
+//System.out.println(msg);
 		
 		
 		if (msg != null) {
