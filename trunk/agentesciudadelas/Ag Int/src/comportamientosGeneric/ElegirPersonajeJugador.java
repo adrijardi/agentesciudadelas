@@ -6,6 +6,7 @@ import acciones.ElegirPersonaje;
 import acciones.OfertarPersonajes;
 import tablero.EstadoPartida;
 import utils.Filtros;
+import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -34,7 +35,8 @@ public class ElegirPersonajeJugador extends Behaviour {
 		
 		System.out.println("<Jugador> "+msg);
 		try {
-			OfertarPersonajes contenido = (OfertarPersonajes) myAgent.getContentManager().extractContent(msg);
+			myAgent.getContentManager().extractContent(msg);
+			/*
 			//Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
@@ -48,7 +50,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 			msgEnviar.setOntology(_agj.getOnto().ELEGIRPERSONAJE);
 			myAgent.getContentManager().fillContent(msgEnviar,contenido);
 
-			myAgent.send(msgEnviar);
+			myAgent.send(msgEnviar);*/
 			
 		} catch (UngroundedException e) {
 			// TODO Auto-generated catch block
