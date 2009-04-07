@@ -29,5 +29,12 @@ public class Personaje implements Concept, Comparable<Personaje> {
 	public int compareTo(Personaje o) {
 		return turno.compareTo(o.turno);
 	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Personaje)
+			if(turno.compareTo(((Personaje)obj).turno) == 0)
+				return true;
+		return super.equals(obj);
+	}
 
 }
