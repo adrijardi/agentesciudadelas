@@ -6,7 +6,6 @@ public class Personaje implements Concept, Comparable<Personaje> {
 	
 	private String nombre;
 	private Integer turno;
-	//listaAcciones
 	private String color;
 	
 	public String getNombre() {
