@@ -4,6 +4,7 @@ import onto.*;
 import utils.Filtros;
 import comportamientos.*;
 import comportamientosGeneric.ElegirPersonajeJugador;
+import conceptos.Jugador;
 
 import jade.content.lang.Codec;
 import jade.content.lang.leap.LEAPCodec;
@@ -21,6 +22,8 @@ public class AgJugador extends jade.core.Agent {
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
 	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
+	
+	private InfoPartida infoPartida = new InfoPartida();
 	
 	public Codec getCodec() {
 		return codec2;
@@ -78,5 +81,20 @@ public class AgJugador extends jade.core.Agent {
 	    	fe.printStackTrace();
 	    }
 	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaci�n
-	}	
+	}
+	public InfoPartida getInfoPartida() {
+		return infoPartida;
+	}
+	public void setInfoPartida(InfoPartida infoPartida) {
+		this.infoPartida = infoPartida;
+	}
+	
+	public Jugador getJugador(){
+		Jugador ret = new Jugador();
+		ret.setMano(infoPartida.getMano());
+		ret.setMonedas(infoPartida.getMonedas());
+		ret.setPuntos(infoPartida.getPuntos());
+		ret.setNombre(getName());
+		return ret;
+	}
 }
