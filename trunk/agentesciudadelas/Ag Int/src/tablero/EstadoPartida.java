@@ -29,8 +29,8 @@ public class EstadoPartida {
 	private int numJugHanJugado;
 	private int destapado;
 	
-	private int [] _personajesNoDisponibles;
-	private int _personajeNoDisponibleOculto;
+	/*private int [] _personajesNoDisponibles;
+	private int _personajeNoDisponibleOculto;*/
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
 	private EstadoPartida() {
@@ -48,7 +48,7 @@ public class EstadoPartida {
 		nombreMuerto=null;
 		numJugHanJugado=0;
 		jugLadron=null;
-		setPersonajesNoDisponibles();
+		//setPersonajesNoDisponibles();
 		destapado = 0;
 	}
 	
@@ -284,7 +284,7 @@ public class EstadoPartida {
 		this.jugLadron = jugLadron;
 	}
 	
-	private void setPersonajesNoDisponibles(){
+	/*private void setPersonajesNoDisponibles(){
 		Random r = new Random();
 		_personajeNoDisponibleOculto = r.nextInt(8);
 		_personajesNoDisponibles[0] = r.nextInt(7);
@@ -313,7 +313,7 @@ public class EstadoPartida {
 
 	public void set_personajeNoDisponibleOculto(int noDisponibleOculto) {
 		_personajeNoDisponibleOculto = noDisponibleOculto;
-	}
+	}*/
 
 	public int getPjActual() {
 		return pjActual;
