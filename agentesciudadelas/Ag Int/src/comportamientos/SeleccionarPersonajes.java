@@ -42,7 +42,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		for(int i=0;i<8;i++){
 			num.add(i+1);
 		}
-		num.removeElement(ep.getCorona());
+		num.removeElement(ep.getDestapado());
 		for(int i=0;i<5;i++){
 			int aux=(int)(Math.random()*num.size());
 			disp.add(num.get(aux));
@@ -61,6 +61,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		msgEnviar.setSender(agt.getAID());
 		msgEnviar.setOntology(agt.getOnto().getName());
 		msgEnviar.setLanguage(agt.getCodec().getName());
+		msgEnviar.setConversationId(Filtros.OFERTARPERSONAJES);
 		if(contador==0){
 			msgEnviar.addReceiver(ep.getResJugadores()[tieneCor].getIdentificador());
 		}else{
@@ -78,8 +79,8 @@ public class SeleccionarPersonajes extends Behaviour {
 		System.out.println("<<<<<<<<<llega aqui 0");
 		try {
 			agt.getContentManager().fillContent(msgEnviar,op);
-			agt.send(msgEnviar);
 			System.out.println(msgEnviar);
+			agt.send(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,12 +89,12 @@ public class SeleccionarPersonajes extends Behaviour {
 			e.printStackTrace();
 		} 
 		System.out.println("<<<<<<<<<llega aqui");		
-		block();
+
 		System.out.println("<<<<<<<<<llega aqui 2");
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().SELECCIONARPERSONAJE);
 		
 
-		ACLMessage msg = myAgent.receive(filtroIdentificador);
+		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
 		System.out.println(msg);
 		
 		System.out.println("<<<<<<<<<llega aqui 3");

@@ -2,6 +2,7 @@ package jugador;
 
 import onto.*;
 import comportamientos.*;
+import comportamientosGeneric.ElegirPersonajeJugador;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
@@ -49,6 +50,8 @@ public class AgJugador extends jade.core.Agent {
 			fe.printStackTrace(); 
 		}
 		
+		ElegirPersonajeJugador comp = new ElegirPersonajeJugador(this);
+		addBehaviour(comp);
 	}
 
 	/*
