@@ -102,7 +102,7 @@ System.out.println("<<<<Tablero<<<<<Eleccion realizada");
 			ElegirPersonaje contenido = null;
 			try {
 				contenido = (ElegirPersonaje)agt.getContentManager().extractContent(msg);
-				
+				ep.setPersoJugador(persoJugador)
 				pDisponibles.removeElement(contenido.getPersonaje());
 				contador++;
 				
@@ -120,12 +120,10 @@ System.out.println("<<<<Tablero<<<<<Eleccion realizada");
 			
 			
 		}
-		System.out.println("<<<<<<<<<llega aqui 4");
 	}
 
 	@Override
 	public boolean done() {
-		System.out.println("<<<<<<<<<llega aqui 5, contador "+contador);
 		if(contador==4){
 			agt.addBehaviour(new JugarPersonaje(agt));
 			return true;
