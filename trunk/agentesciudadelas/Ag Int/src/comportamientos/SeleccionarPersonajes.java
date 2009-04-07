@@ -91,7 +91,7 @@ public class SeleccionarPersonajes extends Behaviour {
 		System.out.println("<<<<<<<<<llega aqui");		
 
 		System.out.println("<<<<<<<<<llega aqui 2");
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().SELECCIONARPERSONAJE);
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.SELECCIONARPERSONAJE);
 		
 
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
