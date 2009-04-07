@@ -1,6 +1,7 @@
 package jugador;
 
 import onto.*;
+import utils.Filtros;
 import comportamientos.*;
 import comportamientosGeneric.ElegirPersonajeJugador;
 
@@ -11,12 +12,17 @@ import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 public class AgJugador extends jade.core.Agent {
 	
 	private Codec codec = new SLCodec();
 	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
 	
+	public Codec getCodec() {
+		return codec;
+	}
 	public OntologiaCiudadelasDos getOnto() {
 		return onto;
 	}
@@ -49,6 +55,10 @@ public class AgJugador extends jade.core.Agent {
 		}catch (FIPAException fe) {
 			fe.printStackTrace(); 
 		}
+		
+		//MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.OFERTARPERSONAJES);
+		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
+		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		
 		ElegirPersonajeJugador comp = new ElegirPersonajeJugador(this);
 		addBehaviour(comp);

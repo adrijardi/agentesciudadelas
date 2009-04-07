@@ -4,6 +4,7 @@ import conceptos.Jugador;
 import conceptos.Personaje;
 import acciones.ElegirPersonaje;
 import acciones.OfertarPersonajes;
+import acciones.SeleccionarPersonaje;
 import tablero.EstadoPartida;
 import utils.Filtros;
 import jade.content.ContentElement;
@@ -44,13 +45,20 @@ public class ElegirPersonajeJugador extends Behaviour {
 			yo.setNombre(_agj.getName());
 			salida.setJugador(yo);
 			//salida.setPersonaje(seleccionado);
+			*/
+			SeleccionarPersonaje select = new SeleccionarPersonaje();
+			select.setId_jugador(3);
 			
 			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 			msgEnviar.setSender(_agj.getAID());
-			msgEnviar.setOntology(_agj.getOnto().ELEGIRPERSONAJE);
-			myAgent.getContentManager().fillContent(msgEnviar,contenido);
+			msgEnviar.setOntology(_agj.getOnto().getName());
+			msgEnviar.setLanguage(_agj.getCodec().getName());
+			msgEnviar.setConversationId(Filtros.SELECCIONARPERSONAJE);
+			myAgent.getContentManager().fillContent(msgEnviar,select);
 
-			myAgent.send(msgEnviar);*/
+			System.out.println("<J-envia> "+msgEnviar);
+			
+			myAgent.send(msgEnviar);
 			
 		} catch (UngroundedException e) {
 			// TODO Auto-generated catch block
