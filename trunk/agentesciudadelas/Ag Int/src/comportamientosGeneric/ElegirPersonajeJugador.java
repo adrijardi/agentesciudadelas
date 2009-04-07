@@ -8,6 +8,7 @@ import acciones.SeleccionarPersonaje;
 import tablero.EstadoPartida;
 import utils.Filtros;
 import jade.content.ContentElement;
+import jade.content.ContentManager;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -26,6 +27,9 @@ public class ElegirPersonajeJugador extends Behaviour {
 	
 	@Override
 	public void action() {
+		ContentManager manager = _agj.getContentManager();
+		manager.registerOntology(_agj.getOnto());
+		manager.registerLanguage(_agj.getCodec());
 		System.err.println("Entra en ElegirPersonajeJugador");
 		
 		EstadoPartida ep = EstadoPartida.getInstance();
@@ -33,10 +37,14 @@ public class ElegirPersonajeJugador extends Behaviour {
 		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
 		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
-		
+		msg.setOntology(_agj.getOnto().getName());
 		System.out.println("<Jugador> "+msg);
 		try {
-			myAgent.getContentManager().extractContent(msg);
+			System.out.println("_agj");
+			System.out.println(manager.getOntology(msg));
+			System.out.println(manager.getValidationMode());
+			manager.extractContent(msg);
+			System.out.println("Extraido!!!!");
 			/*
 			//Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
 			
@@ -61,12 +69,15 @@ public class ElegirPersonajeJugador extends Behaviour {
 			myAgent.send(msgEnviar);
 			
 		} catch (UngroundedException e) {
+			System.out.println("UngroundedException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CodecException e) {
+			System.out.println("CodecException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OntologyException e) {
+			System.out.println("OntologyException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -7,6 +7,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.content.lang.Codec;
+import jade.content.lang.leap.LEAPCodec;
 import jade.content.lang.sl.SLCodec;
 import jade.content.onto.Ontology;
 import jade.core.behaviours.Behaviour;
@@ -14,12 +15,13 @@ import jade.core.behaviours.Behaviour;
 public class AgTablero extends jade.core.Agent {
 
 	private Behaviour beh;
-	private final Codec codec = new SLCodec();
+	//private final Codec codec = new SLCodec();
+	private Codec codec2 = new LEAPCodec();
 	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
 
 	
 	public Codec getCodec() {
-		return codec;
+		return codec2;
 	}
 	public OntologiaCiudadelasDos getOnto() {
 		return onto;
@@ -35,8 +37,8 @@ public class AgTablero extends jade.core.Agent {
 		//Se inicializan los parametros
 		EstadoPartida.getInstance();
 		
-		//Se registra la ontología
-		getContentManager().registerLanguage(codec);
+		//Se registra la ontologï¿½a
+		getContentManager().registerLanguage(codec2);
 		getContentManager().registerOntology(onto);
 		
 		//Se registra el agente en el servicio del directorio
@@ -44,7 +46,7 @@ public class AgTablero extends jade.core.Agent {
 		ServiceDescription sd= new ServiceDescription(); 
 		sd.setType("TableroJuego");
 		sd.setName("Juego");
-		///Se crea una descripción del agente
+		///Se crea una descripciï¿½n del agente
 		DFAgentDescription dfd= new DFAgentDescription(); 
 		dfd.setName(getAID());
 		dfd.addServices(sd);
@@ -60,7 +62,7 @@ public class AgTablero extends jade.core.Agent {
 		beh = new RegistrarJugador(this);
 		addBehaviour(beh);
 		
-		//addBehaviour(new VictimaLadron()); // a–ade el servicio al agente
+		//addBehaviour(new VictimaLadron()); // aï¿½ade el servicio al agente
 		
 	}
 	/*
@@ -74,7 +76,7 @@ public class AgTablero extends jade.core.Agent {
 	    }catch (FIPAException fe) {
 	    	fe.printStackTrace();
 	    }
-	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaci—n
+	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaciï¿½n
 	}
 	/*
 	 * hay q hacer toda la parte de la gestion de los mensajes y toda la mierda esa 
