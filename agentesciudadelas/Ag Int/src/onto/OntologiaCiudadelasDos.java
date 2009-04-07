@@ -259,7 +259,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			as.add(OFERTARPERSONAJES_DISPONIBLES, (ConceptSchema) getSchema(PERSONAJE));
 
 			as = (AgentActionSchema) getSchema(NOTIFICARDESCARTADOS);
-			as.add(NOTIFICARDESCARTADOS_DESTAPADOS, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(NOTIFICARDESCARTADOS_DESTAPADOS, (ConceptSchema) getSchema(PERSONAJE), 0, ObjectSchema.UNLIMITED);
 			
 			as = (AgentActionSchema) getSchema(PEDIRDISTRITOSARQUITECTO);
 			as.add(PEDIRDISTRITOSARQUITECTO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
