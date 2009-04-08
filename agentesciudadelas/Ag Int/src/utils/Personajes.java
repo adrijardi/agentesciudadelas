@@ -1,8 +1,13 @@
 package utils;
 
+import java.util.LinkedList;
+import java.util.Random;
+
+import tablero.EstadoPartida;
 import conceptos.Personaje;
 
 public enum Personajes {
+	PREVIO("previo",0,TipoDistrito.NULL),
 	ASESINO("Asesino",1,TipoDistrito.NULL),
 	LADRON("Ladron",2,TipoDistrito.NULL),
 	MAGO("Mago",3,TipoDistrito.NULL),
@@ -13,6 +18,7 @@ public enum Personajes {
 	CONDOTIERO("Condotiero",8,TipoDistrito.MILITAR);
 	
 	private final Personaje pj;
+	private final int turno;
 	
 	public Personaje getPj() {
 		return pj;
@@ -23,34 +29,35 @@ public enum Personajes {
 		pj.setNombre(nombre);
 		pj.setTurno(turno);
 		pj.setColor(tp.getColor());
+		this.turno = turno;
 	}
 	
-	public static Personaje getPersonajeByTurno(int turno){
-		Personaje ret;
+	private static Personajes getPersonajeByTurno(int turno){
+		Personajes ret;
 		switch (turno) {
 		case 1:
-			ret = Personajes.ASESINO.getPj();
+			ret = Personajes.ASESINO;
 			break;
 		case 2:
-			ret = Personajes.LADRON.getPj();
+			ret = Personajes.LADRON;
 			break;
 		case 3:
-			ret = Personajes.MAGO.getPj();
+			ret = Personajes.MAGO;
 			break;
 		case 4:
-			ret = Personajes.REY.getPj();
+			ret = Personajes.REY;
 			break;
 		case 5:
-			ret = Personajes.OBISPO.getPj();
+			ret = Personajes.OBISPO;
 			break;
 		case 6:
-			ret = Personajes.MERCADER.getPj();
+			ret = Personajes.MERCADER;
 			break;
 		case 7:
-			ret = Personajes.ARQUITECTO.getPj();
+			ret = Personajes.ARQUITECTO;
 			break;
 		case 8:
-			ret = Personajes.CONDOTIERO.getPj();
+			ret = Personajes.CONDOTIERO;
 			break;
 
 		default:
@@ -94,6 +101,40 @@ public enum Personajes {
 		}
 		return ret;
 	}
+
+	public Personajes next() {
+		return getPersonajeByTurno(turno+1);
+	}
 	
+	public static Personaje[] difinirPersonajesDescartados(){
+		Personaje [] ret = new Personaje[2];
+		Random r = new Random();
+		LinkedList<Personajes> llp = getPersonajesMenosRey();
+		ret[0] = llp.remove(r.nextInt(llp.size())).getPj();
+		ret[1] = llp.remove(r.nextInt(llp.size())).getPj();
+		llp.add(REY);
+		llp.remove(r.nextInt(llp.size()));
+		
+		EstadoPartida.getInstance().setPjDisponibles(llp);
+		
+		return ret;
+	}
+	
+	private static LinkedList<Personajes> getPersonajesMenosRey(){
+		LinkedList<Personajes> ret = new LinkedList<Personajes>();
+		ret.add(ASESINO);
+		ret.add(LADRON);
+		ret.add(MAGO);
+		ret.add(OBISPO);
+		ret.add(MERCADER);
+		ret.add(ARQUITECTO);
+		ret.add(CONDOTIERO);
+		return ret;
+	}
+
+	public static Personajes getPersonajeByPJ(Personaje pj2) {
+		System.out.println("!!!!!!! :::::: "+Personajes.valueOf(pj2.getNombre().toUpperCase()));
+		return Personajes.valueOf(pj2.getNombre().toUpperCase());
+	}
 	
 }

@@ -1,319 +1,306 @@
 package tablero;
 
-import java.util.Random;
+import jade.core.AID;
 
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.Vector;
+
+import utils.Personajes;
 import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
-import jade.core.AID;
 
 public class EstadoPartida {
-	public enum EnumFase{INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO;}
-	private int turno;
-	private EnumFase fase;
-	private final int numJugador;
-	private final int numPersonajes;
-	private int jugActual;
-	private int pjActual;
-	private int corona;
-	
-	private int[] persoJugador;
-	
-	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el ag1, etc...
-	private ResumenJugador[] resJugadores;
-	/*
-	 * A�adido por Pablo
-	 */
-	private String nombreMuerto;
-	private String nombreRobado;
-	private ResumenJugador jugLadron;
-	private int numJugHanJugado;
-	
-	private Personaje [] _personajesNoDisponibles = new Personaje[2];
-	private Personaje _personajeNoDisponibleOculto;
-	
-	// Protected constructor is sufficient to suppress unauthorized calls to the constructor
-	private EstadoPartida() {
-		fase=EnumFase.INICIADA;
-		numJugador = 4;
-		numPersonajes = 8;
-		turno=0;
-		jugActual = 0;
-		pjActual = 0;
-		resJugadores=new ResumenJugador[numJugador];
-		Mazo.getInstance();
-		corona = -1;
-		persoJugador = new int[8];
-		resetPersoJugador();
-		nombreMuerto=null;
-		numJugHanJugado=0;
-		jugLadron=null;
-		//setPersonajesNoDisponibles();
+	// Enumeracion de fases del juego
+	public enum EnumFase {
+		INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO;
 	}
-	
+
+	// Fase actual
+	private EnumFase fase;
+	// Numero de jugadores
+	private final int numJugador = 4;
+	// Numero de personajes
+	private final int numPersonajes = 8;
+	// Jugador del turno actual
+	private ResumenJugador jugActual;
+	// Personaje del turno actual para la fase JugarRonda
+	private Personajes pjActual;
+	// Determina el turno
+	private int turno = 0;
+
+	private ResumenJugador tieneCorona;
+
+	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el
+	// ag1, etc...
+	private Vector<ResumenJugador> resJugadores;
+
+	private ResumenJugador nombreMuerto;
+	private ResumenJugador nombreRobado;
+	private ResumenJugador jugLadron;
+	private LinkedList<Personajes> pjDisponibles;
+
+	// Protected constructor is sufficient to suppress unauthorized calls to the
+	// constructor
+	private EstadoPartida() {
+		fase = EnumFase.INICIADA;
+		resJugadores = new Vector<ResumenJugador>(numJugador);
+		jugActual = null;
+		pjActual = null;
+		Mazo.getInstance();
+		resetPersoJugador();
+		nombreMuerto = null;
+		jugLadron = null;
+	}
+
+	/*
+	 * Elimina los personajes asignados a los jugadores
+	 */
 	private void resetPersoJugador() {
-		for (int i = 0; i < persoJugador.length; i++) {
-			persoJugador[i] = -1;
+		for (ResumenJugador rs : resJugadores) {
+			rs.setPersonaje(null);
 		}
 	}
 
-	public ResumenJugador nextPersonaje(){
-		ResumenJugador ret;
-		int jugador = persoJugador[pjActual++];
-		if(pjActual == 8)
-			pjActual = 0;
-			
-		if(jugador == -1){
-			ret = null;
-		}else{
-			ret = resJugadores[jugador];
+	/*
+	 * Inicia todos los atributos necesarios para cada ronda
+	 */
+	public void initFaseSeleccionPersonajes() {
+		turno++;
+		pjActual = null;
+		resetPersoJugador();
+		jugActual = tieneCorona;
+	}
+
+	public void initFaseJugarPersonajes() {
+		pjActual = Personajes.PREVIO;
+		jugLadron = null;
+		jugActual = nextJugadorPorTurnoPersonaje();
+	}
+
+	/*
+	 * Pasa el turno al siguiente personaje según el orden de los personajes y
+	 * obtiene el resumen del Jugador
+	 */
+	public ResumenJugador nextJugadorPorTurnoPersonaje() {
+		ResumenJugador ret = null;
+		if (fase == EnumFase.JUGAR_RONDA || fase == EnumFase.FINALIZAR_JUEGO) {
+			do {
+				pjActual = pjActual.next();
+				if (pjActual != null)
+					ret = getJugadorDesdePersonaje(pjActual.getPj());
+			} while (ret == null && pjActual != null);
+
+			if (pjActual == null) {
+				if (fase != EnumFase.FINALIZAR_JUEGO)
+					fase = EnumFase.SEL_PERSONAJES;
+			} else {
+				if (pjActual == Personajes.LADRON)
+					jugLadron = ret;
+			}
+
 		}
 		return ret;
-	
 	}
 
 	/**
-	 * SingletonHolder is loaded on the first execution of Singleton.getInstance() 
-	 * or the first access to SingletonHolder.INSTANCE, not before.
+	 * SingletonHolder is loaded on the first execution of
+	 * Singleton.getInstance() or the first access to SingletonHolder.INSTANCE,
+	 * not before.
 	 */
 	private static class SingletonHolder {
 		private final static EstadoPartida INSTANCE = new EstadoPartida();
 	}
 
+	/*
+	 * Singleton
+	 */
 	public static EstadoPartida getInstance() {
 		return SingletonHolder.INSTANCE;
 	}
-	
-	public int nextJugador(){
-		jugActual = (++jugActual)%numJugador;
+
+	/*
+	 * Obtiene el siguiente jugador en la fase de SeleccionarPersonaje
+	 */
+	public ResumenJugador nextJugadorPorSeleccionPersonaje() {
+		ResumenJugador ret = null;
+		if (fase == EnumFase.SEL_PERSONAJES) {
+			int pj = (resJugadores.indexOf(jugActual) + 1) % 4;
+			ret = resJugadores.get(pj);
+			if (ret.equals(tieneCorona)) {
+				ret = null;
+				fase = EnumFase.JUGAR_RONDA;
+				initFaseJugarPersonajes();
+			} else {
+				jugActual = ret;
+			}
+		}
+		return ret;
+	}
+
+	public ResumenJugador getJugActual() {
 		return jugActual;
 	}
 
-	public int getJugActual() {
-		return jugActual;
-	}
-
-/*
-	public int getPjActual() {
-		return pjActual;
-	}
-*/
-
-	public int getTurno() {
-		return turno;
-	}
-
-	public void setTurno(int turno) {
-		this.turno = turno;
-	}
 	public EnumFase getFase() {
 		return fase;
 	}
-	public void setFase(EnumFase fase) {
-		this.fase = fase;
-	}
+
 	public int getNumJugador() {
 		return numJugador;
 	}
+
 	public int getNumPersonajes() {
 		return numPersonajes;
 	}
 
-	public ResumenJugador[] getResJugadores() {
-		return resJugadores;
-	}
-	public void setResJugadores(ResumenJugador[] resJugadores) {
-		this.resJugadores = resJugadores;
-	}
-
 	public boolean isFaseIniciada() {
-		if(fase.equals(EnumFase.INICIADA))
-			return true;
-		return false;
-	}
-	
-	
-	public boolean isPartidaLibre() {
-		if(isFaseIniciada() && jugActual < 4)
+		if (fase.equals(EnumFase.INICIADA))
 			return true;
 		return false;
 	}
 
+	public boolean isPartidaLibre() {
+		if (isFaseIniciada() && resJugadores.size() < 4)
+			return true;
+		return false;
+	}
+
+	/*
+	 * Añade un nuevo jugador a la partida si no esta añadido y hay menos de 4
+	 * jugadores
+	 */
 	public ResumenJugador addJugador(AID name) {
 		ResumenJugador aux;
 		boolean no_coincide = true;
-		for (int i = 0; i < resJugadores.length && no_coincide; i++) {
-			aux = resJugadores[i];
-			if(aux != null && aux.getIdentificador().equals(name)){
+		for (int i = 0; i < resJugadores.size() && no_coincide; i++) {
+			aux = resJugadores.get(i);
+			if (aux != null && aux.getIdentificador().equals(name)) {
 				no_coincide = false;
 			}
 		}
-		
-		if(no_coincide && jugActual < numJugador){
-			System.out.println("A�adido 1 jugador con id: "+name);
-			resJugadores[jugActual]= new ResumenJugador(name);
-			aux = resJugadores[jugActual];
-			jugActual++;
-			checkCambioFase(EnumFase.SEL_PERSONAJES);
-		}else
+
+		if (no_coincide && resJugadores.size() < numJugador) {
+			System.out.println("A�adido 1 jugador con id: " + name);
+			aux = new ResumenJugador(name);
+			resJugadores.add(aux);
+
+			if (resJugadores.size() == numJugador) {
+				fase = EnumFase.SEL_PERSONAJES;
+				seleccionarCoronaRandom();
+				initFaseSeleccionPersonajes();
+			}
+		} else
 			aux = null;
-		
+
 		return aux;
 	}
 
-	private void checkCambioFase(EnumFase newFase) {
-		if(jugActual == numJugador){
-			fase = newFase;
-			jugActual = 0;
-		}
-		
-	}
-
+	/*
+	 * Obtiene el ResumenJugador que corresponde a un aid
+	 */
 	public ResumenJugador getResumenJugador(AID aid) {
 		ResumenJugador ret = null;
-		for (int i = 0; i < resJugadores.length; i++) {
-			if(resJugadores[i].getIdentificador().equals(aid))
-				ret = resJugadores[i];
+		for (ResumenJugador rj : resJugadores) {
+			if (rj.getIdentificador().equals(aid))
+				ret = rj;
 		}
+
 		return ret;
 	}
 
-	public Jugador seleccionarCoronaRandom() {
-		Random r = new Random();
-		corona = r.nextInt(numJugador);
-		return resJugadores[corona].getJugador();
-	}
-	
 	/*
-	 * 
-	 * a�adido por Pablo 
-	 * 
-	 * 
+	 * Se selecciona un jugador para la corona
 	 */
-	
+	private void seleccionarCoronaRandom() {
+		Random r = new Random();
+		tieneCorona = resJugadores.get(r.nextInt(numJugador));
+	}
+
+	/*
+	 * TODO revisar
+	 */
 	public boolean isJugarRonda() {
-		if(fase.equals(EnumFase.JUGAR_RONDA))
+		if (fase.equals(EnumFase.JUGAR_RONDA))
 			return true;
 		return false;
 	}
-	
-	public ResumenJugador getResJugadorActual() {
-		return resJugadores[jugActual];
-	}
-	
-	public boolean tieneDistrito(Jugador j, Distrito d){
-		boolean tiene=false;
-		for(int i=0;i<resJugadores.length;i++){
-			if(resJugadores[i].esJugador(j.getNombre())){
-				tiene=resJugadores[i].tieneDistrito(d);
-			}
+
+	/*
+	 * Comprueba si el Jugador j tiene el distrito d
+	 */
+	public boolean tieneDistrito(Jugador j, Distrito d) {
+		boolean tiene = false;
+		for (ResumenJugador rj : resJugadores) {
+			if (rj.esJugador(j))
+				tiene = rj.tieneDistrito(d);
 		}
 		return tiene;
 	}
 
-	public int getCorona() {
-		return corona;
-	}
-
-	public void setCorona(int corona) {
-		this.corona = corona;
-	}
-
-	public int[] getPersoJugador() {
-		return persoJugador;
-	}
-
-	public void setPersoJugador(int[] persoJugador) {
-		this.persoJugador = persoJugador;
-	}
-
-	public String getNombreMuerto() {
+	public ResumenJugador getNombreMuerto() {
 		return nombreMuerto;
 	}
 
-	public void setNombreMuerto(String nombreMuerto) {
+	public void setNombreMuerto(ResumenJugador nombreMuerto) {
 		this.nombreMuerto = nombreMuerto;
 	}
 
-	public void setJugActual(int jugActual) {
-		this.jugActual = jugActual;
-	}
-/*
-	public void setPjActual(int pjActual) {
-		this.pjActual = pjActual;
-	}
-*/
-	public int getNumJugHanJugado() {
-		return numJugHanJugado;
-	}
-
-	public void setNumJugHanJugado(int numJugHanJugado) {
-		this.numJugHanJugado = numJugHanJugado;
-	}
-	
-	public ResumenJugador getResumenJugador(String aid) {
-		ResumenJugador ret = null;
-		for (int i = 0; i < resJugadores.length; i++) {
-			if(resJugadores[i].getIdentificador().equals(aid))
-				ret = resJugadores[i];
-		}
-		return ret;
-	}
-
-	public String getNombreRobado() {
+	public ResumenJugador getNombreRobado() {
 		return nombreRobado;
 	}
 
-	public void setNombreRobado(String nombreRobado) {
+	public void setNombreRobado(ResumenJugador nombreRobado) {
 		this.nombreRobado = nombreRobado;
+	}
+
+
+	/*
+	 * Devuelve un ResumenJugador a partir del personaje especificado Si no
+	 * existe ningún jugador con este personaje devuelve null
+	 */
+	private ResumenJugador getJugadorDesdePersonaje(Personaje personaje) {
+		for (ResumenJugador rj : resJugadores) {
+			if(rj.getPersonaje().compareTo(personaje) == 0)
+				return rj;
+		}
+		return null;
 	}
 
 	public ResumenJugador getJugLadron() {
 		return jugLadron;
 	}
 
-	public void setJugLadron(ResumenJugador jugLadron) {
-		this.jugLadron = jugLadron;
-	}
-	
-	/*private void setPersonajesNoDisponibles(){
-		Random r = new Random();
-		_personajeNoDisponibleOculto = r.nextInt(8);
-		_personajesNoDisponibles[0] = r.nextInt(7);
-		if(_personajesNoDisponibles[0] >= _personajeNoDisponibleOculto)
-			_personajesNoDisponibles[0]++;
-		_personajesNoDisponibles[1] = r.nextInt(6);
-		if(_personajesNoDisponibles[1] >= _personajeNoDisponibleOculto)
-			_personajesNoDisponibles[1]++;
-		if(_personajesNoDisponibles[1] >= _personajesNoDisponibles[0])
-			_personajesNoDisponibles[1]++;
-		if(_personajesNoDisponibles[1] == _personajeNoDisponibleOculto)
-			_personajesNoDisponibles[1]++;
-	}*/
-
-	public Personaje[] get_personajesNoDisponibles() {
-		return _personajesNoDisponibles;
-	}
-
-	public void set_personajesNoDisponibles(Personaje[] noDisponibles) {
-		_personajesNoDisponibles = noDisponibles;
-	}
-
-	public Personaje get_personajeNoDisponibleOculto() {
-		return _personajeNoDisponibleOculto;
-	}
-
-	public void set_personajeNoDisponibleOculto(Personaje noDisponibleOculto) {
-		_personajeNoDisponibleOculto = noDisponibleOculto;
-	}
-
-	public int getPjActual() {
+	public Personajes getPjActual() {
 		return pjActual;
 	}
 
-	public void setPjActual(int pjActual) {
-		this.pjActual = pjActual;
+	public ResumenJugador getTieneCorona() {
+		return tieneCorona;
+	}
+
+	public int getTurno() {
+		return turno;
+	}
+
+	public Personaje[] getPjDisponibles() {
+		Personaje [] pjs = new Personaje[pjDisponibles.size()];
+		int i = 0;
+		for (Personajes personaje : pjDisponibles) {
+			pjs[i++] = personaje.getPj();
+		}
+		return pjs;
 	}
 	
-	
+	public boolean removePersonajeFromPjDisponibles(Personaje pj){
+		boolean ret = false;
+		pjDisponibles.remove(Personajes.getPersonajeByPJ(pj));
+		return ret;
+	}
+
+	public void setPjDisponibles(LinkedList<Personajes> pjDisponibles) {
+		this.pjDisponibles = pjDisponibles;
+	}
+
 }

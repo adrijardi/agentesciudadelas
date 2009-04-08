@@ -54,4 +54,6 @@ public class Filtros {
 	public static final String  MATAR = "Matar";
 	
 	public static final String  NOTIFICARASESINADO = "NotificarAsesinado";
+	
+	public static final String NOTIFICARTURNO = "NotificarTurno";
 }

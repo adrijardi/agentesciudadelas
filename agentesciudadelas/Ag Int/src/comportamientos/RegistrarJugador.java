@@ -1,23 +1,21 @@
 package comportamientos;
 
-import acciones.DarDistritos;
-import acciones.DarMonedas;
-import acciones.NotificarCorona;
-import conceptos.Distrito;
-import conceptos.Jugador;
-import tablero.AgTablero;
-import tablero.EstadoPartida;
-import tablero.ResumenJugador;
-import utils.Filtros;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.core.behaviours.Behaviour;
-import jade.lang.acl.ACLMessage;
-import jade.util.leap.ArrayList;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.lang.acl.ACLMessage;
+import tablero.AgTablero;
+import tablero.EstadoPartida;
+import tablero.ResumenJugador;
+import utils.Filtros;
+import acciones.DarDistritos;
+import acciones.DarMonedas;
+import acciones.NotificarCorona;
+import conceptos.Jugador;
 
 public class RegistrarJugador extends Behaviour {
 
@@ -103,7 +101,7 @@ public class RegistrarJugador extends Behaviour {
 	private void seleccionarCoronaRandom() {
 		ACLMessage mensajeCorona = new ACLMessage(ACLMessage.INFORM);
 		EstadoPartida ep = EstadoPartida.getInstance();
-		Jugador j = ep.seleccionarCoronaRandom();
+		Jugador j = ep.getTieneCorona().getJugador();
 	
 		mensajeCorona.setLanguage(agt.getCodec().getName());
 		mensajeCorona.setOntology(agt.getOnto().getName());
