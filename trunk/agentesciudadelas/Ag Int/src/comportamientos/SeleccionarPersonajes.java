@@ -11,6 +11,8 @@ import java.util.Vector;
 
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import tablero.ResumenJugador;
+import tablero.EstadoPartida.EnumFase;
 import utils.Filtros;
 import utils.Personajes;
 import acciones.ElegirPersonaje;
@@ -22,37 +24,10 @@ public class SeleccionarPersonajes extends Behaviour {
 
 	private final AgTablero agt;
 	private final EstadoPartida ep;
-	private int contador;
-	private Vector<Personaje> pDisponibles = new Vector<Personaje>();
 	
 	public SeleccionarPersonajes(AgTablero agTablero) {
 		agt = agTablero;
 		ep = EstadoPartida.getInstance();
-		
-		// Se seleccionan aleatoriamente los personajes que no van a estár disponibles en este turno.
-		contador = 0;
-		
-		Vector<Integer> num=new Vector<Integer>();
-		for(int i=0;i<8;i++){
-			num.add(i+1);
-		}
-		
-		Personaje [] eliminadosNoOcultos = new Personaje[2];
-		
-		int eliminado = (int)Math.random()*num.size();
-		ep.set_personajeNoDisponibleOculto(Personajes.getPersonajeByTurno(num.get(eliminado)));
-		num.removeElement(eliminado);
-		
-		for(int i = 0; i < 2; i++){
-			eliminado = (int)Math.random()*num.size();
-			eliminadosNoOcultos[i] = Personajes.getPersonajeByTurno(num.get(eliminado));
-			num.removeElement(eliminado);
-		}
-		ep.set_personajesNoDisponibles(eliminadosNoOcultos);
-		
-		for(int i=0;i<num.size();i++){
-			pDisponibles.add(Personajes.getPersonajeByTurno(num.get(i)));
-		}
 	}
 
 	@Override
@@ -61,27 +36,25 @@ public class SeleccionarPersonajes extends Behaviour {
 		 * 1º enviar el mensaje al ag con la corona
 		 * 2º me bloque hasta q recibo el mensaje de selecion de personaje
 		 */
-		int tieneCor=ep.getCorona();
-		int num=(contador+tieneCor)%4;
-		
-		ep.setPjActual(num);
+		ResumenJugador jugador = ep.getJugActual();
+
 		
 		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
 		msgEnviar.setSender(agt.getAID());
 		msgEnviar.setLanguage(agt.getCodec().getName());
 		msgEnviar.setOntology(agt.getOnto().getName());
 		msgEnviar.setConversationId(Filtros.OFERTARPERSONAJES);
-		msgEnviar.addReceiver(ep.getResJugadores()[num].getIdentificador());
+		msgEnviar.addReceiver(jugador.getIdentificador());
 		
 		
 		// crear la oferta de personajes
 		OfertarPersonajes op=new OfertarPersonajes();
-		op.setDisponibles(pDisponibles.toArray(new Personaje[pDisponibles.size()]));
-		op.setJugador(ep.getResJugadorActual().getJugador());
+		op.setDisponibles(ep.getPjDisponibles());
+		op.setJugador(jugador.getJugador());
 		
 		try {
 			agt.getContentManager().fillContent(msgEnviar,op);
-//System.out.println(msgEnviar);
+			//System.out.println(msgEnviar);
 			agt.send(msgEnviar);
 		} catch (CodecException e) {
 			// TODO Auto-generated catch block
@@ -92,10 +65,10 @@ public class SeleccionarPersonajes extends Behaviour {
 		} 
 
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.ELEGIRPERSONAJE);
-System.out.println("<<<<Tablero<<<<<Esperando eleccion");
+		System.out.println("<<<<Tablero<<<<<Esperando eleccion");
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
-System.out.println("<<<<Tablero<<<<<Eleccion realizada");
-//System.out.println(msg);
+		System.out.println("<<<<Tablero<<<<<Eleccion realizada");
+		//System.out.println(msg);
 		
 		
 		if (msg != null) {
@@ -103,8 +76,11 @@ System.out.println("<<<<Tablero<<<<<Eleccion realizada");
 			try {
 				contenido = (ElegirPersonaje)agt.getContentManager().extractContent(msg);
 				
-				pDisponibles.removeElement(contenido.getPersonaje());
-				contador++;
+				// Guardamos el personaje escogido en el Resumen del jugador.
+				jugador.setPersonaje(contenido.getPersonaje());
+				
+				ep.removePersonajeFromPjDisponibles(contenido.getPersonaje());
+				ep.nextJugadorPorSeleccionPersonaje();
 				
 				
 			} catch (UngroundedException e) {
@@ -124,7 +100,7 @@ System.out.println("<<<<Tablero<<<<<Eleccion realizada");
 
 	@Override
 	public boolean done() {
-		if(contador==4){
+		if(ep.getFase() == EnumFase.JUGAR_RONDA){
 			agt.addBehaviour(new JugarPersonaje(agt));
 			return true;
 		}else{

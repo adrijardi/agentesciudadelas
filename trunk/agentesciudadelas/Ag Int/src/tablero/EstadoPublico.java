@@ -14,7 +14,6 @@ public class EstadoPublico {
 
 	
 	private int turno;
-//	private EnumFase fase;
 	private final int numJugador;
 	private int jugActual;
 	private int pjActual;
@@ -36,8 +35,6 @@ public class EstadoPublico {
 		EstadoPartida ep= EstadoPartida.getInstance();
 		numJugador=ep.getNumJugador();
 		turno=ep.getTurno();
-		jugActual = ep.getJugActual();
-		pjActual = ep.getPjActual();
 		resJugadoresPublico=new ResumenJugadorPublico[numJugador];
 		for(int i=0;i<resJugadoresPublico.length;i++){
 			resJugadoresPublico[i]=new ResumenJugadorPublico(ep.getResJugadores()[i]);

@@ -1,16 +1,15 @@
 package tablero;
 
-import onto.*;
-import comportamientos.*;
+import jade.content.lang.Codec;
+import jade.content.lang.leap.LEAPCodec;
+import jade.core.behaviours.Behaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.content.lang.Codec;
-import jade.content.lang.leap.LEAPCodec;
-import jade.content.lang.sl.SLCodec;
-import jade.content.onto.Ontology;
-import jade.core.behaviours.Behaviour;
+import onto.OntologiaCiudadelasDos;
+
+import comportamientos.RegistrarJugador;
 
 public class AgTablero extends jade.core.Agent {
 

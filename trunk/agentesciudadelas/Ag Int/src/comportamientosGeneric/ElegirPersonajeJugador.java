@@ -36,7 +36,6 @@ public class ElegirPersonajeJugador extends Behaviour {
 		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
 		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
-		msg.setOntology(_agj.getOnto().getName());
 		msg.getSender();
 //System.out.println("<Jugador> "+msg);
 		try {

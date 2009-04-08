@@ -151,8 +151,8 @@ public class ResumenJugador {
 		return j;
 	}
 	
-	public boolean esJugador(String nombre){
-		return nombre.equals(identificador.getName());
+	public boolean esJugador(Jugador nombre){
+		return nombre.getNombre().compareTo(identificador.getName())==0;
 	}
 	public boolean tieneDistrito(Distrito d){
 		for(int i=0;i<construido.size();i++){

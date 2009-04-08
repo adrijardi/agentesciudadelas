@@ -5,6 +5,7 @@ import conceptos.Personaje;
 import acciones.CobrarDistritos;
 import acciones.DarMonedas;
 import acciones.NotificarFinTurnoJugador;
+import acciones.NotificarTurno;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
@@ -31,28 +32,30 @@ public class JugarPersonaje extends Behaviour {
 
 	@Override
 	public void action() {
+		// Notifica el turno a un jugador
+		NotificarTurno msgNotificar = new NotificarTurno();
+		msgNotificar.setJugador(ep.getResJugadorActual().getJugador());
+		msgNotificar.setPersonaje(ep.getResJugadorActual().getPersonaje());
 		
-		if(primero){
-			primero=false;
-		}else{
-			block();
-			
-			MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology("NotificarFinTurnoJugador");
-			MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-			MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,filtroIdentificador);
-
-			ACLMessage msg = myAgent.receive(plantilla);
+		ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
+		msgEnviar.setSender(agt.getAID());
+		msgEnviar.setLanguage(agt.getCodec().getName());
+		msgEnviar.setOntology(agt.getOnto().getName());
+		msgEnviar.setConversationId(Filtros.NOTIFICARTURNO);
+		msgEnviar.addReceiver(ep.getResJugadorActual().getIdentificador());
+		
+		try {
+			agt.getContentManager().fillContent(msgEnviar,msgNotificar);
+System.out.println(msgEnviar);
+			agt.send(msgEnviar);
+		} catch (CodecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OntologyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		/*
-		 * el fin de seleccionar personaje añade el comportamiento este pero las demas veces q se tiene 
-		 * que ejecutar debera estar bloqueado hasta que se notifique el fin del turno del jugador
-		 * 
-		 * TODOS LOS PERSONAJES ACABAN COMUNICANDO QUE HAN ACABADO
-		 */
-
 		
-
-//		if (msg != null) {
 			/*
 			 * cuando se empieza a jugar lo primero es incrementar el jugador,
 			 * si el ultimo lo puso el jugador 7 ahora se pasara al valor 1
@@ -174,8 +177,26 @@ msgEnviar.setConversationId(Filtros.COBRA_LADRON);
 				}
 
 			}
+			
+			
+			if(primero){
+				primero=false;
+			}else{			
+				MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId("NotificarFinTurnoJugador");
+				MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
+				MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,filtroIdentificador);
+
+				ACLMessage msg = myAgent.receive(plantilla);
+			}
+			/*
+			 * el fin de seleccionar personaje añade el comportamiento este pero las demas veces q se tiene 
+			 * que ejecutar debera estar bloqueado hasta que se notifique el fin del turno del jugador
+			 * 
+			 * TODOS LOS PERSONAJES ACABAN COMUNICANDO QUE HAN ACABADO
+			 */
+			
 		}
-//	}
+
 
 	@Override
 	public boolean done() {

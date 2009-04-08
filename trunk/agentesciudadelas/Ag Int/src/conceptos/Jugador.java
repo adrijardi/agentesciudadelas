@@ -2,7 +2,7 @@ package conceptos;
 
 import jade.content.Concept;
 
-public class Jugador implements Concept {
+public class Jugador implements Concept,Comparable<Jugador> {
 
 	private String nombre;
 	private Integer puntos;
@@ -39,5 +39,15 @@ public class Jugador implements Concept {
 
 	public void setPuntos(Integer puntos) {
 		this.puntos = puntos;
+	}
+	public int compareTo(Jugador o) {
+		return nombre.compareTo(o.nombre);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Jugador)
+			if(nombre.compareTo(((Jugador)obj).nombre) == 0)
+				return true;
+		return super.equals(obj);
 	}
 }
