@@ -1,5 +1,7 @@
 package comportamientosGeneric;
 
+import java.util.LinkedList;
+
 import acciones.NotificarFinTurnoJugador;
 import utils.Filtros;
 import jade.core.behaviours.Behaviour;
@@ -17,18 +19,14 @@ public class JugarPartida extends Behaviour {
 	@Override
 	public void action() {
 		//Se espera a que el tablero nos entrege el turno
-		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARTURNO);
+		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARTURNO, false);
 		
 		//Se realizan las acciones definidas por el agente
-		NotificarFinTurnoJugador nftj = _agj.jugarTurno(msg);
-		
-		//Se notifica el fin de turno
-		_agj.sendMSG(ACLMessage.CONFIRM, msg.getSender(), nftj,Filtros.NOTIFICARFINTURNOJUGADOR);
+		_agj.addBehaviour(_agj.jugarTurno(msg));
 	}
 
 	@Override
 	public boolean done() {
-		//TODO _agj.addBehaviour(new ElegirPersonajeJugador(_agj));
 		return true;
 	}
 

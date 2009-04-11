@@ -26,6 +26,7 @@ import acciones.NotificarDescartados;
 import acciones.NotificarFinTurnoJugador;
 import acciones.NotificarRobado;
 import acciones.NotificarTurno;
+import acciones.ObtenerMonedas;
 import acciones.OfertarPersonajes;
 import acciones.PagarDistrito;
 import acciones.PedirConstruirDistrito;
@@ -65,6 +66,9 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String CAMBIARMANO = "CambiarMano";
 	public static final String CAMBIARMANO_JUGADOR1 = "jugador1";
 	public static final String CAMBIARMANO_JUGADOR2 = "jugador2";
+	
+	public static final String OBTENER_MONEDAS = "ObtenerMonedas";
+	public static final String OBTENER_MONEDAS_JUGADOR = "jugador";
 	
 	public static final String COBRARDISTRITOS = "CobrarDistritos";
 	public static final String COBRARDISTRITOS_JUGADOR = "jugador"; 
@@ -187,6 +191,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
 			add(new AgentActionSchema(SUSTITUIRMANO), SustituirMano.class);
 			add(new AgentActionSchema(OFERTARPERSONAJES), OfertarPersonajes.class);
+			add(new AgentActionSchema(OBTENER_MONEDAS), ObtenerMonedas.class);
 			add(new AgentActionSchema(NOTIFICARDESCARTADOS), NotificarDescartados.class);
 			add(new AgentActionSchema(PEDIRDISTRITOSARQUITECTO), PedirDistritosArquitecto.class);
 			add(new AgentActionSchema(NOTIFICARROBADO), NotificarRobado.class);
@@ -224,6 +229,9 @@ public class OntologiaCiudadelasDos extends Ontology {
 
 			as = (AgentActionSchema) getSchema(DARMONEDAS);
 			as.add(DARMONEDAS_MONEDAS, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			
+			as = (AgentActionSchema) getSchema(OBTENER_MONEDAS);
+			as.add(OBTENER_MONEDAS_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARCORONA);
 			as.add(NOTIFICARCORONA_JUGADOR, (ConceptSchema) getSchema(JUGADOR));

@@ -67,6 +67,8 @@ public class EstadoPartida {
 	 * Inicia todos los atributos necesarios para cada ronda
 	 */
 	public void initFaseSeleccionPersonajes() {
+		System.out.println("% FASE SELECCION DE PJ");
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		turno++;
 		pjActual = null;
 		resetPersoJugador();
@@ -74,6 +76,8 @@ public class EstadoPartida {
 	}
 
 	public void initFaseJugarPersonajes() {
+		System.out.println("% FASE JUGAR PERSONAJES ");
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		pjActual = Personajes.PREVIO;
 		jugLadron = null;
 		jugActual = nextJugadorPorTurnoPersonaje();
