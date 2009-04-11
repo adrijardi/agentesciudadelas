@@ -9,15 +9,9 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import acciones.CobrarDistritos;
 import acciones.CobrarDistritosRey;
 import acciones.CobrarPorDistritos;
-import acciones.Matar;
-import acciones.PagarDistrito;
-import acciones.PedirConstruirDistrito;
-import conceptos.Distrito;
 import conceptos.Jugador;
-import conceptos.Personaje;
 public class CobrarRey extends Behaviour {
 	/*
 	 * Lo mejor seria definir un mensaje para pedir cobrar el distrito del rey y que sea lo q este espera					

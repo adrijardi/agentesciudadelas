@@ -1,8 +1,7 @@
 package acciones;
 
-import conceptos.Distrito;
-import conceptos.Jugador;
 import jade.content.AgentAction;
+import conceptos.Jugador;
 
 public class DevolverTurno implements AgentAction {
 

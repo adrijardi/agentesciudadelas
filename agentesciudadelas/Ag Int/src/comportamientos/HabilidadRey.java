@@ -1,16 +1,13 @@
 package comportamientos;
 
-import acciones.NotificarCorona;
-import conceptos.Jugador;
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
-import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import acciones.NotificarCorona;
+import conceptos.Jugador;
 
 public class HabilidadRey extends Behaviour {
 

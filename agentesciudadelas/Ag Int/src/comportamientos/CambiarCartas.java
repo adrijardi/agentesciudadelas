@@ -1,9 +1,6 @@
 package comportamientos;
 
-import acciones.DarDistritos;
-import conceptos.Distrito;
 import jade.content.ContentElement;
-import jade.content.abs.AbsContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -14,6 +11,8 @@ import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
 import utils.Filtros;
+import acciones.DarDistritos;
+import conceptos.Distrito;
 
 public class CambiarCartas extends Behaviour {
 	/*

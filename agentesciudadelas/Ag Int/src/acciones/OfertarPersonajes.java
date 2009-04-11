@@ -1,9 +1,9 @@
 package acciones;
 
-import conceptos.Jugador;
-import conceptos.Personaje;
 import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
+import conceptos.Jugador;
+import conceptos.Personaje;
 
 public class OfertarPersonajes implements AgentAction {
 

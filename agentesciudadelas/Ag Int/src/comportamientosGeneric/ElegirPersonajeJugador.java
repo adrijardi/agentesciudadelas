@@ -1,21 +1,15 @@
 package comportamientosGeneric;
 
-import conceptos.Jugador;
-import conceptos.Personaje;
-import acciones.ElegirPersonaje;
-import acciones.OfertarPersonajes;
-import tablero.EstadoPartida;
-import utils.Filtros;
-import jade.content.ContentElement;
-import jade.content.ContentManager;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import jugador.AgJugador;
-import jugador.InfoPartida;
+import utils.Filtros;
+import acciones.ElegirPersonaje;
+import acciones.OfertarPersonajes;
+import conceptos.Personaje;
 
 public class ElegirPersonajeJugador extends Behaviour {
 
@@ -24,60 +18,37 @@ public class ElegirPersonajeJugador extends Behaviour {
 	public ElegirPersonajeJugador(AgJugador agJugador) {
 		_agj = agJugador;
 	}
-	
+
 	@Override
 	public void action() {
-		ContentManager manager = _agj.getContentManager();
-		manager.registerOntology(_agj.getOnto());
-		manager.registerLanguage(_agj.getCodec());
-		
-		EstadoPartida ep = EstadoPartida.getInstance();
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.OFERTARPERSONAJES);
-		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
-		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.blockingReceive(filtroIdentificador);
-		msg.getSender();
-//System.out.println("<Jugador> "+msg);
+
+		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES);
+
 		try {
-			OfertarPersonajes contenido = (OfertarPersonajes)manager.extractContent(msg);
-			
-			Personaje seleccionado = (Personaje)contenido.getDisponibles().get(0); // Se selecciona el primer personaje que llega
+			OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);
+			Personaje seleccionado = _agj.selectPersonaje(contenido);
 			
 			ElegirPersonaje salida = new ElegirPersonaje();
 			salida.setJugador(_agj.getJugador());
 			salida.setPersonaje(seleccionado);
-						
-			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setSender(_agj.getAID());
-			msgEnviar.setOntology(_agj.getOnto().getName());
-			msgEnviar.setLanguage(_agj.getCodec().getName());
-			msgEnviar.setConversationId(Filtros.ELEGIRPERSONAJE);
-			msgEnviar.addReceiver(msg.getSender());
-			_agj.getContentManager().fillContent(msgEnviar,salida);
-
-//System.out.println("<J-envia> "+_agj.getAID().getName()+" "+msgEnviar);
-System.out.println("######### mandando ELEGIRPERSONAJE");
-			_agj.send(msgEnviar);
-System.out.println("######### mensaje ELEGIRPERSONAJE mandado");
+			_agj.sendMSG(ACLMessage.REQUEST, msg.getSender(), salida,Filtros.ELEGIRPERSONAJE);
 			
 		} catch (UngroundedException e) {
-			System.out.println("UngroundedException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (CodecException e) {
-			System.out.println("CodecException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (OntologyException e) {
-			System.out.println("OntologyException!");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public boolean done() {
+		_agj.addBehaviour(new JugarPartida(_agj));
 		return true;
 	}
 

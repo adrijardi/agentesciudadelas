@@ -1,14 +1,5 @@
 package comportamientos;
 
-import tablero.AgTablero;
-import tablero.EstadoPartida;
-import utils.Personajes;
-import acciones.DestruirDistrito;
-import acciones.NotificarRobado;
-import acciones.Robar;
-import conceptos.Distrito;
-import conceptos.Jugador;
-import conceptos.Personaje;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
@@ -16,6 +7,11 @@ import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import tablero.AgTablero;
+import tablero.EstadoPartida;
+import acciones.DestruirDistrito;
+import conceptos.Distrito;
+import conceptos.Jugador;
 
 public class HabilidadCondotiero extends Behaviour{
 	

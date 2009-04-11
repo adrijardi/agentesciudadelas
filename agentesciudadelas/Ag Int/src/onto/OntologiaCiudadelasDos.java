@@ -1,9 +1,40 @@
 package onto;
 
-import acciones.*;
-import conceptos.*;
-import jade.content.onto.*;
-import jade.content.schema.*;
+import jade.content.onto.BasicOntology;
+import jade.content.onto.Ontology;
+import jade.content.onto.OntologyException;
+import jade.content.schema.AgentActionSchema;
+import jade.content.schema.ConceptSchema;
+import jade.content.schema.ObjectSchema;
+import jade.content.schema.PrimitiveSchema;
+import acciones.CambiarMano;
+import acciones.CobrarDistritos;
+import acciones.CobrarDistritosCondotierro;
+import acciones.CobrarDistritosMercader;
+import acciones.CobrarDistritosObispo;
+import acciones.CobrarDistritosRey;
+import acciones.CobrarPorDistritos;
+import acciones.CobrarPorMercader;
+import acciones.DarDistritos;
+import acciones.DarMonedas;
+import acciones.DestruirDistrito;
+import acciones.ElegirPersonaje;
+import acciones.Matar;
+import acciones.NotificarAsesinado;
+import acciones.NotificarCorona;
+import acciones.NotificarDescartados;
+import acciones.NotificarFinTurnoJugador;
+import acciones.NotificarRobado;
+import acciones.NotificarTurno;
+import acciones.OfertarPersonajes;
+import acciones.PagarDistrito;
+import acciones.PedirConstruirDistrito;
+import acciones.PedirDistritosArquitecto;
+import acciones.Robar;
+import acciones.SustituirMano;
+import conceptos.Distrito;
+import conceptos.Jugador;
+import conceptos.Personaje;
 
 public class OntologiaCiudadelasDos extends Ontology {
 
@@ -78,6 +109,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String NOTIFICARCORONA = "NotificarCorona";
 	public static final String NOTIFICARCORONA_JUGADOR = "jugador";
 	
+	public static final String NOTIFICARTURNO = "NotificarTurno";
+	public static final String NOTIFICARTURNO_PERSONAJE = "personaje";
+	public static final String NOTIFICARTURNO_JUGADOR = "jugador";
+	
 	public static final String NOTIFICARFINTURNOJUGADOR = "NotificarFinTurnoJugador";
 	public static final String NOTIFICARFINTURNOJUGADOR_PERSONAJE = "personaje";
 	public static final String NOTIFICARFINTURNOJUGADOR_JUGADOR = "jugador";
@@ -146,6 +181,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(DESTRUIRDISTRITO), DestruirDistrito.class);
 			add(new AgentActionSchema(ELEGIRPERSONAJE), ElegirPersonaje.class);
 			add(new AgentActionSchema(NOTIFICARCORONA), NotificarCorona.class);
+			add(new AgentActionSchema(NOTIFICARTURNO), NotificarTurno.class);
 			add(new AgentActionSchema(NOTIFICARFINTURNOJUGADOR), NotificarFinTurnoJugador.class);
 			add(new AgentActionSchema(PAGARDISTRITO), PagarDistrito.class);
 			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
@@ -191,6 +227,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARCORONA);
 			as.add(NOTIFICARCORONA_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			
+			as = (AgentActionSchema) getSchema(NOTIFICARTURNO);
+			as.add(NOTIFICARTURNO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(NOTIFICARTURNO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARFINTURNOJUGADOR);
 			as.add(NOTIFICARFINTURNOJUGADOR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));

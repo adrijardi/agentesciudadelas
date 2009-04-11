@@ -1,7 +1,5 @@
 package comportamientos;
 
-import jade.content.lang.Codec.CodecException;
-import jade.content.onto.OntologyException;
 import jade.core.behaviours.Behaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
@@ -50,39 +48,15 @@ public class RegistrarJugador extends Behaviour {
 	}
 
 	private void confirmarJugador(ResumenJugador rj) {
-		ACLMessage mensajeCartas = new ACLMessage(ACLMessage.INFORM);
-		ACLMessage mensajeMondeas = new ACLMessage(ACLMessage.INFORM);
-
-		mensajeCartas.setLanguage(agt.getCodec().getName());
-		mensajeMondeas.setLanguage(agt.getCodec().getName());
-		mensajeCartas.addReceiver(rj.getIdentificador());
-		mensajeMondeas.addReceiver(rj.getIdentificador());
-		mensajeCartas.setOntology(agt.getOnto().getName());
-		mensajeMondeas.setOntology(agt.getOnto().getName());
-		
-		mensajeMondeas.setConversationId(Filtros.DARMONEDAS);
-		
 		//Se obtiene el contenido de los mensajes
 		DarDistritos dd = new DarDistritos();
 		dd.setDistritos(rj.getCartasMano());
 		
 		DarMonedas dm = new DarMonedas();
 		dm.setMonedas(rj.getDinero());
-
-		try {
-			agt.getContentManager().fillContent(mensajeCartas, dd);
-			agt.getContentManager().fillContent(mensajeMondeas, dm);
-			System.out.println(mensajeCartas);
-			System.out.println(mensajeMondeas);
-			agt.send(mensajeCartas);
-			agt.send(mensajeMondeas);
-		} catch (CodecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OntologyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		agt.sendMSG(ACLMessage.INFORM, rj, dd, Filtros.DARDISTRITOS);
+		agt.sendMSG(ACLMessage.INFORM, rj, dm, Filtros.DARMONEDAS);
 	}
 
 	@Override //Lo llama solo jade condicion de fin
@@ -99,27 +73,12 @@ public class RegistrarJugador extends Behaviour {
 	}
 
 	private void seleccionarCoronaRandom() {
-		ACLMessage mensajeCorona = new ACLMessage(ACLMessage.INFORM);
+		//Se obtiene el contenido de los mensajes
 		EstadoPartida ep = EstadoPartida.getInstance();
 		Jugador j = ep.getTieneCorona().getJugador();
-	
-		mensajeCorona.setLanguage(agt.getCodec().getName());
-		mensajeCorona.setOntology(agt.getOnto().getName());
-
-		//Se obtiene el contenido de los mensajes
 		NotificarCorona nc = new NotificarCorona();
 		nc.setJugador(j);
-		
-		try {
-			agt.getContentManager().fillContent(mensajeCorona, nc);
-			System.out.println(mensajeCorona);
-			agt.send(mensajeCorona);
-		} catch (CodecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OntologyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+		agt.sendMSG(ACLMessage.INFORM, null, nc, Filtros.NOTIFICARCORONA);
 	}
 }

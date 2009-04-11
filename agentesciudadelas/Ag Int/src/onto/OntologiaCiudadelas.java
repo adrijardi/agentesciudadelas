@@ -1,11 +1,51 @@
 package onto;
 
-import acciones.*;
-import predicados.*;
-import conceptos.*;
+import jade.content.onto.BasicOntology;
+import jade.content.onto.Ontology;
+import jade.content.onto.OntologyException;
+import jade.content.schema.AgentActionSchema;
+import jade.content.schema.ConceptSchema;
+import jade.content.schema.ObjectSchema;
+import jade.content.schema.PredicateSchema;
+import jade.content.schema.PrimitiveSchema;
+import predicados.PoseeCiudad;
+import predicados.PoseeMano;
+import predicados.TieneRol;
+import acciones.CambiarMano;
+import acciones.CobrarDistritos;
+import acciones.CobrarMercader;
+import acciones.DarDistritos;
+import acciones.DarMano;
+import acciones.DarMonedas;
+import acciones.DarTurno;
+import acciones.DecirEstado;
+import acciones.DescartarDistrito;
+import acciones.DescartarPrivadoPersonaje;
+import acciones.DescartarPublicoPersonajes;
+import acciones.DestruirDistrito;
+import acciones.DevolverTurno;
+import acciones.ElegirPersonaje;
+import acciones.Matar;
+import acciones.NotificarAsesinado;
+import acciones.NotificarCorona;
+import acciones.NotificarError;
+import acciones.NotificarRobado;
+import acciones.NotificarTurno;
+import acciones.ObtenerDistritos;
+import acciones.ObtenerMano;
+import acciones.ObtenerMonedas;
+import acciones.OfertarDistritos;
+import acciones.OfertarPersonajes;
+import acciones.PedirCorona;
+import acciones.PedirDistritosArquitecto;
+import acciones.PedirEstado;
+import acciones.Robar;
+import conceptos.Ciudad;
+import conceptos.Distrito;
 import conceptos.Error;
-import jade.content.onto.*;
-import jade.content.schema.*;
+import conceptos.Jugador;
+import conceptos.Personaje;
+import conceptos.Tablero;
 
 public class OntologiaCiudadelas extends Ontology {
 
@@ -98,7 +138,7 @@ public class OntologiaCiudadelas extends Ontology {
     // Creamos referencia estatica a la propia onto
     private static OntologiaCiudadelas instance= new OntologiaCiudadelas();
     
-    // Creamos método para devolver la referencia estatica
+    // Creamos mï¿½todo para devolver la referencia estatica
     public static OntologiaCiudadelas getInstance() {
         return instance;
     }
@@ -106,11 +146,11 @@ public class OntologiaCiudadelas extends Ontology {
  // Constructor de la onto
     public OntologiaCiudadelas() {
     	// Invoca al constructor de clase jade.content.onto.Ontology con 
-    	// la referencia estática como argumento
+    	// la referencia estï¿½tica como argumento
         super(ONTOLOGY_NAME, BasicOntology.getInstance());
         try {
         	
-        	// añadimos un conceptschema por cada concepto
+        	// aï¿½adimos un conceptschema por cada concepto
         	// relacionandolo con la clase que lo implementa
             add(new ConceptSchema(tablero), Tablero.class);
             add(new ConceptSchema(personaje), Personaje.class);

@@ -1,7 +1,5 @@
 package acciones;
 
-import conceptos.Jugador;
-import conceptos.Personaje;
 import jade.content.AgentAction;
 
 public class DarMonedas implements AgentAction {

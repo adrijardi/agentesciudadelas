@@ -1,7 +1,5 @@
 package comportamientos;
 
-import acciones.CambiarMano;
-import acciones.DarDistritos;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
@@ -11,7 +9,8 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import conceptos.Distrito;
+import acciones.CambiarMano;
+import acciones.DarDistritos;
 import conceptos.Jugador;
 
 public class HabilidadCambiarMano extends Behaviour {

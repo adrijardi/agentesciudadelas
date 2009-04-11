@@ -88,13 +88,17 @@ public class EstadoPartida {
 		if (fase == EnumFase.JUGAR_RONDA || fase == EnumFase.FINALIZAR_JUEGO) {
 			do {
 				pjActual = pjActual.next();
-				if (pjActual != null)
+				if (pjActual != null){
 					ret = getJugadorDesdePersonaje(pjActual.getPj());
+					jugActual = ret;
+				}
 			} while (ret == null && pjActual != null);
 
 			if (pjActual == null) {
-				if (fase != EnumFase.FINALIZAR_JUEGO)
+				if (fase != EnumFase.FINALIZAR_JUEGO){
 					fase = EnumFase.SEL_PERSONAJES;
+					initFaseSeleccionPersonajes();
+				}
 			} else {
 				if (pjActual == Personajes.LADRON)
 					jugLadron = ret;
@@ -137,6 +141,10 @@ public class EstadoPartida {
 			}
 		}
 		return ret;
+	}
+
+	public void setTieneCorona(ResumenJugador tieneCorona) {
+		this.tieneCorona = tieneCorona;
 	}
 
 	public ResumenJugador getJugActual() {

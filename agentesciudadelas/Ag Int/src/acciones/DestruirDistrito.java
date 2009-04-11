@@ -1,8 +1,8 @@
 package acciones;
 
+import jade.content.AgentAction;
 import conceptos.Distrito;
 import conceptos.Jugador;
-import jade.content.AgentAction;
 
 public class DestruirDistrito implements AgentAction {
 

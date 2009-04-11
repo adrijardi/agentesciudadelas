@@ -1,7 +1,7 @@
 package acciones;
 
-import conceptos.Jugador;
 import jade.content.AgentAction;
+import conceptos.Jugador;
 
 public class NotificarCorona implements AgentAction {
 
@@ -13,6 +13,11 @@ public class NotificarCorona implements AgentAction {
 
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
+	}
+	
+	@Override
+	public String toString() {
+		return "NotificarCorona: "+ jugador.getNombre();
 	}
 
 }

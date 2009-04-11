@@ -1,0 +1,122 @@
+
+			if (!jugAct.getPersonaje().getNombre().equalsIgnoreCase(ep.getNombreMuerto())) {
+				/*
+				 * a�adir el comportamiento generico ConstruirDistrito(this);
+				 * este comportamiento debe finalizarse al final en el propio
+				 * done()
+				 */
+				if(jugAct.getPersonaje().getNombre()==ep.getNombreRobado()){
+					/*
+					 * Cambia el dinero de manos
+					 */
+					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
+					msgEnviar.setSender(agt.getAID());
+					msgEnviar.setOntology(agt.getOnto().DARMONEDAS);
+					msgEnviar.setConversationId(Filtros.COBRA_LADRON);
+					DarMonedas dm=new DarMonedas();
+					dm.setMonedas(ep.getResJugadorActual().getDinero());
+					ep.getJugLadron().setDinero(ep.getJugLadron().getDinero()+ep.getResJugadorActual().getDinero());
+					ep.getResJugadorActual().setDinero(0);
+					try {
+						myAgent.getContentManager().fillContent(msgEnviar,dm);
+						myAgent.send(msgEnviar);
+					} catch (CodecException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (OntologyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // contenido es el objeto que envia
+				}
+				switch (jugAct.getPersonaje().getTurno()) {
+				case 1:
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Asesino: habilidadAsesino(this)
+					 */
+					agt.addBehaviour(new HabilidadAsesino(agt));
+					break;
+				case 2:
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Ladron: habilidadLadron(this)
+					 */
+					agt.addBehaviour(new HabilidadLadron(agt));
+/*
+ * Falta que en HabilidadLadron se compruebe si se robo a alguien valido, en ese caso hay q a�adir la habilidad EsperaRobo(agt)
+ */
+					break;
+				case 3:
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Mago: habilidadMago(this)
+					 */
+					agt.addBehaviour(new HabilidadCambiarMano(agt));
+					agt.addBehaviour(new CambiarCartas(agt));
+					ep.setJugLadron(ep.getResJugadorActual());
+					break;
+				case 4:
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador Rey:
+					 * habilidadRey(this)
+					 */
+					agt.addBehaviour(new HabilidadRey(agt));
+					agt.addBehaviour(new CobrarRey(agt));
+					break;
+				case 5: //obispo
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Obispo: habilidadObispo(this) esta habilidad debe estar
+					 * siempre activada o hacerlo mediante control del tablero q
+					 * es mas comodo
+					 */
+//					agt.addBehaviour(new HabilidadObispo(agt));
+					agt.addBehaviour(new CobrarObispo(agt));
+					break;
+				case 6: //mercader
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Mercader: habilidadMercader(this)
+					 */
+					agt.addBehaviour(new HabilidadMercader(agt));
+					agt.addBehaviour(new CobrarMercader(agt));
+					break;
+				case 7:
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Arquitecto: habilidadArquitecto(this)
+					 *
+					 * Su habilidad se controla en el comportamiento que permite elegir entre cartas o dinero
+					 */
+					break;
+				case 8: //condotierro
+					/*
+					 * a�adir el comportamiento de la habilidad del jugador
+					 * Condotierro: habilidadCondotierro(this)
+					 */
+					agt.addBehaviour(new HabilidadCondotiero(agt));
+					agt.addBehaviour(new CobrarCondotierro(agt));
+					break;
+				default:
+					break;
+				}
+
+			}
+			
+			
+			if(primero){
+				primero=false;
+			}else{			
+				MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId("NotificarFinTurnoJugador");
+				MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
+				MessageTemplate plantilla = MessageTemplate.and(filtroEmisor,filtroIdentificador);
+
+				ACLMessage msg = myAgent.receive(plantilla);
+			}
+			/*
+			 * el fin de seleccionar personaje añade el comportamiento este pero las demas veces q se tiene 
+			 * que ejecutar debera estar bloqueado hasta que se notifique el fin del turno del jugador
+			 * 
+			 * TODOS LOS PERSONAJES ACABAN COMUNICANDO QUE HAN ACABADO
+			 */
+		}

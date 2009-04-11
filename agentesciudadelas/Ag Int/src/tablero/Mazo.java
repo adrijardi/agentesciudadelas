@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import utils.Distritos;
-
 import conceptos.Distrito;
 
 public class Mazo {

@@ -1,8 +1,8 @@
 package acciones;
 
-import conceptos.Personaje;
 import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
+import conceptos.Personaje;
 
 public class NotificarDescartados implements AgentAction{
 	
@@ -25,5 +25,16 @@ public class NotificarDescartados implements AgentAction{
 			al.add(i, destapados[i]);
 		}
 		return al;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("NotificarDescartados: ");
+		for (int i = 0; i < destapados.length; i++) {
+			sb.append(destapados[i].getNombre());
+			sb.append(" ");
+		}
+		return sb.toString();
 	}
 }

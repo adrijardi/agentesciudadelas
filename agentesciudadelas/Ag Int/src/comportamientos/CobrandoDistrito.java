@@ -9,12 +9,9 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import acciones.CobrarDistritos;
 import acciones.PagarDistrito;
-import acciones.PedirConstruirDistrito;
 import conceptos.Distrito;
 import conceptos.Jugador;
-import conceptos.Personaje;
 
 /*
  * este comportamiento recibe el mensaje de que se ha pagado el distrito, y actualiza el estado de la partida actual

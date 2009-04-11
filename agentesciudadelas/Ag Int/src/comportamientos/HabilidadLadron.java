@@ -10,12 +10,8 @@ import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import utils.Personajes;
-import acciones.CobrarDistritos;
 import acciones.NotificarRobado;
-import acciones.PagarDistrito;
-import acciones.PedirConstruirDistrito;
 import acciones.Robar;
-import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
 
