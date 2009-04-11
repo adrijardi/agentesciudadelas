@@ -10,15 +10,15 @@ import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
+import tablero.ResumenJugador;
 import utils.Filtros;
 import acciones.DarDistritos;
 import acciones.DarMonedas;
+import acciones.ObtenerDistritos;
+import acciones.ObtenerMonedas;
 import conceptos.Distrito;
 
 public class EleccionCartasODinero extends Behaviour {
-	/*
-	 * Lo mejor seria definir un mensaje para pedir cobrar el distrito del rey y que sea lo q este espera					
-	 */
 	
 	private final AgTablero agt;
 
@@ -29,20 +29,46 @@ public class EleccionCartasODinero extends Behaviour {
 	@Override
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
-		Filtros filtros = new Filtros();
-		block();
-		/*
-		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
-		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtros.ACCION_JUGADOR);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.receive(plantilla);
+		ResumenJugador jugador = ep.getJugActual();
+		System.out.println("Esperando la accion del jugador "+jugador.getJugador().getNombre());
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR, jugador);
+		System.out.println("Accion recibida");
 		if(msg!=null){
-			
-			ContentElement contenido = null;
 			try {
-				contenido=myAgent.getContentManager().extractContent(msg);
+				ContentElement contenido =agt.getContentManager().extractContent(msg);
+				
+				if(contenido instanceof ObtenerDistritos){
+					/*// Se obtienen los distritos que seleccionara el jugador
+					Mazo ma=Mazo.getInstance();
+					Distrito[] lista=new Distrito[2];
+					lista[0]=ma.getDistrito();
+					lista[1]=ma.getDistrito();
+					DarDistritos obj=new DarDistritos();
+					obj.setDistritos(lista);
+					
+					msgEnviar.setOntology(agt.getOnto().DARDISTRITOS);
+					
+					
+					agt.addBehaviour(new EsperarDistrito(agt));
+					
+					try {
+						myAgent.getContentManager().fillContent(msgEnviar, obj);
+						myAgent.send(msgEnviar);
+					} catch (CodecException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (OntologyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // contenido es el objeto que envia*/
+					
+				}else if(contenido instanceof ObtenerMonedas){
+					// Se manda el mensaje con las monedas
+					DarMonedas obj=new DarMonedas();
+					obj.setMonedas(2);
+					agt.sendMSG(ACLMessage.REQUEST, jugador, obj, Filtros.DARMONEDAS);
+				}
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -53,63 +79,11 @@ public class EleccionCartasODinero extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// tengo el mensaje y su contenido, ahora a actualizar el estado actual
-			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setSender(agt.getAID());
-			
-			msgEnviar.addReceiver(ep.getResJugadorActual().getIdentificador());
-			
-			if(contenido instanceof DarDistritos){
-				/*
-				 * Preparar el mensaje de dar distritos
-				 */
-				Mazo ma=Mazo.getInstance();
-				Distrito[] lista=new Distrito[2];
-				lista[0]=ma.getDistrito();
-				lista[1]=ma.getDistrito();
-				DarDistritos obj=new DarDistritos();
-				obj.setDistritos(lista);
-				
-				msgEnviar.setOntology(agt.getOnto().DARDISTRITOS);
-				
-				
-				agt.addBehaviour(new EsperarDistrito(agt));
-				
-				try {
-					myAgent.getContentManager().fillContent(msgEnviar, obj);
-					myAgent.send(msgEnviar);
-				} catch (CodecException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (OntologyException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} // contenido es el objeto que envia
-				
-			}else{
-				/*
-				 * Preparar el mensaje de dar monedas
-				 */
-				DarMonedas obj=new DarMonedas();
-				obj.setMonedas(2);
-				msgEnviar.setOntology(agt.getOnto().DARMONEDAS);
-				
-				try {
-					myAgent.getContentManager().fillContent(msgEnviar, obj);
-					myAgent.send(msgEnviar);
-				} catch (CodecException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (OntologyException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} // contenido es el objeto que envia
-			}
 		}
 	}
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return true;
 	}
 }

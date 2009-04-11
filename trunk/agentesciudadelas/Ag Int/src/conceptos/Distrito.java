@@ -34,4 +34,14 @@ public class Distrito implements Concept {
 		this.puntos = puntos;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(nombre);
+		sb.append("(");
+		sb.append(coste);
+		sb.append(")");
+		return sb.toString();
+	}
+	
 }

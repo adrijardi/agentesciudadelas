@@ -22,7 +22,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 	@Override
 	public void action() {
 
-		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES);
+		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
 
 		try {
 			OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);

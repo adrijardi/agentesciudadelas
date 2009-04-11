@@ -1,17 +1,22 @@
 package jugador;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import jade.content.AgentAction;
 import jade.content.lang.Codec;
 import jade.content.lang.Codec.CodecException;
 import jade.content.lang.leap.LEAPCodec;
 import jade.content.onto.OntologyException;
 import jade.core.AID;
+import jade.core.behaviours.Behaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.util.leap.List;
 import onto.OntologiaCiudadelasDos;
 import tablero.ResumenJugador;
 import acciones.NotificarFinTurnoJugador;
@@ -19,10 +24,17 @@ import acciones.OfertarPersonajes;
 
 import comportamientosGeneric.RecibirIniciarJugador;
 
+import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
 
 public abstract class AgJugador extends jade.core.Agent {
+	
+	//Informacion del estado del jugador
+	protected Personaje pj_actual = null;
+	protected int monedas = 0;
+	protected final LinkedList<Distrito> mano = new LinkedList<Distrito>();
+	protected final LinkedList<Distrito> construidas = new LinkedList<Distrito>();
 	
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
@@ -141,26 +153,62 @@ public abstract class AgJugador extends jade.core.Agent {
 	/*
 	 * Funcion que se bloquea esperando un mensaje con un determinado filtro
 	 */
-	public ACLMessage reciveBlockingMessage(String filtro){
+	public ACLMessage reciveBlockingMessage(String filtro, boolean global){
 		ACLMessage ret = null;
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
-		ret = blockingReceive(filtroIdentificador);
+		if(global == true){
+			ret = blockingReceive(filtroIdentificador);
+		}else{
+			AID[] aids = new AID[]{getAID()};
+			MessageTemplate filtroReceptor = MessageTemplate.MatchReceiver(aids);
+			MessageTemplate plantilla = MessageTemplate.and(filtroReceptor, filtroIdentificador);
+			ret = blockingReceive(plantilla);
+		}		
 		return ret;
 	}
 	
-	/*
-	 * Funcion que se bloquea esperando un mensaje de un agente espedifico con un determinado filtro
-	 */
-	public ACLMessage reciveBlockingMessageFrom(String filtro, ResumenJugador sender){
-		ACLMessage ret = null;
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender.getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ret = blockingReceive(plantilla);
+	public NotificarFinTurnoJugador getNotificarFinTurnoJugador() {
+		NotificarFinTurnoJugador ret = new NotificarFinTurnoJugador();
+		ret.setJugador(getJugador());
+		ret.setPersonaje(pj_actual);
 		return ret;
+	}
+	
+	public void addMonedas(int mas){
+		monedas += mas;
+	}
+	
+	public void addDistritos(List list){
+		Iterator it = list.iterator();
+		while(it.hasNext()){
+			mano.add((Distrito)it.next());
+		}
+	}
+	
+	protected void printEstado(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("> Soy ");
+		sb.append(getAID().getName());
+		sb.append(" mi estado es:\n");
+		sb.append("> personaje: ");
+		sb.append(pj_actual.getNombre());
+		sb.append("\n> monedas: ");
+		sb.append(monedas);
+		sb.append("\n> mano: ");
+		for (Distrito d : mano) {
+			sb.append(d.toString());
+			sb.append(" ");
+		}
+		sb.append("\n> construido: ");
+		for (Distrito d : construidas) {
+			sb.append(d.toString());
+			sb.append(" ");
+		}
+		sb.append("\n");
+		System.out.println(sb.toString());
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
-	public abstract NotificarFinTurnoJugador jugarTurno(ACLMessage msg);
+	public abstract Behaviour jugarTurno(ACLMessage msg);
 
 }

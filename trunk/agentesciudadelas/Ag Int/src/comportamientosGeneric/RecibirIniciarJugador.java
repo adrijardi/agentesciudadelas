@@ -1,6 +1,8 @@
 package comportamientosGeneric;
 
+import utils.Filtros;
 import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 
 public class RecibirIniciarJugador extends Behaviour {
@@ -13,7 +15,9 @@ public class RecibirIniciarJugador extends Behaviour {
 	
 	@Override
 	public void action() {
-		//TODO Hay que obtener los mensajes de cartas y de monedas (utilizar las funciones de recepcion de mensajes definidas en el agente
+		// Se obtinen las cartas y monedas iniciales
+		_agj.addBehaviour(new RecibirDistritos(_agj));
+		_agj.addBehaviour(new RecibirMonedas(_agj));
 	}
 
 	@Override

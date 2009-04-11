@@ -40,12 +40,6 @@ public class JugarPersonaje extends Behaviour {
 
 		// Se comprueba que no este muerto, si lo esta no se le envia el turno
 		if (!jugador.equals(ep.getNombreMuerto())) {
-			// Notifica el turno a un jugador
-			NotificarTurno msgNotificar = new NotificarTurno();
-			msgNotificar.setJugador(jugador.getJugador());
-			msgNotificar.setPersonaje(jugador.getPersonaje());
-
-			agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 
 			// Se añaden los comportamientos para que juege el jugador
 			LinkedList<Behaviour> llb = new LinkedList<Behaviour>();
@@ -57,39 +51,24 @@ public class JugarPersonaje extends Behaviour {
 			beh = new ConstruirDistrito(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
+			
+			beh = new FinalizarTurno(agt, llb);
+			agt.addBehaviour(beh);
 
 			// TODO falta añadir el comportamiento de cada personaje
 			
-			// Se espera la recepcion de fin de de turno
-			System.out.println("Tablero esperando a fin de turno");
-			ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.NOTIFICARFINTURNOJUGADOR, jugador);
-			// TODO hay que comprobar algo del mensaje?
-			for (Behaviour behaviour : llb) {
-				agt.removeBehaviour(behaviour);
-			}
+			// Notifica el turno a un jugador
+			NotificarTurno msgNotificar = new NotificarTurno();
+			msgNotificar.setJugador(jugador.getJugador());
+			msgNotificar.setPersonaje(jugador.getPersonaje());
+
+			agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 		}
 	}
 
 	@Override
 	public boolean done() {
-		boolean ret = false;
-		ep.nextJugadorPorTurnoPersonaje();
-		switch (ep.getFase()) {
-		case SEL_PERSONAJES:
-			agt.addBehaviour(new NotificarDescartado(agt));
-			ret = true;
-			break;
-
-		case FINALIZAR_JUEGO:
-
-			ret = true;
-			break;
-
-		default:
-			ret = false;
-			break;
-		}
-		return ret;
+		return true;
 	}
 
 }
