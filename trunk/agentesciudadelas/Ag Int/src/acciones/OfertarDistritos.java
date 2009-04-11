@@ -1,7 +1,7 @@
 package acciones;
 
-import conceptos.Distrito;
 import jade.content.AgentAction;
+import conceptos.Distrito;
 
 public class OfertarDistritos implements AgentAction {
 

@@ -1,24 +1,19 @@
 package comportamientos;
 
-import conceptos.*;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import tablero.ResumenJugador;
 import acciones.CobrarDistritos;
-import acciones.DarDistritos;
-import acciones.DarMonedas;
 import acciones.PedirConstruirDistrito;
+import conceptos.Distrito;
+import conceptos.Jugador;
+import conceptos.Personaje;
 
 public class ConstruirDistrito extends Behaviour {
 
@@ -74,7 +69,7 @@ public class ConstruirDistrito extends Behaviour {
 				// envia el mensaje de puedes contruir el distrito, realmente lo que hace es pedirle la pasta			
 				cd.setCantidad(ds.getCoste());
 				/*
-				 * a–adir el comportamiento cobrarDistrito
+				 * aï¿½adir el comportamiento cobrarDistrito
 				 */
 				agt.addBehaviour(new CobrandoDistrito(agt));
 			}else{

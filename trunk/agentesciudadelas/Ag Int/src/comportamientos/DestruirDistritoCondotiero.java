@@ -1,25 +1,17 @@
 package comportamientos;
 
-import conceptos.*;
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
-import acciones.CobrarDistritos;
-import acciones.DarDistritos;
-import acciones.DarMonedas;
 import acciones.DestruirDistrito;
-import acciones.PedirConstruirDistrito;
+import conceptos.Distrito;
+import conceptos.Jugador;
 
 public class DestruirDistritoCondotiero extends Behaviour {
 

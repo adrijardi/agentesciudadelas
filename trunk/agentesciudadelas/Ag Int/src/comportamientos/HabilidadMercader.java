@@ -11,9 +11,7 @@ import tablero.AgTablero;
 import tablero.EstadoPartida;
 import acciones.CobrarMercader;
 import acciones.CobrarPorMercader;
-import conceptos.Distrito;
 import conceptos.Jugador;
-import conceptos.Personaje;
 
 public class HabilidadMercader extends Behaviour {
 

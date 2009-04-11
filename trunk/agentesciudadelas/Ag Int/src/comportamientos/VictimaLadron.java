@@ -1,14 +1,15 @@
 package comportamientos;
 
-import tablero.AgTablero;
-import tablero.EstadoPartida;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
-import jade.core.behaviours.*;
-import jade.lang.acl.*;
-import acciones.*;
+import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
+import tablero.AgTablero;
+import tablero.EstadoPartida;
+import acciones.NotificarRobado;
 
 public class VictimaLadron extends Behaviour{
 	

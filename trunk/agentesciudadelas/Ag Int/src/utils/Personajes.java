@@ -136,5 +136,10 @@ public enum Personajes {
 		System.out.println("!!!!!!! :::::: "+Personajes.valueOf(pj2.getNombre().toUpperCase()));
 		return Personajes.valueOf(pj2.getNombre().toUpperCase());
 	}
+
+	public boolean isPersonaje(Personaje personaje) {
+		return getPj().equals(personaje);
+	}
+
 	
 }

@@ -1,12 +1,6 @@
 package comportamientos;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
-
-import acciones.DarDistritos;
-import acciones.DarMonedas;
-import conceptos.Distrito;
 import jade.content.ContentElement;
-import jade.content.abs.AbsContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -17,6 +11,9 @@ import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
 import utils.Filtros;
+import acciones.DarDistritos;
+import acciones.DarMonedas;
+import conceptos.Distrito;
 
 public class EleccionCartasODinero extends Behaviour {
 	/*

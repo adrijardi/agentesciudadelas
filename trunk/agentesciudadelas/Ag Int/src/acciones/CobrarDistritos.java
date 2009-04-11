@@ -1,8 +1,8 @@
 package acciones;
 
-import conceptos.Jugador;
-import conceptos.Distrito;
 import jade.content.AgentAction;
+import conceptos.Distrito;
+import conceptos.Jugador;
 
 public class CobrarDistritos implements AgentAction {
  
@@ -10,7 +10,7 @@ public class CobrarDistritos implements AgentAction {
 	private Integer cantidad;
 	
 	/*
-	 * a–adido por Pablo
+	 * aï¿½adido por Pablo
 	 */
 	private Distrito distrito;
 	
@@ -28,7 +28,7 @@ public class CobrarDistritos implements AgentAction {
 	}
 	
 	/*
-	 * A–adido por P
+	 * Aï¿½adido por P
 	 */
 	public Distrito getDistrito() {
 		return distrito;

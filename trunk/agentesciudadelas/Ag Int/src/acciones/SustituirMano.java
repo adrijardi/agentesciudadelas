@@ -1,7 +1,7 @@
 package acciones;
 
 import jade.util.leap.ArrayList;
-import conceptos.Distrito;;
+import conceptos.Distrito;
 
 public class SustituirMano {
 	

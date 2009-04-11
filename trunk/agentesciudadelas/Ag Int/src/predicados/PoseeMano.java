@@ -1,7 +1,7 @@
 package predicados;
 
-import conceptos.Jugador;
 import jade.content.Predicate;
+import conceptos.Jugador;
 
 public class PoseeMano implements Predicate {
 	

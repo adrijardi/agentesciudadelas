@@ -1,7 +1,7 @@
 package acciones;
 
-import conceptos.Jugador;
 import jade.content.AgentAction;
+import conceptos.Jugador;
 
 public class PedirDistritosArquitecto implements AgentAction {
 

@@ -1,23 +1,28 @@
 package jugador;
 
-import onto.*;
-import utils.Filtros;
-import comportamientos.*;
-import comportamientosGeneric.ElegirPersonajeJugador;
-import conceptos.Jugador;
-
+import jade.content.AgentAction;
 import jade.content.lang.Codec;
+import jade.content.lang.Codec.CodecException;
 import jade.content.lang.leap.LEAPCodec;
-import jade.content.lang.sl.SLCodec;
-import jade.content.onto.Ontology;
+import jade.content.onto.OntologyException;
+import jade.core.AID;
 import jade.domain.DFService;
 import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import onto.OntologiaCiudadelasDos;
+import tablero.ResumenJugador;
+import acciones.NotificarFinTurnoJugador;
+import acciones.OfertarPersonajes;
 
-public class AgJugador extends jade.core.Agent {
+import comportamientosGeneric.RecibirIniciarJugador;
+
+import conceptos.Jugador;
+import conceptos.Personaje;
+
+public abstract class AgJugador extends jade.core.Agent {
 	
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
@@ -61,11 +66,7 @@ public class AgJugador extends jade.core.Agent {
 			fe.printStackTrace(); 
 		}
 		
-		//MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(Filtros.OFERTARPERSONAJES);
-		//MessageTemplate filtroEmisor = MessageTemplate.MatchSender(_agj.);
-		//MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		
-		ElegirPersonajeJugador comp = new ElegirPersonajeJugador(this);
+		RecibirIniciarJugador comp = new RecibirIniciarJugador(this);
 		addBehaviour(comp);
 	}
 
@@ -97,4 +98,69 @@ public class AgJugador extends jade.core.Agent {
 		ret.setNombre(getName());
 		return ret;
 	}
+	
+	/*
+	 * Esta funcion simplifica el envio de mensajes rellenando los campos necesarios
+	 */
+	public boolean sendMSG(int perf, AID reciver, AgentAction msgContent, String filtro) {
+		boolean ret = false;
+		
+		ACLMessage msgEnviar = new ACLMessage(perf);
+		msgEnviar.setSender(getAID());
+		msgEnviar.setLanguage(getCodec().getName());
+		msgEnviar.setOntology(getOnto().getName());
+		if(filtro != null){
+			msgEnviar.setConversationId(filtro);
+		}
+		if (reciver != null)
+			msgEnviar.addReceiver(reciver);
+
+		try {
+			getContentManager().fillContent(msgEnviar, msgContent);
+			System.out.println("$ Envio de mensaje:");
+			if(reciver != null)
+				System.out.println("| "+getAID().getName()+" manda un mensaje a "+ reciver.getName());
+			else
+				System.out.println("| "+getAID().getName()+" manda un mensaje a todos");
+			if(filtro != null)
+				System.out.println("| Conversacion: "+filtro);
+			System.out.println("| Contenido: "+msgContent);
+			System.out.println("$ Fin de mensaje\n");
+			send(msgEnviar);
+			ret = true;
+		} catch (CodecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (OntologyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	/*
+	 * Funcion que se bloquea esperando un mensaje con un determinado filtro
+	 */
+	public ACLMessage reciveBlockingMessage(String filtro){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		ret = blockingReceive(filtroIdentificador);
+		return ret;
+	}
+	
+	/*
+	 * Funcion que se bloquea esperando un mensaje de un agente espedifico con un determinado filtro
+	 */
+	public ACLMessage reciveBlockingMessageFrom(String filtro, ResumenJugador sender){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender.getIdentificador());
+		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
+		ret = blockingReceive(plantilla);
+		return ret;
+	}
+	
+	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
+	public abstract NotificarFinTurnoJugador jugarTurno(ACLMessage msg);
+
 }

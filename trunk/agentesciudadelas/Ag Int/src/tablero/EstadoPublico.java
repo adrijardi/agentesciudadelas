@@ -1,14 +1,6 @@
 package tablero;
 
-import jade.core.AID;
-
-import java.util.Random;
-
-
-import conceptos.Distrito;
-import conceptos.Jugador;
 import conceptos.Personaje;
-import jade.core.AID;
 
 public class EstadoPublico {
 

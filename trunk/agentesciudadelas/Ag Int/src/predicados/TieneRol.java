@@ -1,8 +1,8 @@
 package predicados;
 
+import jade.content.Predicate;
 import conceptos.Jugador;
 import conceptos.Personaje;
-import jade.content.Predicate;
 
 public class TieneRol implements Predicate {
 	

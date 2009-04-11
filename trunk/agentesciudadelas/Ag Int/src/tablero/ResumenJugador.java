@@ -4,6 +4,7 @@ import jade.core.AID;
 
 import java.util.LinkedList;
 import java.util.Vector;
+
 import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;

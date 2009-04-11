@@ -1,7 +1,7 @@
 package acciones;
 
-import conceptos.Personaje;
 import jade.content.AgentAction;
+import conceptos.Personaje;
 
 public class Matar implements AgentAction {
 

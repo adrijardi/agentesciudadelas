@@ -1,8 +1,8 @@
 package acciones;
 
-import conceptos.Distrito;
 import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
+import conceptos.Distrito;
 
 public class DarDistritos implements AgentAction {
 
