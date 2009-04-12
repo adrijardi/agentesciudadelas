@@ -22,7 +22,7 @@ import tablero.ResumenJugador;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
 
-import comportamientosGeneric.RecibirIniciarJugador;
+import comportamientos_jugador.RecibirIniciarJugador;
 
 import conceptos.Distrito;
 import conceptos.Jugador;
@@ -35,6 +35,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	protected int monedas = 0;
 	protected final LinkedList<Distrito> mano = new LinkedList<Distrito>();
 	protected final LinkedList<Distrito> construidas = new LinkedList<Distrito>();
+	protected AID msg_sender;
 	
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
@@ -185,7 +186,7 @@ public abstract class AgJugador extends jade.core.Agent {
 		}
 	}
 	
-	protected void printEstado(){
+	public void printEstado(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("> Soy ");
 		sb.append(getAID().getName());
@@ -206,6 +207,10 @@ public abstract class AgJugador extends jade.core.Agent {
 		}
 		sb.append("\n");
 		System.out.println(sb.toString());
+	}
+	
+	protected Distrito[] getDistritosConstruibles(){
+		return null;
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
