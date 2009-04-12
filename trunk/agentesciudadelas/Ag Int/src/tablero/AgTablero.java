@@ -143,6 +143,7 @@ public class AgTablero extends jade.core.Agent {
 	public ACLMessage reciveBlockingMessage(String filtro){
 		ACLMessage ret = null;
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		//TODO 100 milisegundos para recibir un mensaje
 		ret = blockingReceive(filtroIdentificador);
 		return ret;
 	}
@@ -156,6 +157,29 @@ public class AgTablero extends jade.core.Agent {
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender.getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		ret = blockingReceive(plantilla);
+		return ret;
+	}
+	
+	/*
+	 * Funcion que se bloquea esperando un mensaje con un determinado filtro
+	 */
+	public ACLMessage reciveBlockingMessage(String filtro, long mills){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		//TODO 100 milisegundos para recibir un mensaje
+		ret = blockingReceive(filtroIdentificador, mills);
+		return ret;
+	}
+	
+	/*
+	 * Funcion que se bloquea esperando un mensaje de un agente espedifico con un determinado filtro
+	 */
+	public ACLMessage reciveBlockingMessageFrom(String filtro, ResumenJugador sender, long mills){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender.getIdentificador());
+		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
+		ret = blockingReceive(plantilla, mills);
 		return ret;
 	}
 	

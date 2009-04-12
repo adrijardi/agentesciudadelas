@@ -44,14 +44,15 @@ public class JugarPersonaje extends Behaviour {
 			// Se añaden los comportamientos para que juege el jugador
 			LinkedList<Behaviour> llb = new LinkedList<Behaviour>();
 			/// Se añade la opcion de seleccionar cartas o dinero
-			Behaviour beh = new EleccionCartasODinero(agt);
+			Behaviour beh;
+			beh= new EleccionCartasODinero(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
-			///Se añade la opcion de construir un Distrito
-			beh = new ConstruirDistrito(agt);
+			/*///Se añade la opcion de construir un Distrito
+			//beh = new ConstruirDistrito(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
-			
+			*/
 			beh = new FinalizarTurno(agt, llb);
 			agt.addBehaviour(beh);
 

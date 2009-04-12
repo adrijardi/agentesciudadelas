@@ -21,6 +21,7 @@ import conceptos.Distrito;
 public class EleccionCartasODinero extends Behaviour {
 	
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public EleccionCartasODinero(AgTablero agTablero) {
 		agt = agTablero;
@@ -31,9 +32,11 @@ public class EleccionCartasODinero extends Behaviour {
 		EstadoPartida ep = EstadoPartida.getInstance();
 		ResumenJugador jugador = ep.getJugActual();
 		System.out.println("Esperando la accion del jugador "+jugador.getJugador().getNombre());
-		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR, jugador);
-		System.out.println("Accion recibida");
+		//ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR, jugador, 100);
+		ACLMessage msg = agt.reciveBlockingMessage(Filtros.ACCION_JUGADOR, 100);
 		if(msg!=null){
+			System.out.println("Accion recibida: "+ fin);
+			fin = true;
 			try {
 				ContentElement contenido =agt.getContentManager().extractContent(msg);
 				
@@ -79,11 +82,13 @@ public class EleccionCartasODinero extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}else{
+			System.out.println("Accion no recibida: "+fin);
 		}
 	}
 
 	@Override
 	public boolean done() {
-		return true;
+		return fin;
 	}
 }
