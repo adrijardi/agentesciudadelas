@@ -1,27 +1,17 @@
 package jugador;
 
-import jade.content.ContentElement;
-import jade.content.lang.Codec.CodecException;
-import jade.content.onto.OntologyException;
-import jade.content.onto.UngroundedException;
-import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
-import java.util.LinkedList;
 import java.util.Random;
 
-import comportamientos_jugador.ConstruirDistrito;
+import acciones.OfertarPersonajes;
+
+import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirMonedas;
 
-import utils.Filtros;
-
-import acciones.DarMonedas;
-import acciones.NotificarFinTurnoJugador;
-import acciones.ObtenerMonedas;
-import acciones.OfertarPersonajes;
 import conceptos.Distrito;
 import conceptos.Personaje;
 
@@ -48,7 +38,7 @@ public class JugadorDani extends AgJugador {
 		ret =  new FinTurno(this, msg_sender);
 		
 		// Construir distrito
-		ret = construirDistrito(ret);
+		ret = new ConstruirDistritoJugador(this, ret, msg_sender);
 		
 		// Accion jugador falta PedirCartas 
 		if(mano.size()==0){
@@ -60,14 +50,14 @@ public class JugadorDani extends AgJugador {
 		return ret;
 	}
 
-	private Behaviour construirDistrito(Behaviour entrada) {
-		Behaviour ret = entrada;
+	@Override
+	public Distrito getDistritoConstruir() {
+		Distrito ret = null;
 		Distrito[] dist = getDistritosConstruibles();
-		if(dist != null && dist.length >0){
+		if(dist != null && dist.length > 0){
 			Random r= new Random();
-			ret = new ConstruirDistrito(this, ret, msg_sender, dist[r.nextInt(dist.length)]);
+			ret = dist[r.nextInt(dist.length)];
 		}
-		
 		return ret;
 	}
 	

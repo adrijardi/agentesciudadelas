@@ -1,8 +1,6 @@
 package comportamientos_jugador;
 
-import utils.Filtros;
 import jade.core.behaviours.Behaviour;
-import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 
 public class RecibirIniciarJugador extends Behaviour {

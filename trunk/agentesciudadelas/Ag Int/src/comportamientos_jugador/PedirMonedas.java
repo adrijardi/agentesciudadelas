@@ -1,8 +1,5 @@
 package comportamientos_jugador;
 
-import utils.Filtros;
-import acciones.DarMonedas;
-import acciones.ObtenerMonedas;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -10,6 +7,9 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.DarMonedas;
+import acciones.ObtenerMonedas;
 
 public class PedirMonedas extends Behaviour {
 	
@@ -28,7 +28,7 @@ public class PedirMonedas extends Behaviour {
 		ObtenerMonedas om = new ObtenerMonedas();
 		om.setJugador(_agj.getJugador());
 		_agj.sendMSG(ACLMessage.REQUEST, raid, om, Filtros.ACCION_JUGADOR);
-		System.out.println("Mandado petición, esperando Monedas");
+		
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.DARMONEDAS, true);
 		try {
 			DarMonedas contenido =(DarMonedas) _agj.getContentManager().extractContent(msg);

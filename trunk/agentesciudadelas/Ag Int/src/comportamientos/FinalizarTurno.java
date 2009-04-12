@@ -1,12 +1,13 @@
 package comportamientos;
 
+import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
+
 import java.util.LinkedList;
 
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import utils.Filtros;
-import jade.core.behaviours.Behaviour;
-import jade.lang.acl.ACLMessage;
 
 public class FinalizarTurno extends Behaviour {
 
@@ -46,12 +47,12 @@ public class FinalizarTurno extends Behaviour {
 				break;
 	
 			case FINALIZAR_JUEGO:
+				agt.addBehaviour(new JugarPersonaje(agt));
 				break;
 	
 			case JUGAR_RONDA:
 				agt.addBehaviour(new JugarPersonaje(agt));
-				break;
-	
+				break;	
 			}
 		}
 		return fin;

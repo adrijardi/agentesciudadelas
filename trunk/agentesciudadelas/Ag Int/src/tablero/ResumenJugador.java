@@ -19,6 +19,7 @@ public class ResumenJugador {
 	private Personaje personaje;
 	private int[] colores= new int[5]; // amar, az, mar, roj, verd
 	private Vector<conceptos.Distrito> construido=new Vector<conceptos.Distrito>();
+	private int construidos;
 	
 	ResumenJugador(AID id){
 		Mazo mazo = Mazo.getInstance();
@@ -31,6 +32,7 @@ public class ResumenJugador {
 		puntos=0;
 		identificador = id;
 		for(int i=0;i<colores.length;i++) colores[i]=0;
+		construidos = 0;
 	}
 	
 	public AID getIdentificador() {
@@ -50,11 +52,11 @@ public class ResumenJugador {
 	}
 
 	public int getPuntos() {
-		return puntos;
-	}
-
-	public void setPuntos(int puntos) {
-		this.puntos = puntos;
+		int pnts = puntos;
+		for (Distrito d : construido) {
+			pnts += d.getPuntos();
+		}
+		return pnts;
 	}
 
 	public int[] getColores() {
@@ -131,10 +133,7 @@ public class ResumenJugador {
 		return construido;
 	}
 
-	public void setConstruido(Vector<conceptos.Distrito> construido) {
-		this.construido = construido;
-	}
-	
+		
 	public Personaje getPersonaje() {
 		return personaje;
 	}
@@ -182,5 +181,23 @@ public class ResumenJugador {
 	}
 	public void anyadirCartaMano(conceptos.Distrito carta){
 		cartasMano.add(carta);
+	}
+
+	public void construir(Distrito distrito) {
+		cartasMano.remove(distrito);
+		construido.add(distrito);
+		dinero -= distrito.getCoste();
+		construidos++;
+	}
+
+	public boolean puedeConstruir(Distrito distrito) {
+		boolean ret = false;
+		ret = this.cartasMano.contains(distrito);
+		ret = !this.construido.contains(distrito);
+		return ret;
+	}
+
+	public int getConstruidos() {
+		return construidos;
 	}
 }

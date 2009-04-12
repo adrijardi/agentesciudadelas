@@ -1,8 +1,5 @@
 package jugador;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import jade.content.AgentAction;
 import jade.content.lang.Codec;
 import jade.content.lang.Codec.CodecException;
@@ -17,8 +14,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.util.leap.List;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
 import onto.OntologiaCiudadelasDos;
-import tablero.ResumenJugador;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
 
@@ -210,10 +210,39 @@ public abstract class AgJugador extends jade.core.Agent {
 	}
 	
 	protected Distrito[] getDistritosConstruibles(){
-		return null;
+		LinkedList<Distrito> d = new LinkedList<Distrito>();
+		for (Distrito distrito : mano) {
+			if(distrito.getCoste() <= monedas && isNoConstruida(distrito)){
+				d.add(distrito);
+			}
+		}
+		return d.toArray(new Distrito[d.size()]);
+	}
+	
+	protected boolean isNoConstruida(Distrito distrito) {
+		boolean ret = true;
+		for (Distrito dist : construidas) {
+			if(dist.getNombre().compareTo(distrito.getNombre())==0){
+				ret = false;
+			}
+		}
+		return ret;
+	}
+	public Personaje getPj_actual() {
+		return pj_actual;
+	}
+	
+	/*
+	 * Construye un distrito
+	 */
+	public void construir(Distrito dist) {
+		mano.remove(dist);
+		construidas.add(dist);
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
 	public abstract Behaviour jugarTurno(ACLMessage msg);
+	public abstract Distrito getDistritoConstruir();
+	
 
 }

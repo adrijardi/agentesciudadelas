@@ -14,7 +14,7 @@ import conceptos.Personaje;
 public class EstadoPartida {
 	// Enumeracion de fases del juego
 	public enum EnumFase {
-		INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO;
+		INICIADA, SEL_PERSONAJES, JUGAR_RONDA, FINALIZAR_JUEGO, FIN_JUEGO;
 	}
 
 	// Fase actual
@@ -82,6 +82,14 @@ public class EstadoPartida {
 		jugLadron = null;
 		jugActual = nextJugadorPorTurnoPersonaje();
 	}
+	
+	public void terminarJuego() {
+		System.out.println("% FASE FIN JUEGO ");
+		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		for (ResumenJugador rj : resJugadores) {
+			System.out.println(rj.getJugador().getNombre()+": "+rj.getPuntos() + " pnts");
+		}
+	}
 
 	/*
 	 * Pasa el turno al siguiente personaje según el orden de los personajes y
@@ -102,6 +110,9 @@ public class EstadoPartida {
 				if (fase != EnumFase.FINALIZAR_JUEGO){
 					fase = EnumFase.SEL_PERSONAJES;
 					initFaseSeleccionPersonajes();
+				}else{
+					fase = EnumFase.FIN_JUEGO;
+					terminarJuego();
 				}
 			} else {
 				if (pjActual == Personajes.LADRON)
@@ -313,6 +324,13 @@ public class EstadoPartida {
 
 	public void setPjDisponibles(LinkedList<Personajes> pjDisponibles) {
 		this.pjDisponibles = pjDisponibles;
+	}
+
+	public void comprobarFinPartida() {
+		// TODO cambair fin a 8
+		if(fase != EnumFase.FINALIZAR_JUEGO && jugActual.getConstruidos() >= 2){
+			fase = EnumFase.FINALIZAR_JUEGO;
+		}
 	}
 
 }

@@ -1,15 +1,13 @@
 package comportamientos_jugador;
 
-import acciones.DarDistritos;
-import acciones.DarMonedas;
-import tablero.AgTablero;
-import utils.Filtros;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.DarDistritos;
 
 public class RecibirDistritos extends Behaviour {
 	

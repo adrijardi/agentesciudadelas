@@ -48,11 +48,11 @@ public class JugarPersonaje extends Behaviour {
 			beh= new EleccionCartasODinero(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
-			/*///Se añade la opcion de construir un Distrito
-			//beh = new ConstruirDistrito(agt);
+			///Se añade la opcion de construir un Distrito
+			beh = new ConstruirDistrito(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
-			*/
+			
 			beh = new FinalizarTurno(agt, llb);
 			agt.addBehaviour(beh);
 
