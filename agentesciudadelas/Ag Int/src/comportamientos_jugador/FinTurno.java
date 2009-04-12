@@ -1,11 +1,10 @@
 package comportamientos_jugador;
 
-import utils.Filtros;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
-import jugador.JugadorDani;
+import utils.Filtros;
 
 public class FinTurno extends Behaviour {
 	
@@ -28,7 +27,7 @@ public class FinTurno extends Behaviour {
 
 	@Override
 	public boolean done() {
-		//TODO _agj.addBehaviour(new ElegirPersonajeJugador(_agj));
+		_agj.addBehaviour(new ElegirPersonajeJugador(_agj));
 		return true;
 	}
 

@@ -1,12 +1,9 @@
 package comportamientos_jugador;
 
-import java.util.LinkedList;
-
-import acciones.NotificarFinTurnoJugador;
-import utils.Filtros;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
 
 public class JugarPartida extends Behaviour {
 	

@@ -6,17 +6,13 @@ import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import tablero.Mazo;
 import tablero.ResumenJugador;
 import utils.Filtros;
-import acciones.DarDistritos;
 import acciones.DarMonedas;
 import acciones.ObtenerDistritos;
 import acciones.ObtenerMonedas;
-import conceptos.Distrito;
 
 public class EleccionCartasODinero extends Behaviour {
 	
@@ -31,9 +27,8 @@ public class EleccionCartasODinero extends Behaviour {
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
 		ResumenJugador jugador = ep.getJugActual();
-		System.out.println("Esperando la accion del jugador "+jugador.getJugador().getNombre());
 		//ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR, jugador, 100);
-		ACLMessage msg = agt.reciveBlockingMessage(Filtros.ACCION_JUGADOR, 100);
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR,jugador, 100);
 		if(msg!=null){
 			System.out.println("Accion recibida: "+ fin);
 			fin = true;
