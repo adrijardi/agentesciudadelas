@@ -5,6 +5,8 @@ import jade.core.AID;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import utils.TipoDistrito;
+
 import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
@@ -53,10 +55,41 @@ public class ResumenJugador {
 
 	public int getPuntos() {
 		int pnts = puntos;
+		pnts += EstadoPartida.getInstance().getPnts8dist();
+		if(construidos5Colores())
+			pnts += 3;
 		for (Distrito d : construido) {
 			pnts += d.getPuntos();
 		}
 		return pnts;
+	}
+	
+	public boolean construidos5Colores(){
+		String color;
+		boolean azul, rojo, amarillo, morado, verde;
+		azul = rojo = amarillo = morado = verde = false;
+		for (Distrito d : construido) {
+			switch (TipoDistrito.getByColor(d.getColor())) {
+			case COMERCIAL:
+				verde = true;
+				break;
+			case MARAVILLA:
+				morado = true;
+				break;
+			case MILITAR:
+				rojo = true;
+				break;
+			case NOBLE:
+				amarillo = true;
+				break;
+			case RELIGIOSO:
+				azul = true;
+				break;
+			}
+		}
+		
+		
+		return azul && rojo && amarillo && morado && verde;
 	}
 
 	public int[] getColores() {
