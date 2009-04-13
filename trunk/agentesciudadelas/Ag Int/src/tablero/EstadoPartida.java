@@ -29,7 +29,9 @@ public class EstadoPartida {
 	private Personajes pjActual;
 	// Determina el turno
 	private int turno = 0;
-
+	// Determina los puntos del el jugador que construya los 8 distritos;
+	private int pnts8dist = 4;
+	// Indica quien tiene la corona
 	private ResumenJugador tieneCorona;
 
 	// cada jugador un agente, sin complicaciones el 0 es el ag0, el 1 es el
@@ -82,12 +84,13 @@ public class EstadoPartida {
 		jugLadron = null;
 		jugActual = nextJugadorPorTurnoPersonaje();
 	}
-	
+
 	public void terminarJuego() {
 		System.out.println("% FASE FIN JUEGO ");
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		for (ResumenJugador rj : resJugadores) {
-			System.out.println(rj.getJugador().getNombre()+": "+rj.getPuntos() + " pnts");
+			System.out.println(rj.getJugador().getNombre() + ": "
+					+ rj.getPuntos() + " pnts - Cartas construidas: " + rj.getConstruidos()+" - 5 Colores: "+rj.construidos5Colores());
 		}
 	}
 
@@ -100,17 +103,17 @@ public class EstadoPartida {
 		if (fase == EnumFase.JUGAR_RONDA || fase == EnumFase.FINALIZAR_JUEGO) {
 			do {
 				pjActual = pjActual.next();
-				if (pjActual != null){
+				if (pjActual != null) {
 					ret = getJugadorDesdePersonaje(pjActual.getPj());
 					jugActual = ret;
 				}
 			} while (ret == null && pjActual != null);
 
 			if (pjActual == null) {
-				if (fase != EnumFase.FINALIZAR_JUEGO){
+				if (fase != EnumFase.FINALIZAR_JUEGO) {
 					fase = EnumFase.SEL_PERSONAJES;
 					initFaseSeleccionPersonajes();
-				}else{
+				} else {
 					fase = EnumFase.FIN_JUEGO;
 					terminarJuego();
 				}
@@ -229,7 +232,6 @@ public class EstadoPartida {
 			if (rj.getIdentificador().equals(aid))
 				ret = rj;
 		}
-
 		return ret;
 	}
 
@@ -278,14 +280,13 @@ public class EstadoPartida {
 		this.nombreRobado = nombreRobado;
 	}
 
-
 	/*
 	 * Devuelve un ResumenJugador a partir del personaje especificado Si no
 	 * existe ningún jugador con este personaje devuelve null
 	 */
 	private ResumenJugador getJugadorDesdePersonaje(Personaje personaje) {
 		for (ResumenJugador rj : resJugadores) {
-			if(rj.getPersonaje().compareTo(personaje) == 0)
+			if (rj.getPersonaje().compareTo(personaje) == 0)
 				return rj;
 		}
 		return null;
@@ -308,15 +309,15 @@ public class EstadoPartida {
 	}
 
 	public Personaje[] getPjDisponibles() {
-		Personaje [] pjs = new Personaje[pjDisponibles.size()];
+		Personaje[] pjs = new Personaje[pjDisponibles.size()];
 		int i = 0;
 		for (Personajes personaje : pjDisponibles) {
 			pjs[i++] = personaje.getPj();
 		}
 		return pjs;
 	}
-	
-	public boolean removePersonajeFromPjDisponibles(Personaje pj){
+
+	public boolean removePersonajeFromPjDisponibles(Personaje pj) {
 		boolean ret = false;
 		pjDisponibles.remove(Personajes.getPersonajeByPJ(pj));
 		return ret;
@@ -328,9 +329,18 @@ public class EstadoPartida {
 
 	public void comprobarFinPartida() {
 		// TODO cambair fin a 8
-		if(fase != EnumFase.FINALIZAR_JUEGO && jugActual.getConstruidos() >= 2){
+		if (fase != EnumFase.FINALIZAR_JUEGO && jugActual.getConstruidos() >= 8) {
 			fase = EnumFase.FINALIZAR_JUEGO;
 		}
+	}
+	
+	/*
+	 * Funcion para obtener los puntos que se lleva el jugador que construye 8 distritos
+	 */
+	public int getPnts8dist() {
+		int ret = pnts8dist;
+		pnts8dist = 2;
+		return ret;
 	}
 
 }

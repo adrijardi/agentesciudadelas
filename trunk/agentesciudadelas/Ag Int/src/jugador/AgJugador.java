@@ -240,9 +240,25 @@ public abstract class AgJugador extends jade.core.Agent {
 		construidas.add(dist);
 	}
 	
+	
+	/*
+	 * Indica el número de cartas que se pudeden construir
+	 */
+	protected int cartasManoNoConstruidas(){
+		int distintos = 0;
+		for (Distrito distrito : mano) {
+			if(isNoConstruida(distrito)){
+				distintos++;
+			}
+		}
+		return distintos;
+	}
+	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
 	public abstract Behaviour jugarTurno(ACLMessage msg);
 	public abstract Distrito getDistritoConstruir();
+	public abstract Distrito[] descartaDistritos(List distritos);
+	public abstract boolean seleccionarMonedasOCartas();
 	
 
 }

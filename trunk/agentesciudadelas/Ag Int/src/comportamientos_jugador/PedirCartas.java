@@ -1,7 +1,15 @@
 package comportamientos_jugador;
 
+import conceptos.Distrito;
+import utils.Filtros;
+import acciones.DarDistritos;
+import acciones.ObtenerDistritos;
+import jade.content.lang.Codec.CodecException;
+import jade.content.onto.OntologyException;
+import jade.content.onto.UngroundedException;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
+import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 
 public class PedirCartas extends Behaviour {
@@ -18,14 +26,22 @@ public class PedirCartas extends Behaviour {
 
 	@Override
 	public void action() {
-		/*ObtenerMonedas om = new ObtenerMonedas();
-		om.setJugador(_agj.getJugador());
-		_agj.sendMSG(ACLMessage.REQUEST, raid, om, Filtros.ACCION_JUGADOR);
-		System.out.println("Mandado petición, esperando Monedas");
-		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.DARMONEDAS, true);
+		ObtenerDistritos od = new ObtenerDistritos();
+		od.setJugador(_agj.getJugador());
+		_agj.sendMSG(ACLMessage.REQUEST, raid, od, Filtros.ACCION_JUGADOR);
+		
+		// Se espera a que se reciban los distritos para seleccionar
+		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.DARDISTRITOS, true);
+		
 		try {
-			DarMonedas contenido =(DarMonedas) _agj.getContentManager().extractContent(msg);
-			_agj.addMonedas(contenido.getMonedas().intValue());
+			DarDistritos contenido =(DarDistritos) _agj.getContentManager().extractContent(msg);
+			Distrito[] descartados = _agj.descartaDistritos(contenido.getDistritos());
+			
+			// Se envia la respuesta con los descartados
+			DarDistritos response = new DarDistritos();
+			response.setDistritos(descartados);
+			_agj.sendMSG(ACLMessage.INFORM, raid, response, Filtros.DARDISTRITOS);
+			
 		} catch (UngroundedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,7 +51,7 @@ public class PedirCartas extends Behaviour {
 		} catch (OntologyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	}
 
 	@Override

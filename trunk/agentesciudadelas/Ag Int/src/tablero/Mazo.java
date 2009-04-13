@@ -116,4 +116,12 @@ public class Mazo {
 			System.out.println(d.getNombre());
 		}
 	}
+
+	public Distrito[] getDistritos(int i) {
+		Distrito[] ret = new Distrito[i];
+		for (int j = 0; j < ret.length; j++) {
+			ret[j] = getDistrito();
+		}
+		return ret;
+	}
 }

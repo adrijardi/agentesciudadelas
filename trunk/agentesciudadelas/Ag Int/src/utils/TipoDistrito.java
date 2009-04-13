@@ -23,4 +23,14 @@ public enum TipoDistrito {
 	public String getColor() {
 		return color;
 	}
+
+	public static TipoDistrito getByColor(String color2) {
+		TipoDistrito[] distritos = values();
+		TipoDistrito dist = NULL;
+		for (int i = 0; i < distritos.length; i++) {
+			if(distritos[i].getColor().compareTo(color2)==0)
+				dist = distritos[i];
+		}
+		return dist;
+	}
 }
