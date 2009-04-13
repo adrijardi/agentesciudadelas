@@ -57,6 +57,32 @@ public class JugarPersonaje extends Behaviour {
 			agt.addBehaviour(beh);
 
 			// TODO falta añadir el comportamiento de cada personaje
+			switch (Personajes.getPersonajeByPJ(jugador.getPersonaje())) {
+			case ASESINO:
+				
+				break;
+			case LADRON:
+				
+				break;	
+			case MAGO:
+				
+				break;
+			case REY:
+				
+				break;
+			case OBISPO:
+				
+				break;
+			case MERCADER:
+				
+				break;
+			case ARQUITECTO:
+				
+				break;
+			case CONDOTIERO:
+				
+				break;
+			}
 			
 			// Notifica el turno a un jugador
 			NotificarTurno msgNotificar = new NotificarTurno();
