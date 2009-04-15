@@ -257,6 +257,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
 	public abstract Behaviour jugarTurno(ACLMessage msg);
 	public abstract Distrito getDistritoConstruir();
+	public abstract Personaje getPersonajeMatar();
 	public abstract Distrito[] descartaDistritos(List distritos);
 	public abstract boolean seleccionarMonedasOCartas();
 	
