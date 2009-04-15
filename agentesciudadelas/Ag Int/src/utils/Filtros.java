@@ -29,6 +29,8 @@ public class Filtros {
 	
 	public static final String DESTRUIRDISTRITO = "DestruirDistrito";
 	
+	public static final String NOTIFICARDESTRUIRDISTRITO = "NotificarDestruirDestruirDistrito";
+	
 	public static final String ELEGIRPERSONAJE = "ElegirPersonaje";
 	
 	public static final String NOTIFICARCORONA = "NotificarCorona";
@@ -56,4 +58,8 @@ public class Filtros {
 	public static final String  NOTIFICARASESINADO = "NotificarAsesinado";
 	
 	public static final String NOTIFICARTURNO = "NotificarTurno";
+	
+	public static final String PEDIRRESUMENESJUGADORES = "PedirResumenesJugadores";
+	
+	public static final String DARRESUMENESJUGADORES = "DarResumenesJugadores";
 }

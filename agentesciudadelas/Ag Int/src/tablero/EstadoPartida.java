@@ -234,6 +234,20 @@ public class EstadoPartida {
 		}
 		return ret;
 	}
+	
+	/*
+	 * Obtiene el ResumenJugador que corresponde a un Jugador.getName()
+	 * Del AID se limpia todo lo q hay despues del @ 
+	 * no probado
+	 */
+	public ResumenJugador getResumenJugador(Jugador j) {
+		ResumenJugador ret = null;
+		for (ResumenJugador rj : resJugadores) {
+			if (rj.getIdentificador().toString().compareToIgnoreCase(j.toString())==0)
+				ret = rj;
+		}
+		return ret;
+	}
 
 	/*
 	 * Se selecciona un jugador para la corona
@@ -343,4 +357,14 @@ public class EstadoPartida {
 		return ret;
 	}
 
+	/*
+	 * devuelve un resumen de todos los jugadores
+	 */
+	public ResumenJugador[] getResumenJugadores(){
+		ResumenJugador[] rj=new ResumenJugador[4];
+		for(int i=0;i<this.resJugadores.size();i++){
+			rj[i]=resJugadores.get(i);
+		}
+		return rj;
+	}
 }

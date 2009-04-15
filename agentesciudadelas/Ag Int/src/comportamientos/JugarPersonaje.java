@@ -53,6 +53,10 @@ public class JugarPersonaje extends Behaviour {
 			agt.addBehaviour(beh);
 			llb.add(beh);
 			
+			beh = new DestruirDistritoCondotiero(agt);
+			agt.addBehaviour(beh);
+			llb.add(beh);
+			
 			beh = new FinalizarTurno(agt, llb);
 			agt.addBehaviour(beh);
 

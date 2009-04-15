@@ -17,6 +17,7 @@ import acciones.CobrarPorDistritos;
 import acciones.CobrarPorMercader;
 import acciones.DarDistritos;
 import acciones.DarMonedas;
+import acciones.DecirEstado;
 import acciones.DestruirDistrito;
 import acciones.ElegirPersonaje;
 import acciones.Matar;
@@ -31,6 +32,7 @@ import acciones.ObtenerMonedas;
 import acciones.OfertarPersonajes;
 import acciones.PagarDistrito;
 import acciones.PedirConstruirDistrito;
+import acciones.PedirDistritoJugadores;
 import acciones.PedirDistritosArquitecto;
 import acciones.Robar;
 import acciones.SustituirMano;
@@ -161,6 +163,17 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String  NOTIFICARASESINADO = "NotificarAsesinado";
 	public static final String  NOTIFICARASESINADO_PERSONAJE = "personaje";
 	
+	public static final String  DECIRESTADO = "DecirEstado";
+	public static final String  DECIRESTADO_JUGADOR = "jugador";
+	
+	public static final String PEDIRDISTRIROJUGADORES = "PedirDistritoJugadores";
+	public static final String PEDIRDISTRIROJUGADORES_JUGADOR1 = "jugador1";
+	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS1 = "distritos1";
+	public static final String PEDIRDISTRIROJUGADORES_JUGADOR2 = "jugador2";
+	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS2 = "distritos2";
+	public static final String PEDIRDISTRIROJUGADORES_JUGADOR3 = "jugador3";
+	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS3 = "distritos3";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelasDos() {
@@ -203,6 +216,8 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(ROBAR), Robar.class);
 			add(new AgentActionSchema(MATAR), Matar.class);
 			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
+			add(new AgentActionSchema(DECIRESTADO), DecirEstado.class);
+			add(new AgentActionSchema(PEDIRDISTRIROJUGADORES), PedirDistritoJugadores.class);
 			
 
 			// Estructura del esquema para el concepto DISTRITO
@@ -332,6 +347,17 @@ public class OntologiaCiudadelasDos extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARASESINADO);
 			as.add(NOTIFICARASESINADO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			
+			as = (AgentActionSchema) getSchema(DECIRESTADO);
+			as.add(DECIRESTADO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			
+			as = (AgentActionSchema) getSchema(PEDIRDISTRIROJUGADORES);
+			as.add(PEDIRDISTRIROJUGADORES_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS1, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(PEDIRDISTRIROJUGADORES_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS2, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(PEDIRDISTRIROJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
