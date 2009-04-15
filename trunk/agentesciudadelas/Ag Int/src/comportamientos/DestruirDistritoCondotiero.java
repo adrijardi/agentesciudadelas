@@ -1,5 +1,9 @@
 package comportamientos;
 
+import java.util.Iterator;
+import java.util.Vector;
+
+import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -8,40 +12,82 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import tablero.Mazo;
 import tablero.ResumenJugador;
+import utils.Filtros;
+import acciones.DarDistritos;
+import acciones.DarMonedas;
+import acciones.DecirEstado;
 import acciones.DestruirDistrito;
+import acciones.ObtenerDistritos;
+import acciones.ObtenerMonedas;
+import acciones.PedirDistritoJugadores;
 import conceptos.Distrito;
 import conceptos.Jugador;
 
 public class DestruirDistritoCondotiero extends Behaviour {
 
 	private final AgTablero agt;
-
+	private boolean fin = false;
+	
 	public DestruirDistritoCondotiero(AgTablero agTablero) {
 		agt = agTablero;
 	}
 
 	@Override
 	public void action() {
-		block();
-		/*
-		 * a la espera de q llege un mensaje del agente pidiendo construir el
-		 * distrito
-		 */
-
 		EstadoPartida ep = EstadoPartida.getInstance();
-
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().DESTRUIRDISTRITO);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.receive(plantilla);
-		if (msg != null) {
-			/* Se obtiene el jugador objetivo, el distrito */
-
-			DestruirDistrito contenido = null;
+		ResumenJugador jugador = ep.getJugActual();
+		//ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.ACCION_JUGADOR, jugador, 100);
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.PEDIRRESUMENESJUGADORES,jugador, 100);
+		if(msg!=null){
+			System.out.println("Accion recibida: "+ fin);
+			fin = true;
 			try {
-				contenido = (DestruirDistrito) myAgent.getContentManager()
-						.extractContent(msg);
+				ContentElement contenido =agt.getContentManager().extractContent(msg);
+				
+				//decir estado me dice quien es el agente q lo pide, y es del q no voy a enviar informacion
+				if(contenido instanceof DecirEstado){
+					
+					PedirDistritoJugadores pdj=new PedirDistritoJugadores();
+					//se obtiene la informacion de los demas jugadores
+					ResumenJugador[] res=ep.getResumenJugadores();
+					int valores=0;
+					for(int i=0;i<res.length;i++){
+						if(res[i].getJugador().getNombre().compareToIgnoreCase(ep.getJugActual().getJugador().getNombre())!=0){
+							//si no soy yo doy valores
+							valores++;
+							darValorPDJ(pdj, res, valores, i);
+						}
+					}
+					
+					// Se le mandan los distritos al jugador
+					// preparar lo que se da
+					agt.sendMSG(ACLMessage.REQUEST, jugador, pdj, Filtros.DARRESUMENESJUGADORES);
+					
+					//siempre recibo un mensaje, si el pago es negativo es q no va a destruir nada
+					ACLMessage msg2 = agt.reciveBlockingMessageFrom(Filtros.DESTRUIRDISTRITO, jugador);
+	
+					if(msg2!=null){
+						DestruirDistrito dd=(DestruirDistrito)agt.getContentManager().extractContent(msg2);
+						int p=dd.getPago();
+System.out.println("Entra en la recepcion del mensaje del Condotiero");
+						if(p>=0){
+System.out.println("Entra en la destruccion del distrito");
+							Jugador j=dd.getJugador();
+							Distrito d=dd.getDistrito();
+							ep.getResumenJugador(j).quitarDistrito(d);
+							ep.getJugActual().setDinero(ep.getJugActual().getDinero()-p);
+							/*
+							 * notificar al jugador que le han quitado un distrito
+							 * 
+							 * ¿Y SI QUIERO Q SEA A TODOS?
+							 */
+							agt.sendMSG(ACLMessage.INFORM, ep.getResumenJugador(j), dd, Filtros.NOTIFICARDESTRUIRDISTRITO);
+						}
+					}
+				}
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,56 +98,48 @@ public class DestruirDistritoCondotiero extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			/* Se realizan las comprobaciones de la operación */
-			Jugador jObjetivo = contenido.getJugador();
-			Distrito distrito = contenido.getDistrito();
-			int dinero = (Integer) contenido.getPago();
-			if ((distrito.getCoste() - 1) != dinero) {
-				System.out.println("Fallo, ese no es el dinero que necesitas para destuir el distrito.");
-
-				if (ep.tieneDistrito(jObjetivo, distrito)) {
-					ResumenJugador datosJugadorActual = ep.getResJugadorActual();
-					if (distrito.getCoste() - 1 <= datosJugadorActual.getDinero()) {
-						/*
-						 * El jugador objetivo tiene el distrito y el jugador
-						 * actual tiene dinero para pagar la destrucción
-						 */
-
-						// Se indica a todos los jagadores la acción
-						// TODO imprementar
-						// Se retira el dinero del jugador actual
-						datosJugadorActual.setDinero(datosJugadorActual.getDinero()	- distrito.getCoste() - 1);
-
-						// Se retira el distrito del jugador objetivo
-						ResumenJugador datosContrario = ep.getResumenJugador(jObjetivo.getNombre());
-						datosContrario.quitarDistrito(distrito);
-					}
-					datosJugadorActual.setDinero(datosJugadorActual.getDinero()	- dinero);
-					// enviar informacion de la destruccion del distrito
-
-					ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-					msgEnviar.setSender(agt.getAID());
-					msgEnviar.setOntology(agt.getOnto().DESTRUIRDISTRITO);
-					try {
-						myAgent.getContentManager().fillContent(msgEnviar, contenido);
-						myAgent.send(msgEnviar);
-					} catch (CodecException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (OntologyException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} // contenido es el objeto que envia
-				}
-			}
+		}else{
+			System.out.println("Accion no recibida: "+fin);
 		}
+		
+		
+	}
+
+	private void darValorPDJ(PedirDistritoJugadores pdj, ResumenJugador[] res,
+			int valores, int i) {
+		Vector<Distrito> d=new Vector<Distrito>();
+		switch (valores) {
+		case 1:
+			pdj.setJugador1(res[i].getJugador());
+			pdj.setDistritos1(obtenerDistritos(res, i));
+			break;
+		case 2:
+			pdj.setJugador2(res[i].getJugador());
+			pdj.setDistritos2(obtenerDistritos(res, i));
+			break;
+		case 3:
+			pdj.setJugador3(res[i].getJugador());
+			pdj.setDistritos3(obtenerDistritos(res, i));
+			break;
+		default:
+			break;
+		}
+	}
+
+	private Distrito[] obtenerDistritos(ResumenJugador[] res, int i) {
+		Vector<Distrito> d;
+		d=res[i].getConstruido();
+		Distrito[] dis=new Distrito[d.size()];
+		for(int j=0;j<dis.length;j++){
+			dis[j]=d.get(j);
+		}
+		return dis;
 	}
 
 	@Override
 	public boolean done() {
 		// TODO Auto-generated method stub
-		return true;
+		return fin;
 	}
 
 }
