@@ -92,12 +92,21 @@ public class ResumenJugador {
 		return azul && rojo && amarillo && morado && verde;
 	}
 
-	public int[] getColores() {
-		return colores;
-	}
-
-	public void setColores(int[] colores) {
-		this.colores = colores;
+	public int getNumCartasColor(TipoDistrito tipo) {
+		switch (tipo) {
+		case NOBLE:
+			return colores[0];
+		case RELIGIOSO:
+			return colores[1];
+		case  MARAVILLA:
+			return colores[2];
+		case MILITAR:
+			return colores[3];
+		case COMERCIAL:
+			return colores[4];
+		default:
+			return -1;
+		}
 	}
 	
 	public int aniadirDistrito(conceptos.Distrito carta){
