@@ -53,9 +53,16 @@ public class JugarPersonaje extends Behaviour {
 			agt.addBehaviour(beh);
 			llb.add(beh);
 			
+			// TODO solo si es condotiero, no?
 			beh = new DestruirDistritoCondotiero(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
+			
+			if(ep.getJugActual().getPersonaje() == Personajes.ASESINO.getPj()){
+				beh = new HabilidadAsesino(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
+			}
 			
 			beh = new FinalizarTurno(agt, llb);
 			agt.addBehaviour(beh);

@@ -1,14 +1,14 @@
 package comportamientos;
 
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import tablero.ResumenJugador;
+import utils.Filtros;
 import acciones.Matar;
 import conceptos.Personaje;
 
@@ -23,19 +23,24 @@ public class HabilidadAsesino extends Behaviour {
 	@Override
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
-		block();
-		/*
-		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
-		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().MATAR);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.receive(plantilla);
+		ResumenJugador jugador = ep.getJugActual();
+		
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.MATAR,jugador, 100);
+
 		if(msg!=null){
-			
-			ContentElement contenido = null;
 			try {
-				contenido=myAgent.getContentManager().extractContent(msg);
+				Matar contenido = (Matar)myAgent.getContentManager().extractContent(msg);
+				
+				// tengo el mensaje y su contenido, ahora a actualizar el estado actual
+				
+				Personaje personajeAsesinado = contenido.getPersonaje();
+				ep.setNombreMuerto(personajeAsesinado);
+				
+				/* se ha cambiado el estado interno de la partida
+				 * ahora se envia a todo el mundo el mensaje diciendo q personaje esta muerto, el contenido es el mismo que el del mensaje que hemos recibido
+				 */
+				agt.sendMSG(ACLMessage.REQUEST, jugador, contenido, Filtros.DARDISTRITOS);
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -46,29 +51,7 @@ public class HabilidadAsesino extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// tengo el mensaje y su contenido, ahora a actualizar el estado actual
-			
-			Matar mt=(Matar)contenido;
-			Personaje pr=mt.getPersonaje();
-			
-			ep.setNombreMuerto(pr.getNombre());
-			/* se ha cambiado el estado interno de la partida
-			 * ahora se envia a todo el mundo el mensaje diciendo q personaje esta muerto, el contenido es el mismo que el del mensaje que hemos recibido
-			 */
-			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology(agt.getOnto().NOTIFICARASESINADO);
-			try {
-				myAgent.getContentManager().fillContent(msgEnviar, mt);
-				myAgent.send(msgEnviar);
-			} catch (CodecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (OntologyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // contenido es el objeto que envia
 		}
-		
 	}
 
 	@Override
