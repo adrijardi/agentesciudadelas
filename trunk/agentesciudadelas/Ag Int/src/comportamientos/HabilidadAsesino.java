@@ -39,6 +39,7 @@ public class HabilidadAsesino extends Behaviour {
 				/* se ha cambiado el estado interno de la partida
 				 * ahora se envia a todo el mundo el mensaje diciendo q personaje esta muerto, el contenido es el mismo que el del mensaje que hemos recibido
 				 */
+				//TODO a todos
 				agt.sendMSG(ACLMessage.REQUEST, jugador, contenido, Filtros.DARDISTRITOS);
 				
 			} catch (UngroundedException e) {
