@@ -52,24 +52,16 @@ public class JugarPersonaje extends Behaviour {
 			beh = new ConstruirDistrito(agt);
 			agt.addBehaviour(beh);
 			llb.add(beh);
-			
-			// TODO solo si es condotiero, no?
-			beh = new DestruirDistritoCondotiero(agt);
-			agt.addBehaviour(beh);
-			llb.add(beh);
-			
-			if(ep.getJugActual().getPersonaje() == Personajes.ASESINO.getPj()){
-				beh = new HabilidadAsesino(agt);
-				agt.addBehaviour(beh);
-				llb.add(beh);
-			}
-			
+
 			beh = new FinalizarTurno(agt, llb);
 			agt.addBehaviour(beh);
 
 			// TODO falta añadir el comportamiento de cada personaje
 			switch (Personajes.getPersonajeByPJ(jugador.getPersonaje())) {
 			case ASESINO:
+				beh = new HabilidadAsesino(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;
 			case LADRON:
@@ -91,6 +83,9 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;
 			case CONDOTIERO:
+				beh = new DestruirDistritoCondotiero(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;
 			}
