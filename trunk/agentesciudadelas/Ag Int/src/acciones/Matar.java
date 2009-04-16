@@ -14,5 +14,13 @@ public class Matar implements AgentAction {
 	public void setPersonaje(Personaje personaje) {
 		this.personaje = personaje;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Matar: ");
+		sb.append(personaje);
+		return sb.toString();
+	}
 
 }
