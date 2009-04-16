@@ -31,7 +31,7 @@ public class CobrarMercader extends Behaviour {
 		EstadoPartida ep = EstadoPartida.getInstance();
 		ResumenJugador jugador = ep.getJugActual();
 		
-		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSCONDOTIERRO,jugador, 100);
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSMERCADER,jugador, 100);
 		
 		if(msg!=null){
 			try {
