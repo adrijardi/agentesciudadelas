@@ -17,6 +17,7 @@ public class JugarPersonaje extends Behaviour {
 
 	private final AgTablero agt;
 	private EstadoPartida ep = EstadoPartida.getInstance();
+	private boolean muerto;
 
 	public JugarPersonaje(AgTablero agTablero) {
 		agt = agTablero;
@@ -38,7 +39,7 @@ public class JugarPersonaje extends Behaviour {
 
 		// Se comprueba que no este muerto, si lo esta no se le envia el turno
 		if (!jugador.equals(ep.getNombreMuerto())) {
-
+			muerto = false;
 			// Se añaden los comportamientos para que juege el jugador
 			LinkedList<Behaviour> llb = new LinkedList<Behaviour>();
 			/// Se añade la opcion de seleccionar cartas o dinero
@@ -108,13 +109,32 @@ public class JugarPersonaje extends Behaviour {
 			msgNotificar.setPersonaje(jugador.getPersonaje());
 
 			agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
-		}
-		else
+		
+		}else{
 			System.out.println("Jugador "+jugador.getJugador().getNombre()+" muerto");
+			muerto = true;
+		}
 	}
 
 	@Override
 	public boolean done() {
+		if(muerto){
+			ep.nextJugadorPorTurnoPersonaje();
+		
+			switch (ep.getFase()) {
+			case SEL_PERSONAJES:
+				agt.addBehaviour(new NotificarDescartado(agt));
+				break;
+	
+			case FINALIZAR_JUEGO:
+				agt.addBehaviour(new JugarPersonaje(agt));
+				break;
+	
+			case JUGAR_RONDA:
+				agt.addBehaviour(new JugarPersonaje(agt));
+				break;	
+			}
+		}
 		return true;
 	}
 
