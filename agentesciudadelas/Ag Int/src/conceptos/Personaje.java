@@ -36,5 +36,10 @@ public class Personaje implements Concept, Comparable<Personaje> {
 				return true;
 		return super.equals(obj);
 	}
+	
+	@Override
+	public String toString() {
+		return nombre;
+	}
 
 }
