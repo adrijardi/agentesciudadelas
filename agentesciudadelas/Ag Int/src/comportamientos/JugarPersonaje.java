@@ -109,6 +109,8 @@ public class JugarPersonaje extends Behaviour {
 
 			agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 		}
+		else
+			System.out.println("Jugador "+jugador.getJugador().getNombre()+" muerto");
 	}
 
 	@Override
