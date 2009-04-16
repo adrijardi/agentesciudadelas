@@ -9,7 +9,11 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
+import tablero.ResumenJugador;
+import utils.Filtros;
+import utils.TipoDistrito;
 import acciones.CobrarDistritosCondotierro;
+import acciones.CobrarDistritosRey;
 import acciones.CobrarPorDistritos;
 import conceptos.Jugador;
 
@@ -27,19 +31,28 @@ public class CobrarCondotierro extends Behaviour {
 	@Override
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
-		block();
-		/*
-		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
-		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().COBRARDISTRITOSCONDOTIERRO);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		ACLMessage msg = myAgent.receive(plantilla);
+		ResumenJugador jugador = ep.getJugActual();
+		
+		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSCONDOTIERRO,jugador, 100);
+		
 		if(msg!=null){
-			
-			ContentElement contenido = null;
 			try {
-				contenido=myAgent.getContentManager().extractContent(msg);
+				CobrarDistritosCondotierro contenido = (CobrarDistritosCondotierro)myAgent.getContentManager().extractContent(msg);
+				
+				// tengo el mensaje y su contenido, ahora a actualizar el estado actual
+				
+				Jugador jg=contenido.getJugador();
+
+				CobrarPorDistritos cb=new CobrarPorDistritos();
+				cb.setJugador(jg);
+				int numCartasMilitares = ep.getJugActual().getNumCartasColor(TipoDistrito.MILITAR);
+				cb.setCantidad(numCartasMilitares);
+				
+				ep.getJugActual().setDinero(ep.getJugActual().getDinero()+numCartasMilitares);
+
+				//TODO a todos
+				agt.sendMSG(ACLMessage.REQUEST, jugador, contenido, Filtros.COBRARPORDISTRITOS);
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -50,38 +63,7 @@ public class CobrarCondotierro extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// tengo el mensaje y su contenido, ahora a actualizar el estado actual
-			
-			CobrarDistritosCondotierro mt=(CobrarDistritosCondotierro)contenido;
-			Jugador jg=mt.getJugador();
-			
-
-			CobrarPorDistritos cb=new CobrarPorDistritos();
-			cb.setJugador(jg);
-			int monedas=ep.getResJugadorActual().getColores()[0];
-			cb.setCantidad(monedas);
-			ep.getResJugadorActual().setDinero(ep.getResJugadorActual().getDinero()+monedas);
-
-			/*
-			 * asi puesto son los propios agentes quienes tienen q comprobar que no es un mensaje para ellos, 
-			 * eso se hace comparando su jugador con el que enviamos
-			 * 
-			 */
-			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology(agt.getOnto().COBRARPORDISTRITOS);
-			msg.setSender(agt.getAID());
-			try {
-				myAgent.getContentManager().fillContent(msgEnviar, cb);
-				myAgent.send(msgEnviar);
-			} catch (CodecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (OntologyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // contenido es el objeto que envia
 		}
-		
 	}
 
 	@Override
