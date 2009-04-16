@@ -26,7 +26,7 @@ import acciones.NotificarCorona;
 import acciones.NotificarDescartados;
 import acciones.NotificarFinTurnoJugador;
 import acciones.NotificarRobado;
-import acciones.NotificarTurno;
+import acciones.DarTurno;
 import acciones.ObtenerDistritos;
 import acciones.ObtenerMonedas;
 import acciones.OfertarPersonajes;
@@ -119,9 +119,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 	public static final String NOTIFICARCORONA = "NotificarCorona";
 	public static final String NOTIFICARCORONA_JUGADOR = "jugador";
 	
-	public static final String NOTIFICARTURNO = "NotificarTurno";
-	public static final String NOTIFICARTURNO_PERSONAJE = "personaje";
-	public static final String NOTIFICARTURNO_JUGADOR = "jugador";
+	public static final String DARTURNO = "DarTurno";
+	public static final String DARTURNO_JUGADOR = "jugador";
+	public static final String DARTURNO_MUERTO = "muerto";
+	public static final String DARTURNO_ROBADO = "robado";
 	
 	public static final String NOTIFICARFINTURNOJUGADOR = "NotificarFinTurnoJugador";
 	public static final String NOTIFICARFINTURNOJUGADOR_PERSONAJE = "personaje";
@@ -202,7 +203,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 			add(new AgentActionSchema(DESTRUIRDISTRITO), DestruirDistrito.class);
 			add(new AgentActionSchema(ELEGIRPERSONAJE), ElegirPersonaje.class);
 			add(new AgentActionSchema(NOTIFICARCORONA), NotificarCorona.class);
-			add(new AgentActionSchema(NOTIFICARTURNO), NotificarTurno.class);
+			add(new AgentActionSchema(DARTURNO), DarTurno.class);
 			add(new AgentActionSchema(NOTIFICARFINTURNOJUGADOR), NotificarFinTurnoJugador.class);
 			add(new AgentActionSchema(PAGARDISTRITO), PagarDistrito.class);
 			add(new AgentActionSchema(PEDIRCONSTRUIRDISTRITO), PedirConstruirDistrito.class);
@@ -259,9 +260,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 			as = (AgentActionSchema) getSchema(NOTIFICARCORONA);
 			as.add(NOTIFICARCORONA_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			
-			as = (AgentActionSchema) getSchema(NOTIFICARTURNO);
-			as.add(NOTIFICARTURNO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
-			as.add(NOTIFICARTURNO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			as = (AgentActionSchema) getSchema(DARTURNO);
+			as.add(DARTURNO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			as.add(DARTURNO_MUERTO, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
+			as.add(DARTURNO_ROBADO, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARFINTURNOJUGADOR);
 			as.add(NOTIFICARFINTURNOJUGADOR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));

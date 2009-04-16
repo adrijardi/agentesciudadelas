@@ -1,5 +1,9 @@
 package comportamientos_jugador;
 
+import acciones.DarTurno;
+import jade.content.lang.Codec.CodecException;
+import jade.content.onto.OntologyException;
+import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
@@ -18,8 +22,30 @@ public class JugarPartida extends Behaviour {
 		//Se espera a que el tablero nos entrege el turno
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARTURNO, false);
 		
-		//Se realizan las acciones definidas por el agente
-		_agj.addBehaviour(_agj.jugarTurno(msg));
+		if(msg != null){
+			try {
+				DarTurno msgTurno = (DarTurno) _agj.getContentManager().extractContent(msg);
+				
+				if(!msgTurno.getMuerto()){
+					//Se realizan las acciones definidas por el agente
+					_agj.addBehaviour(_agj.jugarTurno(msg));
+				}else{
+					// Si estás muerto vuelves a esperar la siguiente elección de jugador
+					_agj.addBehaviour(new ElegirPersonajeJugador(_agj));
+				}
+					
+				
+			} catch (UngroundedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CodecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (OntologyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
