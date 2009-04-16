@@ -17,6 +17,10 @@ import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.PedirCartas;
+import comportamientos_jugador.PedirCobrarCondotierro;
+import comportamientos_jugador.PedirCobrarMercader;
+import comportamientos_jugador.PedirCobrarObispo;
+import comportamientos_jugador.PedirCobrarRey;
 import comportamientos_jugador.PedirMonedas;
 
 import conceptos.Distrito;
@@ -63,19 +67,19 @@ public class JugadorDani extends AgJugador {
 
 			break;
 		case REY:
-
+			ret = new PedirCobrarRey(this, ret, msg_sender);
 			break;
 		case OBISPO:
-
+			ret = new PedirCobrarObispo(this, ret, msg_sender);
 			break;
 		case MERCADER:
-
+			ret = new PedirCobrarMercader(this, ret, msg_sender);
 			break;
 		case ARQUITECTO:
 			ret = new HabilidadArquitecto(this, ret, msg_sender);
 			break;
 		case CONDOTIERO:
-
+			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 			break;
 		}
 
