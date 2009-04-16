@@ -5,12 +5,14 @@ import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import utils.Personajes;
 
 import acciones.OfertarPersonajes;
 
+import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
@@ -52,7 +54,7 @@ public class JugadorDani extends AgJugador {
 
 		switch (Personajes.getPersonajeByPJ(pj_actual)) {
 		case ASESINO:
-
+			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
 
@@ -119,8 +121,9 @@ public class JugadorDani extends AgJugador {
 
 	@Override
 	public Personaje getPersonajeMatar() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Personaje> llp =  Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		return llp.get(dado.nextInt(llp.size()));
 	}
 
 }

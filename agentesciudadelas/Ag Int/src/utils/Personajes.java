@@ -140,5 +140,18 @@ public enum Personajes {
 		return getPj().equals(personaje);
 	}
 
+	public static LinkedList<Personaje> getNewListaPersonajes() {
+		LinkedList<Personaje> llp = new LinkedList<Personaje>();
+		llp.add(ASESINO.getPj());
+		llp.add(LADRON.getPj());
+		llp.add(MAGO.getPj());
+		llp.add(REY.getPj());
+		llp.add(OBISPO.getPj());
+		llp.add(MERCADER.getPj());
+		llp.add(ARQUITECTO.getPj());
+		llp.add(CONDOTIERO.getPj());
+		return llp;
+	}
+
 	
 }
