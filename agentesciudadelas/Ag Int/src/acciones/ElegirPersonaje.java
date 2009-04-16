@@ -21,5 +21,12 @@ public class ElegirPersonaje implements AgentAction {
 	public void setPersonaje(Personaje personaje) {
 		this.personaje = personaje;
 	}
+	
+	public String toString(){
+		StringBuilder ret = new StringBuilder();
+		ret.append("ElegirPersonaje: ");
+		ret.append(personaje.getNombre());
+		return ret.toString();
+	}
 
 }

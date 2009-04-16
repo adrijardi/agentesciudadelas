@@ -139,7 +139,11 @@ public class JugadorAdri extends AgJugador {
 		if(personajes.contains(Personajes.ASESINO.getPj()))
 			return pj_actual = Personajes.ASESINO.getPj();
 		
-		return pj_actual = Personajes.LADRON.getPj();
+		if(personajes.contains(Personajes.LADRON.getPj()))
+			return pj_actual = Personajes.LADRON.getPj();
+		
+		return pj_actual = (Personaje)personajes.get(0);
+		
 	}
 	
 	private boolean tengoColor(Distrito d){
