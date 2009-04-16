@@ -26,8 +26,26 @@ public class JugadorAdri extends AgJugador {
 	
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
-		// TODO Auto-generated method stub
-		return null;
+		Distrito elegido = (Distrito)distritos.get(0);
+		boolean tengoColor = tengoColor(elegido);
+		int coste = elegido.getCoste();
+		
+		for (int i = 1; i < distritos.size(); i++) {
+			if(!tengoColor && !tengoColor((Distrito)distritos.get(i))){
+				if(coste < ((Distrito)distritos.get(i)).getCoste()){
+					elegido = (Distrito)distritos.get(i);
+					tengoColor = tengoColor(elegido);
+					coste = elegido.getCoste();
+				}
+			}
+		}
+		distritos.remove(elegido);
+		
+		Distrito[] ret = new Distrito[distritos.size()];
+		for (int i = 0; i < distritos.size(); i++) {
+			ret[i] = (Distrito)distritos.get(i);
+		}
+		return ret;
 	}
 
 	@Override
