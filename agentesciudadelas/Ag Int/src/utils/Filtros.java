@@ -24,6 +24,8 @@ public class Filtros {
 	public static final String COBRARPORMERCADER = "CobrarPorMercader";
 	
 	public static final String DARDISTRITOS = "DarDistritos";
+	
+	public static final String DARDISTRITOSARQUITECTO = "DarDistritosArquitecto";
 
 	public static final String DARMONEDAS = "DarMonedas";
 	
@@ -46,8 +48,6 @@ public class Filtros {
 	public static final String  OFERTARPERSONAJES = "OfertarPersonajes";
 
 	public static final String  NOTIFICARDESCARTADOS = "NotificarDescartados";
-	
-	public static final String  PEDIRDISTRITOSARQUITECTO = "PedirDistritosArquitecto";
 	
 	public static final String  NOTIFICARROBADO = "PedirDistritosArquitecto";
 	
