@@ -113,6 +113,12 @@ public class AgTablero extends jade.core.Agent {
 		}
 		if (jugador != null)
 			msgEnviar.addReceiver(jugador.getIdentificador());
+		else{
+			ResumenJugador[] rjs = EstadoPartida.getInstance().getResumenJugadores();
+			for (int i = 0; i < rjs.length; i++) {
+				msgEnviar.addReceiver(rjs[i].getIdentificador());
+			}
+		}
 
 		try {
 			getContentManager().fillContent(msgEnviar, msgContent);
