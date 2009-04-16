@@ -22,7 +22,16 @@ public class ResumenJugador {
 	private int[] colores= new int[5]; // amar, az, mar, roj, verd
 	private Vector<conceptos.Distrito> construido=new Vector<conceptos.Distrito>();
 	private int construidos;
+	private int numVecesMuerto = 0;
 	
+	public void addVecesMuerto(){
+		numVecesMuerto++;
+	}
+	
+	public int getNumVecesMuerto() {
+		return numVecesMuerto;
+	}
+
 	ResumenJugador(AID id){
 		Mazo mazo = Mazo.getInstance();
 		cartasMano = new LinkedList<Distrito>();
@@ -54,13 +63,14 @@ public class ResumenJugador {
 	}
 
 	public int getPuntos() {
-		int pnts = puntos;
+		int pnts = 0;
 		pnts += EstadoPartida.getInstance().getPnts8dist();
 		if(construidos5Colores())
 			pnts += 3;
 		for (Distrito d : construido) {
 			pnts += d.getPuntos();
 		}
+		puntos = pnts;
 		return pnts;
 	}
 	

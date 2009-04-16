@@ -48,6 +48,12 @@ public class Distrito implements Concept {
 		sb.append("(");
 		sb.append(coste);
 		sb.append(")");
+		sb.append("[");
+		sb.append(puntos);
+		sb.append("]");
+		sb.append("<");
+		sb.append(color);
+		sb.append(">");
 		return sb.toString();
 	}
 
