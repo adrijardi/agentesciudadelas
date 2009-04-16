@@ -1,18 +1,15 @@
 package comportamientos;
 
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
 import utils.Filtros;
 import utils.TipoDistrito;
-import acciones.CobrarDistritosCondotierro;
 import acciones.CobrarDistritosMercader;
 import acciones.CobrarPorDistritos;
 import conceptos.Jugador;

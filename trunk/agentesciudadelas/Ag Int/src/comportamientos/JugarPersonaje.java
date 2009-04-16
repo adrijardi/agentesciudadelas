@@ -17,11 +17,9 @@ public class JugarPersonaje extends Behaviour {
 
 	private final AgTablero agt;
 	private EstadoPartida ep = EstadoPartida.getInstance();
-	private boolean primero;
 
 	public JugarPersonaje(AgTablero agTablero) {
 		agt = agTablero;
-		primero = true;
 	}
 
 	@Override
@@ -71,12 +69,21 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;
 			case REY:
+				beh = new CobrarRey(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;
 			case OBISPO:
+				beh = new CobrarObispo(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;
 			case MERCADER:
+				beh = new CobrarMercader(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;
 			case ARQUITECTO:
@@ -84,6 +91,9 @@ public class JugarPersonaje extends Behaviour {
 				break;
 			case CONDOTIERO:
 				beh = new DestruirDistritoCondotiero(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
+				beh = new CobrarCondotierro(agt);
 				agt.addBehaviour(beh);
 				llb.add(beh);
 				

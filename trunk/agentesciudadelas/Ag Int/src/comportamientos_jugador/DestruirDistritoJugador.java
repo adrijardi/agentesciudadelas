@@ -1,31 +1,19 @@
 package comportamientos_jugador;
 
-import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-
-import java.util.Iterator;
-
 import jugador.AgJugador;
-
-import tablero.AgTablero;
 import tablero.EstadoPartida;
-import tablero.Mazo;
 import tablero.ResumenJugador;
 import utils.Filtros;
-import acciones.DarDistritos;
-import acciones.DarMonedas;
 import acciones.DecirEstado;
 import acciones.DestruirDistrito;
-import acciones.ObtenerDistritos;
-import acciones.ObtenerMonedas;
 import acciones.PedirDistritoJugadores;
 import conceptos.Distrito;
-import conceptos.Jugador;
 
 public class DestruirDistritoJugador extends Behaviour {
 	
