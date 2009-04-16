@@ -163,23 +163,4 @@ public class JugadorAdri extends AgJugador {
 		return pj_actual = (Personaje)personajes.get(0);
 		
 	}
-	
-	private boolean tengoColor(Distrito d){
-		boolean ret = false;
-		for (Distrito construido : construidas) {
-			if(d.getColor().compareTo(construido.getColor()) == 0)
-				ret = true;
-		}
-		return ret;
-	}
-	
-	private int cuentaColor(TipoDistrito color){
-		int ret = 0;
-		for (Distrito construido : construidas) {
-			if(color.getColor().compareTo(construido.getColor()) == 0)
-				ret++;
-		}
-		return ret;
-	}
-
 }

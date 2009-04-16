@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import onto.OntologiaCiudadelasDos;
+import utils.TipoDistrito;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
 
@@ -268,6 +269,34 @@ public abstract class AgJugador extends jade.core.Agent {
 			}
 		}
 		return distintos;
+	}
+	
+	/**
+	 * Indica si se dispone de alguna carta ya construida con el mismo color que el distrito
+	 * @param d distrito que se desea comprobar
+	 * @return true si ya se tiene una carta con el color del distrito d
+	 */
+	protected boolean tengoColor(Distrito d){
+		boolean ret = false;
+		for (Distrito construido : construidas) {
+			if(d.getColor().compareTo(construido.getColor()) == 0)
+				ret = true;
+		}
+		return ret;
+	}
+	
+	/**
+	 * Cuenta los distritos del tipo indicado
+	 * @param color tipo de distrito indicado
+	 * @return número de distritos del tipo indicado
+	 */
+	protected int cuentaColor(TipoDistrito color){
+		int ret = 0;
+		for (Distrito construido : construidas) {
+			if(color.getColor().compareTo(construido.getColor()) == 0)
+				ret++;
+		}
+		return ret;
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
