@@ -117,4 +117,10 @@ public class JugadorDani extends AgJugador {
 		return false;
 	}
 
+	@Override
+	public Personaje getPersonajeMatar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
