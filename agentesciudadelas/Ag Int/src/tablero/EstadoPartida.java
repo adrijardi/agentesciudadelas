@@ -88,9 +88,17 @@ public class EstadoPartida {
 	public void terminarJuego() {
 		System.out.println("% FASE FIN JUEGO ");
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		Vector<Distrito> vd;
 		for (ResumenJugador rj : resJugadores) {
-			System.out.println(rj.getJugador().getNombre() + ": "
-					+ rj.getPuntos() + " pnts - Cartas construidas: " + rj.getConstruidos()+" - 5 Colores: "+rj.construidos5Colores());
+			
+			System.out.println(rj.getJugador().getNombre() + ": "+ rj.getPuntos() + " pnts - Cartas construidas: " + rj.getConstruidos()+" - 5 Colores: "+rj.construidos5Colores());
+			vd = rj.getConstruido();
+			System.out.println("El jugador ha muerto: "+rj.getNumVecesMuerto());
+			for (Distrito distrito : vd) {
+				System.out.println(distrito);
+			}
+			System.out.println();
+			
 		}
 	}
 
@@ -284,10 +292,14 @@ public class EstadoPartida {
 
 	public void setNombreMuerto(ResumenJugador nombreMuerto) {
 		this.nombreMuerto = nombreMuerto;
+		if(nombreMuerto != null)
+			nombreMuerto.addVecesMuerto();
 	}
 	
 	public void setNombreMuerto(Personaje personaje) {
 		this.nombreMuerto = getJugadorDesdePersonaje(personaje);
+		if(nombreMuerto != null)
+			nombreMuerto.addVecesMuerto();
 	}
 
 	public ResumenJugador getNombreRobado() {
