@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import onto.OntologiaCiudadelas;
+import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
@@ -37,6 +38,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	protected final LinkedList<Distrito> mano = new LinkedList<Distrito>();
 	protected final LinkedList<Distrito> construidas = new LinkedList<Distrito>();
 	protected AID msg_sender;
+	protected Personajes [] destapados;
 	
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
@@ -283,6 +285,13 @@ public abstract class AgJugador extends jade.core.Agent {
 				ret = true;
 		}
 		return ret;
+	}
+	
+	public void setPersonajesDescartados(List destapados) {
+		this.destapados = new Personajes[destapados.size()];
+		for (int i = 0; i < destapados.size(); i++) {
+			this.destapados[i] = Personajes.getPersonajeByPJ((Personaje)destapados.get(i));
+		}
 	}
 	
 	/**

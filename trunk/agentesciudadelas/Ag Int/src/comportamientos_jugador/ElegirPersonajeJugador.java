@@ -7,7 +7,9 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 import utils.Filtros;
+import utils.Personajes;
 import acciones.ElegirPersonaje;
+import acciones.NotificarDescartados;
 import acciones.OfertarPersonajes;
 import conceptos.Personaje;
 
@@ -21,10 +23,15 @@ public class ElegirPersonajeJugador extends Behaviour {
 
 	@Override
 	public void action() {
+		
+		ACLMessage msgPersonajesDescartados = _agj.reciveBlockingMessage(Filtros.NOTIFICARDESCARTADOS, true);
 
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
 
 		try {
+			NotificarDescartados nd= (NotificarDescartados) _agj.getContentManager().extractContent(msgPersonajesDescartados);
+			_agj.setPersonajesDescartados(nd.getDestapados());
+			
 			OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);
 			Personaje seleccionado = _agj.selectPersonaje(contenido);
 			

@@ -127,6 +127,9 @@ public class JugadorDani extends AgJugador {
 	public Personaje getPersonajeMatar() {
 		LinkedList<Personaje> llp =  Personajes.getNewListaPersonajes();
 		llp.remove(Personajes.ASESINO.getPj());
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+		}
 		return llp.get(dado.nextInt(llp.size()));
 	}
 
