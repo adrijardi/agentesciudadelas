@@ -36,5 +36,15 @@ public class OfertarPersonajes implements AgentAction {
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
 	}
+	
+	public String toString(){
+		StringBuilder ret = new StringBuilder();
+		ret.append("OfertarPersonajes: ");
+		for (Personaje pj : disponibles) {
+			ret.append(pj.getNombre());
+			ret.append(" ");
+		}
+		return ret.toString();
+	}
 
 }
