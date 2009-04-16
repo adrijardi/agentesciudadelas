@@ -6,8 +6,8 @@ import conceptos.Jugador;
 public class DarTurno implements AgentAction {
 
 	private Jugador jugador;
-	private boolean muerto;
-	private boolean robado;
+	private Boolean muerto;
+	private Boolean robado;
 	
 	public Jugador getJugador() {
 		return jugador;
@@ -15,16 +15,16 @@ public class DarTurno implements AgentAction {
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
 	}
-	public boolean isMuerto() {
+	public Boolean getMuerto() {
 		return muerto;
 	}
-	public void setMuerto(boolean muerto) {
+	public void setMuerto(Boolean muerto) {
 		this.muerto = muerto;
 	}
-	public boolean isRobado() {
+	public Boolean getRobado() {
 		return robado;
 	}
-	public void setRobado(boolean robado) {
+	public void setRobado(Boolean robado) {
 		this.robado = robado;
 	}
 

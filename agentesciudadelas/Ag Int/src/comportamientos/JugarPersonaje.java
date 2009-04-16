@@ -10,8 +10,9 @@ import tablero.EstadoPartida;
 import tablero.ResumenJugador;
 import utils.Filtros;
 import utils.Personajes;
+import acciones.DarTurno;
 import acciones.NotificarCorona;
-import acciones.NotificarTurno;
+
 
 public class JugarPersonaje extends Behaviour {
 
@@ -102,18 +103,19 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;
 			}
-			
-			// Notifica el turno a un jugador
-			NotificarTurno msgNotificar = new NotificarTurno();
-			msgNotificar.setJugador(jugador.getJugador());
-			msgNotificar.setPersonaje(jugador.getPersonaje());
-
-			agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 		
 		}else{
 			System.out.println("Jugador "+jugador.getJugador().getNombre()+" muerto");
 			muerto = true;
 		}
+		// Notifica el turno a un jugador
+		DarTurno msgNotificar = new DarTurno();
+		msgNotificar.setJugador(jugador.getJugador());
+		msgNotificar.setMuerto(muerto);
+		// TODO cambiar
+		msgNotificar.setRobado(false);
+		
+		agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 	}
 
 	@Override
