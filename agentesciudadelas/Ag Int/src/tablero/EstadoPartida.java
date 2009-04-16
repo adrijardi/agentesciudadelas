@@ -288,7 +288,6 @@ public class EstadoPartida {
 	
 	public void setNombreMuerto(Personaje personaje) {
 		this.nombreMuerto = getJugadorDesdePersonaje(personaje);
-		System.out.println(nombreMuerto);
 	}
 
 	public ResumenJugador getNombreRobado() {

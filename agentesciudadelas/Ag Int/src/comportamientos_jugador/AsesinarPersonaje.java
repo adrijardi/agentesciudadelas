@@ -26,9 +26,7 @@ public class AsesinarPersonaje extends Behaviour {
 		
 		_agj.sendMSG(ACLMessage.REQUEST, raid, matar, Filtros.MATAR);
 
-		System.out.println("Esperando NOTIFICARASESINADO");
 		_agj.reciveBlockingMessageFrom(Filtros.NOTIFICARASESINADO, raid, true);
-		System.out.println("Notificado NOTIFICARASESINADO");
 		
 	}
 
