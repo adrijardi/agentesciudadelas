@@ -12,7 +12,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import onto.OntologiaCiudadelasDos;
+import onto.OntologiaCiudadelas;
 
 import comportamientos.RegistrarJugador;
 
@@ -21,14 +21,14 @@ public class AgTablero extends jade.core.Agent {
 	private Behaviour beh;
 	// private final Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
-	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos
+	private final OntologiaCiudadelas onto = OntologiaCiudadelas
 			.getInstance();
 
 	public Codec getCodec() {
 		return codec2;
 	}
 
-	public OntologiaCiudadelasDos getOnto() {
+	public OntologiaCiudadelas getOnto() {
 		return onto;
 	}
 

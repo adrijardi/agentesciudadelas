@@ -40,7 +40,7 @@ import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
 
-public class OntologiaCiudadelasDos extends Ontology {
+public class OntologiaCiudadelas extends Ontology {
 
 	// Nombre de la Ontologia
 	public static final String ONTOLOGY_NAME = "OntologiaCiudadelasDos";
@@ -177,7 +177,7 @@ public class OntologiaCiudadelasDos extends Ontology {
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
-	private OntologiaCiudadelasDos() {
+	private OntologiaCiudadelas() {
 		super(ONTOLOGY_NAME, BasicOntology.getInstance());
 		
 		try {
@@ -381,10 +381,10 @@ public class OntologiaCiudadelasDos extends Ontology {
 	 */
 
 	// Creamos referencia estatica a la propia onto
-	private static OntologiaCiudadelasDos instance = new OntologiaCiudadelasDos();
+	private static OntologiaCiudadelas instance = new OntologiaCiudadelas();
 
 	// Creamos m�todo para devolver la referencia estatica
-	public static OntologiaCiudadelasDos getInstance() {
+	public static OntologiaCiudadelas getInstance() {
 		return instance;
 	}
 

@@ -18,7 +18,7 @@ import jade.util.leap.List;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import onto.OntologiaCiudadelasDos;
+import onto.OntologiaCiudadelas;
 import utils.TipoDistrito;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
@@ -40,14 +40,14 @@ public abstract class AgJugador extends jade.core.Agent {
 	
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
-	private final OntologiaCiudadelasDos onto = OntologiaCiudadelasDos.getInstance();
+	private final OntologiaCiudadelas onto = OntologiaCiudadelas.getInstance();
 	
 	private InfoPartida infoPartida = new InfoPartida();
 	
 	public Codec getCodec() {
 		return codec2;
 	}
-	public OntologiaCiudadelasDos getOnto() {
+	public OntologiaCiudadelas getOnto() {
 		return onto;
 	}
 	
