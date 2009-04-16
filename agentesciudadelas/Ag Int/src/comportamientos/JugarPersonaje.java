@@ -87,7 +87,9 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;
 			case ARQUITECTO:
-				
+				beh = new HabilidadArquitecto(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				break;
 			case CONDOTIERO:
 				beh = new DestruirDistritoCondotiero(agt);
