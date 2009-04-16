@@ -12,6 +12,7 @@ import utils.Filtros;
 import utils.TipoDistrito;
 import acciones.CobrarDistritosMercader;
 import acciones.CobrarPorDistritos;
+import acciones.DarMonedas;
 import conceptos.Jugador;
 
 public class CobrarMercader extends Behaviour {
@@ -47,8 +48,11 @@ public class CobrarMercader extends Behaviour {
 				
 				ep.getJugActual().setDinero(ep.getJugActual().getDinero()+numCartasComerciales);
 
-				//TODO a todos
-				agt.sendMSG(ACLMessage.REQUEST, jugador, contenido, Filtros.COBRARPORDISTRITOS);
+				DarMonedas obj=new DarMonedas();
+				obj.setMonedas(numCartasComerciales);
+				agt.sendMSG(ACLMessage.REQUEST, jugador, obj, Filtros.DARMONEDAS);
+				
+				agt.sendMSG(ACLMessage.REQUEST, null, contenido, Filtros.COBRARPORDISTRITOS);
 				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
