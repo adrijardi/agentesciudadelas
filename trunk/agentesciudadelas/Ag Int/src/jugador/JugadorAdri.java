@@ -122,7 +122,7 @@ public class JugadorAdri extends AgJugador {
 
 	@Override
 	public boolean seleccionarMonedasOCartas() {
-		if(mano.size() == 0 && pj_actual != Personajes.MAGO.getPj())
+		if(cartasManoNoConstruidas() == 0 && pj_actual != Personajes.MAGO.getPj())
 			return true;
 		return false;
 	}
