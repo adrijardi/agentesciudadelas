@@ -27,4 +27,16 @@ public class DarDistritos implements AgentAction {
 		}
 		return al;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("DarDistritos: ");
+		for (int i = 0; i < distritos.length; i++) {
+			sb.append(distritos[i].getNombre());
+			sb.append(" ");
+		}
+		
+		return sb.toString();
+	}
 }
