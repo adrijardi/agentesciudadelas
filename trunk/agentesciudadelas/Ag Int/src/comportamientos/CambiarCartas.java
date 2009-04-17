@@ -10,16 +10,22 @@ import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
+import tablero.ResumenJugador;
 import utils.Filtros;
+import acciones.CambiarMano;
+import acciones.CartasJugadores;
 import acciones.DarDistritos;
 import conceptos.Distrito;
+import conceptos.Jugador;
 
 public class CambiarCartas extends Behaviour {
 	/*
-	 * Lo mejor seria definir un mensaje para pedir cobrar el distrito del rey y que sea lo q este espera					
+	 * Lo mejor seria definir un mensaje para pedir cobrar el distrito del rey y
+	 * que sea lo q este espera
 	 */
-	
+
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public CambiarCartas(AgTablero agTablero) {
 		agt = agTablero;
@@ -29,21 +35,49 @@ public class CambiarCartas extends Behaviour {
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
 		Filtros filtros = new Filtros();
-		block();
 		/*
-		 * a la espera de q llege un mensaje del agente pidiendo construir el distrito
+		 * a la espera de q llege un mensaje del agente pidiendo construir el
+		 * distrito
 		 */
-		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().DARDISTRITOS);
-		MessageTemplate filtroPersonal = MessageTemplate.MatchConversationId(filtros.ACCION_MAGO);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getJugActual().getIdentificador());
-		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
-		plantilla = MessageTemplate.and(plantilla, filtroPersonal);
-		ACLMessage msg = myAgent.receive(plantilla);
-		if(msg!=null){
-			
+		ACLMessage msg = agt.reciveBlockingMessage(
+				Filtros.PEDIRCARTASJUGADORES, 100);
+		if (msg != null) {
+			fin = true;
 			ContentElement contenido = null;
 			try {
-				contenido=myAgent.getContentManager().extractContent(msg);
+				contenido = myAgent.getContentManager().extractContent(msg);
+
+				ResumenJugador jug[] = ep.getResumenJugadores();
+				CartasJugadores cj = new CartasJugadores();
+				int cont = 1;
+				for (int i = 0; i < jug.length; i++) {
+					if (!(jug[i].getIdentificador().getName().equals(ep
+							.getJugActual()))) {
+						cj.setJugador(jug[i].getJugador(), cont);
+						cont++;
+					}
+				}
+
+				/*
+				 * Ya esta cambiado, ahora a enviar el mensaje al Jugador
+				 */
+				agt.sendMSG(ACLMessage.REQUEST, ep.getJugActual(), cj,
+						Filtros.ENTREGARCARTAS);
+				msg = agt.reciveBlockingMessage(
+						Filtros.CAMBIARMANO, 100);
+				if (msg != null) {
+					fin = true;
+					contenido = null;
+					contenido = myAgent.getContentManager().extractContent(msg);
+					CambiarMano cm = (CambiarMano)contenido;
+					ep.cambiarMano(cm.getJugador(), ep.getJugActual());
+					DarDistritos obj = new DarDistritos();
+					
+					obj.setDistritos(ep.getJugActual().getCartasMano());
+					agt.sendMSG(ACLMessage.INFORM, ep.getJugActual(), obj, Filtros.NOTIFICARMANO);
+					ep.getResumenJugador(cm.getJugador());
+
+				}
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -54,48 +88,12 @@ public class CambiarCartas extends Behaviour {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			DarDistritos dd=(DarDistritos)contenido;
-			Mazo ma=Mazo.getInstance();
-			int num=0;
-			for(int i=0;i<dd.getDistritos().size();i++){
-				ep.getJugActual().quitarCartaMano((Distrito) dd.getDistritos().get(i));
-				ma.trashDistrito((Distrito) dd.getDistritos().get(i));
-				num++;
-			}
-			
-			Distrito[] nuevos=new Distrito[num];
-			for(int i=0;i<dd.getDistritos().size();i++){
-				Distrito aux=ma.getDistrito();
-				ep.getJugActual().anyadirCartaMano(aux);
-				nuevos[i]=aux;
-			}
-			DarDistritos ddN=new DarDistritos();
-			ddN.setDistritos(nuevos);
-			/*
-			 * Ya esta cambiado, ahora a enviar el mensaje al Jugador
-			 */
-			ACLMessage msgEnviar = new ACLMessage(ACLMessage.REQUEST);
-			msgEnviar.setOntology(agt.getOnto().DARDISTRITOS);
-			msgEnviar.setSender(agt.getAID());
-			msgEnviar.setConversationId(filtros.ACCION_MAGO);
-			
-			try {
-				myAgent.getContentManager().fillContent(msgEnviar, ddN);
-				myAgent.send(msgEnviar);
-			} catch (CodecException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (OntologyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} // contenido es el objeto que envia
+
 		}
 	}
 
 	@Override
 	public boolean done() {
-		agt.removeBehaviour(new HabilidadCambiarMano(agt));
-		return true;// siempre termina
+		return fin;
 	}
 }

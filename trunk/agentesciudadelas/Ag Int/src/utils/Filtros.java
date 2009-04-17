@@ -68,4 +68,6 @@ public class Filtros {
 	public static final String PEDIRCARTASJUGADORES = "PedirCartasJugadores";
 	
 	public static final String ENTREGARCARTAS = "EntregarCartas";
+	
+	public static final String NOTIFICARMANO = "NotificarMano";
 }

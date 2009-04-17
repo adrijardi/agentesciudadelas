@@ -7,6 +7,7 @@ import jade.util.leap.List;
 import java.util.Iterator;
 import java.util.Random;
 
+import tablero.ResumenJugador;
 import utils.Personajes;
 
 import acciones.OfertarPersonajes;
@@ -20,6 +21,7 @@ import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirMonedas;
 
 import conceptos.Distrito;
+import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class JugadorLeo extends AgJugador {
@@ -98,6 +100,22 @@ public class JugadorLeo extends AgJugador {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Personaje getPersonajeMatar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Jugador seleccionarJugadorCambiarCartas(Jugador[] jug) {
+		// TODO Auto-generated method stub
+		int sel = (int)Math.random()*4;
+		if(sel < jug.length)
+			return jug[sel];
+		else
+			return jug[0];
 	}
 	
 	
