@@ -383,4 +383,11 @@ public class EstadoPartida {
 		}
 		return rj;
 	}
+
+	public void cambiarMano(Jugador jugador, ResumenJugador jugActual2) {
+		// TODO Auto-generated method stub
+		ResumenJugador rj = getResumenJugador(jugador);
+		rj.cambiarMano(jugActual2);
+		
+	}
 }

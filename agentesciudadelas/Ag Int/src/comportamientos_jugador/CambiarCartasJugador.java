@@ -18,6 +18,7 @@ import tablero.Mazo;
 import tablero.ResumenJugador;
 import utils.Filtros;
 import acciones.CambiarMano;
+import acciones.CartasJugadores;
 import acciones.DarDistritos;
 import acciones.DarMonedas;
 import acciones.DecirEstado;
@@ -47,17 +48,19 @@ public class CambiarCartasJugador extends Behaviour {
 		ResumenJugador jugador = ep.getJugActual();
 		
 		CambiarMano de = new CambiarMano();
-		de.setJugador1(_agj.getJugador());
-		de.setJugador2(_agj.getJugador());
+		
 		_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.PEDIRCARTASJUGADORES);
 		
 		/* ahora me quedo bloqueado esperando q me llege el mensaje con el resumen de los jugadres */
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.ENTREGARCARTAS, false);
 		
 		if(msg!=null){
-			CambiarMano cm=null;
+			CartasJugadores cm=null;
 			try {
-				cm=(CambiarMano)_agj.getContentManager().extractContent(msg);
+				cm=(CartasJugadores)_agj.getContentManager().extractContent(msg);
+				de.setJugador(_agj.seleccionarJugadorCambiarCartas(cm.getJugador1(), cm.getJugador2(), cm.getJugador3()));
+				
+				_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.CAMBIARMANO);		
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -69,9 +72,6 @@ public class CambiarCartasJugador extends Behaviour {
 				e.printStackTrace();
 			}
 			
-			
-			
-			_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.CAMBIARMANO);		
 		}
 		
 		

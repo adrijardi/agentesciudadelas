@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import onto.OntologiaCiudadelas;
+import tablero.ResumenJugador;
 import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.NotificarFinTurnoJugador;
@@ -314,6 +315,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	public abstract Personaje getPersonajeMatar();
 	public abstract Distrito[] descartaDistritos(List distritos);
 	public abstract boolean seleccionarMonedasOCartas();
+	public abstract Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3);
 	
 
 }
