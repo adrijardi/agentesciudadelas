@@ -35,7 +35,7 @@ public class CambiarCartas extends Behaviour {
 		 */
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchOntology(agt.getOnto().DARDISTRITOS);
 		MessageTemplate filtroPersonal = MessageTemplate.MatchConversationId(filtros.ACCION_MAGO);
-		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getResJugadorActual().getIdentificador());
+		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(ep.getJugActual().getIdentificador());
 		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
 		plantilla = MessageTemplate.and(plantilla, filtroPersonal);
 		ACLMessage msg = myAgent.receive(plantilla);
@@ -59,7 +59,7 @@ public class CambiarCartas extends Behaviour {
 			Mazo ma=Mazo.getInstance();
 			int num=0;
 			for(int i=0;i<dd.getDistritos().size();i++){
-				ep.getResJugadorActual().quitarCartaMano((Distrito) dd.getDistritos().get(i));
+				ep.getJugActual().quitarCartaMano((Distrito) dd.getDistritos().get(i));
 				ma.trashDistrito((Distrito) dd.getDistritos().get(i));
 				num++;
 			}
@@ -67,7 +67,7 @@ public class CambiarCartas extends Behaviour {
 			Distrito[] nuevos=new Distrito[num];
 			for(int i=0;i<dd.getDistritos().size();i++){
 				Distrito aux=ma.getDistrito();
-				ep.getResJugadorActual().anyadirCartaMano(aux);
+				ep.getJugActual().anyadirCartaMano(aux);
 				nuevos[i]=aux;
 			}
 			DarDistritos ddN=new DarDistritos();
