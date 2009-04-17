@@ -109,13 +109,17 @@ public class JugadorLeo extends AgJugador {
 	}
 
 	@Override
-	public Jugador seleccionarJugadorCambiarCartas(Jugador[] jug) {
+	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3) {
 		// TODO Auto-generated method stub
+		Jugador[] jugs = new Jugador[3];
+		jugs[0] = jug1;
+		jugs[1] = jug2;
+		jugs[2] = jug3;
 		int sel = (int)Math.random()*4;
-		if(sel < jug.length)
-			return jug[sel];
+		if(sel < 4)
+			return jugs[sel];
 		else
-			return jug[0];
+			return jugs[0];
 	}
 	
 	
