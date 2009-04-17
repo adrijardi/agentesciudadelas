@@ -75,8 +75,8 @@ public class CambiarCartas extends Behaviour {
 					
 					obj.setDistritos(ep.getJugActual().getCartasMano());
 					agt.sendMSG(ACLMessage.INFORM, ep.getJugActual(), obj, Filtros.NOTIFICARMANO);
-					ep.getResumenJugador(cm.getJugador());
-
+					obj.setDistritos(ep.getResumenJugador(cm.getJugador()).getCartasMano());
+					agt.sendMSG(ACLMessage.INFORM, cm.getJugador(), obj, Filtros.NOTIFICARMANO);
 				}
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
