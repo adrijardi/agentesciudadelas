@@ -8,9 +8,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import utils.Distritos;
 import utils.Personajes;
 
+import acciones.DestruirDistrito;
 import acciones.OfertarPersonajes;
+import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.ConstruirDistritoJugador;
@@ -24,6 +27,7 @@ import comportamientos_jugador.PedirCobrarRey;
 import comportamientos_jugador.PedirMonedas;
 
 import conceptos.Distrito;
+import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class JugadorDani extends AgJugador {
@@ -125,12 +129,39 @@ public class JugadorDani extends AgJugador {
 
 	@Override
 	public Personaje getPersonajeMatar() {
-		LinkedList<Personaje> llp =  Personajes.getNewListaPersonajes();
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
 		llp.remove(Personajes.ASESINO.getPj());
 		for (int i = 0; i < destapados.length; i++) {
 			llp.remove(destapados[i]);
+			System.out.println(destapados[i]); // TODO quitar
 		}
 		return llp.get(dado.nextInt(llp.size()));
+	}
+
+	@Override
+	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2,
+			Jugador jug3) {
+		Jugador ret = null;
+		LinkedList<Jugador> jugadores = new LinkedList<Jugador>();
+		if (jug1.getMano() > 0)
+			jugadores.add(jug1);
+		if (jug2.getMano() > 0)
+			jugadores.add(jug1);
+		if (jug3.getMano() > 0)
+			jugadores.add(jug1);
+		if (jugadores.size() > 0) {
+			ret = jugadores.get(dado.nextInt(jugadores.size()));
+		}
+		return ret;
+	}
+
+	@Override
+	public void getDistritoDestruir(PedirDistritoJugadores pd,
+			DestruirDistrito dd) {
+		Distrito basura = Distritos.TABERNA.getDistrito();
+		dd.setJugador(pd.getJugador1());
+		dd.setDistrito(basura);
+		dd.setPago(-1);
 	}
 
 }
