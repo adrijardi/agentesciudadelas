@@ -22,8 +22,10 @@ import onto.OntologiaCiudadelas;
 import tablero.ResumenJugador;
 import utils.Personajes;
 import utils.TipoDistrito;
+import acciones.DestruirDistrito;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
+import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.RecibirIniciarJugador;
 
@@ -309,6 +311,23 @@ public abstract class AgJugador extends jade.core.Agent {
 		return ret;
 	}
 	
+	Distrito[] validos(List list){
+		
+		int din=this.monedas;
+		int cont=0;
+		for(int i=0;i<list.size();i++){
+			if(din>=(((Distrito)(list.get(i))).getCoste()-1))
+				cont++;
+		}
+		cont=0;
+		Distrito [] sal= new Distrito[cont];
+		for(int i=0;i<list.size();i++){
+			if(din>=(((Distrito)(list.get(i))).getCoste()-1))
+				sal[cont]=(Distrito)(list.get(i));
+		}
+		return sal;
+	}
+	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
 	public abstract Behaviour jugarTurno(ACLMessage msg);
 	public abstract Distrito getDistritoConstruir();
@@ -316,6 +335,6 @@ public abstract class AgJugador extends jade.core.Agent {
 	public abstract Distrito[] descartaDistritos(List distritos);
 	public abstract boolean seleccionarMonedasOCartas();
 	public abstract Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3);
-	
+	public abstract void getDistritoDestruir(PedirDistritoJugadores pd, DestruirDistrito dd);
 
 }
