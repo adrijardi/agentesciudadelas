@@ -4,16 +4,20 @@ import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
 import conceptos.Jugador;
 import conceptos.Distrito;
+import conceptos.Personaje;
 
 public class PedirDistritoJugadores implements AgentAction{
 	
 	Jugador jugador1;
 	Distrito[] distritos1;
+	Personaje personaje1;
 	Jugador jugador2;
 	Distrito[] distritos2;
+	Personaje personaje2;
 	Jugador jugador3;
 	Distrito[] distritos3;
-
+	Personaje personaje3;
+	
 	public void setDistritos1(jade.util.leap.List l){
 		Distrito[] d = new Distrito[l.size()];
 		for (int i = 0; i < d.length; i++) {
@@ -97,6 +101,28 @@ public class PedirDistritoJugadores implements AgentAction{
 	public void setJugador3(Jugador jugador3) {
 		this.jugador3 = jugador3;
 	}
-	
-	
+
+	public Personaje getPersonaje1() {
+		return personaje1;
+	}
+
+	public void setPersonaje1(Personaje personaje1) {
+		this.personaje1 = personaje1;
+	}
+
+	public Personaje getPersonaje2() {
+		return personaje2;
+	}
+
+	public void setPersonaje2(Personaje personaje2) {
+		this.personaje2 = personaje2;
+	}
+
+	public Personaje getPersonaje3() {
+		return personaje3;
+	}
+
+	public void setPersonaje3(Personaje personaje3) {
+		this.personaje3 = personaje3;
+	}	
 }
