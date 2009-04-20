@@ -26,9 +26,8 @@ public class PagarRobo extends Behaviour{
 		
 		Monedas m=new Monedas();
 		m.setDinero(_agj.getMonedas());
-		
+System.out.println("ejecuta el PagarRobo");
 		_agj.setMonedas(0);
-		
 		_agj.sendMSG(ACLMessage.REQUEST, raid, m, Filtros.PAGARROBO);
 	}
 
