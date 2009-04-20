@@ -70,4 +70,10 @@ public class Filtros {
 	public static final String ENTREGARCARTAS = "EntregarCartas";
 	
 	public static final String NOTIFICARMANO = "NotificarMano";
+
+	public static final String ROBO = "Robo";
+	
+	public static final String COBRARROBO = "CobrarRobo";
+	
+	public static final String PAGARROBO = "PagarRobo";
 }
