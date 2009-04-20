@@ -34,10 +34,19 @@ public class JugarPartida extends Behaviour {
 					}else{
 						_agj.set_muerto(null);
 					}
+					
+					if(msgTurno.getHayrobado()){
+						_agj.set_robado(msgTurno.getPersonajerobado());
+					}else{
+						_agj.set_robado(null);
+					}
+					
 				}else{
 					// Si estás muerto vuelves a esperar la siguiente elección de jugador
 					_agj.addBehaviour(new ElegirPersonajeJugador(_agj));
 				}
+				
+				
 					
 				
 			} catch (UngroundedException e) {

@@ -5,6 +5,8 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.LinkedList;
 
+import comportamientos_jugador.HabilidadLadron;
+
 import conceptos.Personaje;
 
 import tablero.AgTablero;
@@ -21,6 +23,7 @@ public class JugarPersonaje extends Behaviour {
 	private final AgTablero agt;
 	private EstadoPartida ep = EstadoPartida.getInstance();
 	private boolean muerto;
+	
 
 	public JugarPersonaje(AgTablero agTablero) {
 		agt = agTablero;
@@ -69,6 +72,9 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;
 			case LADRON:
+				beh = new RobarTablero(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				
 				break;	
 			case MAGO:
@@ -129,6 +135,15 @@ public class JugarPersonaje extends Behaviour {
 		
 		// TODO cambiar
 		msgNotificar.setRobado(false);
+		
+		if(ep.getNombreRobado()!=null){
+			msgNotificar.setHayrobado(true);
+			msgNotificar.setPersonajerobado(ep.getNombreRobado().getPersonaje());
+		}else{
+			msgNotificar.setHayrobado(false);
+			msgNotificar.setPersonajerobado(ep.getJugActual().getPersonaje());
+		}
+		
 		
 		agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
 	}
