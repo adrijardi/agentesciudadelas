@@ -40,7 +40,6 @@ public class EstadoPartida {
 
 	private ResumenJugador nombreMuerto;
 	private ResumenJugador nombreRobado;
-//	private Personaje robado;
 	private ResumenJugador jugLadron;
 	private LinkedList<Personajes> pjDisponibles;
 
@@ -97,6 +96,7 @@ public class EstadoPartida {
 			System.out.println(rj.getJugador().getNombre() + ": "+ rj.getPuntos() + " pnts - Cartas construidas: " + rj.getConstruidos()+" - 5 Colores: "+rj.construidos5Colores());
 			vd = rj.getConstruido();
 			System.out.println("El jugador ha muerto: "+rj.getNumVecesMuerto());
+			System.out.println("El jugador ha sido robado: "+rj.getNumVecesRobado());
 			for (Distrito distrito : vd) {
 				System.out.println(distrito);
 			}
@@ -311,15 +311,21 @@ public class EstadoPartida {
 
 	public void setNombreRobado(ResumenJugador nombreRobado) {
 		this.nombreRobado = nombreRobado;
+		if(this.nombreRobado != null)
+			this.nombreRobado.addVecesRobado();
 	}
 
 	public void setNombreRobado(Personaje nombreRobado) {		
 		this.nombreRobado = this.getJugadorDesdePersonaje(nombreRobado);
+		if(this.nombreRobado != null)
+			this.nombreRobado.addVecesRobado();
 	}
+	
 	public boolean hayAlguienRobado(Personaje nombreRobado) {		
 		if(this.getJugadorDesdePersonaje(nombreRobado)!=null) return true;
 		return false;
 	}
+	
 	/*
 	 * Devuelve un ResumenJugador a partir del personaje especificado Si no
 	 * existe ningún jugador con este personaje devuelve null
