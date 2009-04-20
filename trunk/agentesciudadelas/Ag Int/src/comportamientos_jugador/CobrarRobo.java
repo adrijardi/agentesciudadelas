@@ -16,12 +16,10 @@ import jugador.AgJugador;
 public class CobrarRobo extends Behaviour {
 
 	private final AgJugador _agj;
-	private final Behaviour beh;
 	private final AID raid;
 
-	public CobrarRobo(AgJugador agj, Behaviour ft, AID aid) {
+	public CobrarRobo(AgJugador agj, AID aid) {
 		_agj = agj;
-		beh = ft;
 		raid = aid;
 	}
 	
@@ -50,7 +48,6 @@ public class CobrarRobo extends Behaviour {
 
 	@Override
 	public boolean done() {
-		
 		return true;
 	}
 }
