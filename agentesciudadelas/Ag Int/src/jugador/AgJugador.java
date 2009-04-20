@@ -49,6 +49,10 @@ public abstract class AgJugador extends jade.core.Agent {
 	
 	private InfoPartida infoPartida = new InfoPartida();
 	
+	// almacena el personaje muerto en este turno
+	protected Personaje _muerto; 
+	
+	
 	public Codec getCodec() {
 		return codec2;
 	}
@@ -197,6 +201,19 @@ public abstract class AgJugador extends jade.core.Agent {
 		return ret;
 	}
 	
+	/*
+	 * Funcion que se bloquea esperando un mensaje con un determinado filtro
+	 */
+	public ACLMessage reciveBlockingMessage(String filtro, AID sender, long mills){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender);
+		MessageTemplate plantilla = MessageTemplate.and(filtroEmisor, filtroIdentificador);
+		//TODO 100 milisegundos para recibir un mensaje
+		ret = blockingReceive(plantilla, mills);
+		return ret;
+	}
+	
 	public void addMonedas(int mas){
 		monedas += mas;
 	}
@@ -326,6 +343,21 @@ public abstract class AgJugador extends jade.core.Agent {
 				sal[cont]=(Distrito)(list.get(i));
 		}
 		return sal;
+	}
+	
+	
+	public Personaje get_muerto() {
+		return _muerto;
+	}
+	public void set_muerto(Personaje _muerto) {
+		this._muerto = _muerto;
+	}
+	
+	public int getMonedas() {
+		return monedas;
+	}
+	public void setMonedas(int monedas) {
+		this.monedas = monedas;
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);
