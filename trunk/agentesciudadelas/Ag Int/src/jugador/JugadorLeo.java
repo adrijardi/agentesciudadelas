@@ -10,7 +10,9 @@ import java.util.Random;
 import tablero.ResumenJugador;
 import utils.Personajes;
 
+import acciones.DestruirDistrito;
 import acciones.OfertarPersonajes;
+import acciones.PedirDistritoJugadores;
 
 import comportamientos.CambiarCartas;
 import comportamientos_jugador.CambiarCartasJugador;
@@ -120,6 +122,13 @@ public class JugadorLeo extends AgJugador {
 			return jugs[sel];
 		else
 			return jugs[0];
+	}
+
+	@Override
+	public void getDistritoDestruir(PedirDistritoJugadores pd,
+			DestruirDistrito dd) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
