@@ -16,47 +16,52 @@ import conceptos.Personaje;
 public class ElegirPersonajeJugador extends Behaviour {
 
 	private final AgJugador _agj;
+	private boolean fin;
 
 	public ElegirPersonajeJugador(AgJugador agJugador) {
 		_agj = agJugador;
+		fin = false;
 	}
 
 	@Override
 	public void action() {
 		
-		ACLMessage msgPersonajesDescartados = _agj.reciveBlockingMessage(Filtros.NOTIFICARDESCARTADOS, true);
-
-		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
-
-		try {
-			NotificarDescartados nd= (NotificarDescartados) _agj.getContentManager().extractContent(msgPersonajesDescartados);
-			_agj.setPersonajesDescartados(nd.getDestapados());
-			
-			OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);
-			Personaje seleccionado = _agj.selectPersonaje(contenido);
-			
-			ElegirPersonaje salida = new ElegirPersonaje();
-			salida.setJugador(_agj.getJugador());
-			salida.setPersonaje(seleccionado);
-			_agj.sendMSG(ACLMessage.REQUEST, msg.getSender(), salida,Filtros.ELEGIRPERSONAJE);
-			
-		} catch (UngroundedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CodecException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (OntologyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ACLMessage msgPersonajesDescartados = _agj.reciveBlockingMessage(Filtros.NOTIFICARDESCARTADOS, true, 100);
+		if(msgPersonajesDescartados != null){
+			fin = true;
+			ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
+	
+			try {
+				NotificarDescartados nd= (NotificarDescartados) _agj.getContentManager().extractContent(msgPersonajesDescartados);
+				_agj.setPersonajesDescartados(nd.getDestapados());
+				
+				OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);
+				Personaje seleccionado = _agj.selectPersonaje(contenido);
+				
+				ElegirPersonaje salida = new ElegirPersonaje();
+				salida.setJugador(_agj.getJugador());
+				salida.setPersonaje(seleccionado);
+				_agj.sendMSG(ACLMessage.REQUEST, msg.getSender(), salida,Filtros.ELEGIRPERSONAJE);
+				
+			} catch (UngroundedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CodecException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (OntologyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
 
 	@Override
 	public boolean done() {
-		_agj.addBehaviour(new JugarPartida(_agj));
-		return true;
+		if(fin)
+			_agj.addBehaviour(new JugarPartida(_agj));
+		return fin;
 	}
 
 }
