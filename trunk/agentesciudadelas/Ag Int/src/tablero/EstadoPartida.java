@@ -83,6 +83,8 @@ public class EstadoPartida {
 		System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		pjActual = Personajes.PREVIO;
 		jugLadron = null;
+		nombreMuerto = null;
+		nombreRobado = null;
 		jugActual = nextJugadorPorTurnoPersonaje();
 	}
 
@@ -394,5 +396,4 @@ public class EstadoPartida {
 		rj.cambiarMano(jugActual2);
 		
 	}
-	
 }
