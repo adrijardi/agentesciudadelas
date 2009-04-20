@@ -22,6 +22,7 @@ import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
+import comportamientos_jugador.HabilidadLadron;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirCobrarCondotierro;
 import comportamientos_jugador.PedirCobrarMercader;
@@ -34,13 +35,11 @@ import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class JugadorPablo extends AgJugador {
-	private final Random dado =  new Random();
 
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
-		// Se selecciona un personaje aleatorio de los que llegan:
-		int sel = dado.nextInt(contenido.getDisponibles().size());
-		pj_actual = (Personaje)contenido.getDisponibles().get(sel);
+		// Se selecciona un personaje aleatorio de la oferta
+		pj_actual = (Personaje)contenido.getDisponibles().get(((int)(Math.random()*(contenido.getDisponibles().size()))));
 		return pj_actual;
 	}
 
@@ -53,13 +52,6 @@ public class JugadorPablo extends AgJugador {
 		//TODO faltan las acciones del jugador
 		ret =  new FinTurno(this, msg_sender);
 		
-		// Accion jugador falta PedirCartas 
-		if(seleccionarMonedasOCartas()){
-			ret = new PedirCartas(this, ret, msg_sender);
-		}else{
-			ret = new PedirMonedas(this, ret, msg_sender);
-		}
-		
 		// Construir distrito
 		ret = new ConstruirDistritoJugador(this, ret, msg_sender);		
 		switch(Personajes.getPersonajeByPJ(pj_actual)){
@@ -67,8 +59,10 @@ public class JugadorPablo extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
+			ret = new HabilidadLadron(this, ret, msg_sender);
 			break;
 		case MAGO:
+
 			break;
 		case REY:
 			ret = new PedirCobrarRey(this, ret, msg_sender);
@@ -83,10 +77,16 @@ public class JugadorPablo extends AgJugador {
 			ret = new HabilidadArquitecto(this, ret, msg_sender);
 			break;
 		case CONDOTIERO:
-			// añade el comportamiento del condotiero 
+			//ret=new DestruirDistritoJugador(this, ret, msg_sender); // falla algunas veces
 			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
-			ret=new DestruirDistritoJugador(this, ret, msg_sender);
 			break;
+		}
+		
+		// Accion jugador falta PedirCartas 
+		if(seleccionarMonedasOCartas()){
+			ret = new PedirCartas(this, ret, msg_sender);
+		}else{
+			ret = new PedirMonedas(this, ret, msg_sender);
 		}
 		
 		return ret;
@@ -94,29 +94,34 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public Distrito getDistritoConstruir() {
+		// la politica es construir la mas cara que pueda costearme
+		int max=0;
+		int posDistMax=-1;
 		Distrito ret = null;
 		Distrito[] dist = getDistritosConstruibles();
 		if(dist != null && dist.length > 0){
-			ret = dist[dado.nextInt(dist.length)];
+			for(int i=0;i<dist.length;i++){
+				if(dist[i].getCoste()>max){
+					max=dist[i].getCoste();
+					posDistMax=i;
+				}
+			}
+			return dist[posDistMax];
 		}
 		return ret;
 	}
 
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
-		Distrito[] descartado = new Distrito[distritos.size()-1];
-		int selecc = dado.nextInt(distritos.size());
-		int i = 0;
-		Iterator it = distritos.iterator();
-		Distrito d;
-		while(it.hasNext()){
-			d = (Distrito)it.next();
-			if(i == selecc){
-				mano.add(d);
-				selecc = -1;
-			}else{
-				descartado[i++] = d;
-			}
+		// si solo le doy 2, puedo hacerlo de otro modo
+		
+		int num=distritos.size()-1;
+		Distrito[] descartado = new Distrito[num];
+		int elegido=((int)(Math.random()*distritos.size()));
+		int cont=0;
+		for(int i=0;i<distritos.size();i++){
+			if(i==elegido) mano.add((Distrito)(distritos.get(i)));
+			else descartado[cont++]=((Distrito)(distritos.get(i)));
 		}
 		return descartado;
 	}
@@ -192,26 +197,19 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public Personaje getPersonajeMatar() {
-		int num=destapados.length+1;
-		Personaje[] validos=new Personaje[8-num];
+		if(this.monedas>3) return Personajes.LADRON.getPj();
+		if(this.construidas.size()==6 && (this.pj_actual.getTurno()!=Personajes.CONDOTIERO.getPj().getTurno()
+				|| this.pj_actual.getTurno()!=Personajes.OBISPO.getPj().getTurno()))
+				return Personajes.CONDOTIERO.getPj();
+		if(this.mano.size()>2) return Personajes.MAGO.getPj();
 		
-		boolean esta=false;
-		int cont=0;
-		for(int i=0;i<8;i++){
-			esta=false;
-			for(int j=0;j<destapados.length;j++){
-				if(Personajes.getNewListaPersonajes().get(i).getNombre().compareTo(destapados[j].getPj().getNombre())==0) 
-					esta=true;
-				if(Personajes.getNewListaPersonajes().get(i).getNombre().compareTo(pj_actual.getNombre())==0)
-					esta=true;
-			}
-			if(!esta){
-				validos[cont]=Personajes.getNewListaPersonajes().get(i);
-			}
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+			System.out.println(destapados[i]); // TODO quitar
 		}
-		
-		int objetivo = (int)(Math.random()*validos.length);
-		return validos[objetivo];
+		return llp.get((int)(Math.random()*llp.size()));
 	}
 	
 	@Override
