@@ -42,7 +42,10 @@ System.out.println("Entra en RobarTablero");
 				NotificarRobado nr=new NotificarRobado();
 				nr.setPersonaje(personajeRobado);
 				
-				if(ep.hayAlguienRobado(personajeRobado)) agt.addBehaviour(new EsperoRobo(agt));
+				if(ep.hayAlguienRobado(personajeRobado)){
+					System.out.println("Alguien ha sido robado");
+					agt.addBehaviour(new EsperoRobo(agt));
+				}
 				
 				agt.sendMSG(ACLMessage.REQUEST, null, contenido, Filtros.NOTIFICARROBADO);
 			} catch (UngroundedException e) {
