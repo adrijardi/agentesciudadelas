@@ -123,6 +123,8 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String DARTURNO_JUGADOR = "jugador";
 	public static final String DARTURNO_MUERTO = "muerto";
 	public static final String DARTURNO_ROBADO = "robado";
+	public static final String DARTURNO_PERSONAJE = "personaje";
+	public static final String DARTURNO_HAYMUERTO = "haymuerto";
 	
 	public static final String NOTIFICARFINTURNOJUGADOR = "NotificarFinTurnoJugador";
 	public static final String NOTIFICARFINTURNOJUGADOR_PERSONAJE = "personaje";
@@ -153,7 +155,6 @@ public class OntologiaCiudadelas extends Ontology {
 	
 	public static final String  NOTIFICARROBADO = "PedirDistritosArquitecto";
 	public static final String  NOTIFICARROBADO_PERSONAJE = "personaje";
-	public static final String  NOTIFICARROBADO_JUGADORLADRON = "jugadorLadron";
 	
 	public static final String  ROBAR = "Robar";
 	public static final String  ROBAR_PERSONAJE = "personaje";
@@ -268,6 +269,8 @@ public class OntologiaCiudadelas extends Ontology {
 			as.add(DARTURNO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			as.add(DARTURNO_MUERTO, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
 			as.add(DARTURNO_ROBADO, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
+			as.add(DARTURNO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(DARTURNO_HAYMUERTO, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARFINTURNOJUGADOR);
 			as.add(NOTIFICARFINTURNOJUGADOR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
@@ -343,7 +346,6 @@ public class OntologiaCiudadelas extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(NOTIFICARROBADO);
 			as.add(NOTIFICARROBADO_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
-			as.add(NOTIFICARROBADO_JUGADORLADRON, (ConceptSchema) getSchema(JUGADOR));
 			
 			as = (AgentActionSchema) getSchema(ROBAR);
 			as.add(ROBAR_PERSONAJE, (ConceptSchema) getSchema(PERSONAJE));
