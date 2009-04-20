@@ -40,7 +40,7 @@ public class EstadoPartida {
 
 	private ResumenJugador nombreMuerto;
 	private ResumenJugador nombreRobado;
-	private Personaje robado;
+//	private Personaje robado;
 	private ResumenJugador jugLadron;
 	private LinkedList<Personajes> pjDisponibles;
 
@@ -311,6 +311,9 @@ public class EstadoPartida {
 		this.nombreRobado = nombreRobado;
 	}
 
+	public void setNombreRobado(Personaje nombreRobado) {		
+		this.nombreRobado = this.getJugadorDesdePersonaje(nombreRobado);
+	}
 	/*
 	 * Devuelve un ResumenJugador a partir del personaje especificado Si no
 	 * existe ningún jugador con este personaje devuelve null
@@ -391,14 +394,5 @@ public class EstadoPartida {
 		rj.cambiarMano(jugActual2);
 		
 	}
-
-	public Personaje getRobado() {
-		return robado;
-	}
-
-	public void setRobado(Personaje robado) {
-		this.robado = robado;
-	}
-	
 	
 }

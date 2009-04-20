@@ -65,7 +65,7 @@ public class JugadorDani extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
-
+			 
 			break;
 		case MAGO:
 
