@@ -178,6 +178,20 @@ public abstract class AgJugador extends jade.core.Agent {
 		return ret;
 	}
 	
+	public ACLMessage reciveBlockingMessage(String filtro, boolean global, long mills){
+		ACLMessage ret = null;
+		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
+		if(global){
+			ret = blockingReceive(filtroIdentificador);
+		}else{
+			AID[] aids = new AID[]{getAID()};
+			MessageTemplate filtroReceptor = MessageTemplate.MatchReceiver(aids);
+			MessageTemplate plantilla = MessageTemplate.and(filtroReceptor, filtroIdentificador);
+			ret = blockingReceive(plantilla, mills);
+		}		
+		return ret;
+	}
+	
 	public ACLMessage reciveBlockingMessageFrom(String filtro, AID sender,  boolean global){
 		ACLMessage ret = null;
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
