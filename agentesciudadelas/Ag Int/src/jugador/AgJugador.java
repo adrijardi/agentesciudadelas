@@ -282,6 +282,7 @@ public abstract class AgJugador extends jade.core.Agent {
 		}
 		return ret;
 	}
+	
 	public Personaje getPj_actual() {
 		return pj_actual;
 	}
@@ -364,6 +365,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	public Personaje get_muerto() {
 		return _muerto;
 	}
+
 	public void set_muerto(Personaje _muerto) {
 		this._muerto = _muerto;
 	}
@@ -371,6 +373,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	public int getMonedas() {
 		return monedas;
 	}
+	
 	public void setMonedas(int monedas) {
 		this.monedas = monedas;
 	}
@@ -378,6 +381,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	public Personaje get_robado() {
 		return _robado;
 	}
+
 	public void set_robado(Personaje _robado) {
 		this._robado = _robado;
 	}

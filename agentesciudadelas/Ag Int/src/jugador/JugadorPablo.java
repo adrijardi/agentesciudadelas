@@ -5,7 +5,9 @@ import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.Vector;
 
 import utils.Distritos;
 import utils.Personajes;
@@ -179,12 +181,13 @@ public class JugadorPablo extends AgJugador {
 	@Override
 	public boolean seleccionarMonedasOCartas() {
 		/*
-		 * solo pide cartas si no tengo en la mano
+		 * solo pide cartas si no tengo en la mano y no soy arquitecto
 		 */
-		if(cartasManoNoConstruidas()==0){
-			return true;
+		if(this.pj_actual.getTurno()==Personajes.ARQUITECTO.getPj().getTurno()) return false;
+		if(cartasManoNoConstruidas()>0){
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -210,10 +213,44 @@ public class JugadorPablo extends AgJugador {
 		int objetivo = (int)(Math.random()*validos.length);
 		return validos[objetivo];
 	}
-
+	
 	@Override
 	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2,Jugador jug3) {
 		// TODO Auto-generated method stub
-		return null;
+		int max=this.cartasManoNoConstruidas();
+		int num=0;
+		
+		int aux=jug1.getMano();
+		if(aux>max) num=1;
+		
+		aux=jug2.getMano();
+		if(aux>max) num=2;
+		
+		aux=jug3.getMano();
+		if(aux>max) num=3;
+		
+		switch (num) {
+		case 0:
+			return this.getJugador();
+		case 1:
+			return jug1;
+		case 2:
+			return jug2;
+		default:
+			return jug3;
+		}
+	}
+
+	@Override
+	public Personaje seleccionarPersonajeRobo() {
+		// TODO Auto-generated method stub
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		llp.remove(Personajes.LADRON.getPj());
+		if(this._muerto!=null) llp.remove(this._muerto);
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+		}
+		return llp.get(((int)(Math.random()))*llp.size());
 	}
 }
