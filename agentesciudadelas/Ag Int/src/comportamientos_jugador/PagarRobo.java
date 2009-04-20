@@ -34,6 +34,7 @@ public class PagarRobo extends Behaviour{
 
 	@Override
 	public boolean done() {
+		_agj.addBehaviour(beh);
 		return true;
 	}
 }

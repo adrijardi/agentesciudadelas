@@ -20,6 +20,7 @@ import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
+import comportamientos_jugador.PagarRobo;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirCobrarCondotierro;
 import comportamientos_jugador.PedirCobrarMercader;
@@ -90,6 +91,9 @@ public class JugadorDani extends AgJugador {
 			break;
 		}
 
+		if(Personajes.getPersonajeByPJ(pj_actual)==Personajes.LADRON)
+			ret=new PagarRobo(this, ret, msg_sender);
+		
 		return ret;
 	}
 
