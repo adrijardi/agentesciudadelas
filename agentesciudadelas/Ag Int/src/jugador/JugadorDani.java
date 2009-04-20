@@ -20,6 +20,7 @@ import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
+import comportamientos_jugador.HabilidadLadron;
 import comportamientos_jugador.PagarRobo;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirCobrarCondotierro;
@@ -67,7 +68,7 @@ public class JugadorDani extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
-
+			ret = new HabilidadLadron(this, ret, msg_sender);
 			break;
 		case MAGO:
 
@@ -91,8 +92,10 @@ public class JugadorDani extends AgJugador {
 			break;
 		}
 
-		if(Personajes.getPersonajeByPJ(pj_actual)==Personajes.LADRON)
-			ret=new PagarRobo(this, ret, msg_sender);
+		if(this.get_robado()!=null){
+			if(Personajes.getPersonajeByPJ(pj_actual)==Personajes.getPersonajeByPJ(this.get_robado()))
+				ret=new PagarRobo(this, ret, msg_sender);
+		}
 		
 		return ret;
 	}

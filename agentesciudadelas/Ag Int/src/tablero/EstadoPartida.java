@@ -316,6 +316,10 @@ public class EstadoPartida {
 	public void setNombreRobado(Personaje nombreRobado) {		
 		this.nombreRobado = this.getJugadorDesdePersonaje(nombreRobado);
 	}
+	public boolean hayAlguienRobado(Personaje nombreRobado) {		
+		if(this.getJugadorDesdePersonaje(nombreRobado)!=null) return true;
+		return false;
+	}
 	/*
 	 * Devuelve un ResumenJugador a partir del personaje especificado Si no
 	 * existe ningún jugador con este personaje devuelve null

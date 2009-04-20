@@ -50,7 +50,8 @@ public abstract class AgJugador extends jade.core.Agent {
 	private InfoPartida infoPartida = new InfoPartida();
 	
 	// almacena el personaje muerto en este turno
-	protected Personaje _muerto; 
+	protected Personaje _muerto;
+	protected Personaje _robado;
 	
 	
 	public Codec getCodec() {
@@ -372,6 +373,13 @@ public abstract class AgJugador extends jade.core.Agent {
 	}
 	public void setMonedas(int monedas) {
 		this.monedas = monedas;
+	}
+	
+	public Personaje get_robado() {
+		return _robado;
+	}
+	public void set_robado(Personaje _robado) {
+		this._robado = _robado;
 	}
 	
 	public abstract Personaje selectPersonaje(OfertarPersonajes contenido);

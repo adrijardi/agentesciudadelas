@@ -11,6 +11,8 @@ public class DarTurno implements AgentAction {
 	private Boolean robado;
 	private Personaje personaje;
 	private Boolean haymuerto;
+	private Personaje personajerobado;
+	private Boolean hayrobado;
 	
 	public Jugador getJugador() {
 		return jugador;
@@ -41,6 +43,18 @@ public class DarTurno implements AgentAction {
 	}
 	public void setHaymuerto(Boolean haymuerto) {
 		this.haymuerto = haymuerto;
+	}
+	public Personaje getPersonajerobado() {
+		return personajerobado;
+	}
+	public void setPersonajerobado(Personaje personajerobado) {
+		this.personajerobado = personajerobado;
+	}
+	public Boolean getHayrobado() {
+		return hayrobado;
+	}
+	public void setHayrobado(Boolean hayrobado) {
+		this.hayrobado = hayrobado;
 	}
 
 }
