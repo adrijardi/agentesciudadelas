@@ -29,6 +29,11 @@ public class JugarPartida extends Behaviour {
 				if(!msgTurno.getMuerto()){
 					//Se realizan las acciones definidas por el agente
 					_agj.addBehaviour(_agj.jugarTurno(msg));
+					if(msgTurno.getHaymuerto()){
+						_agj.set_muerto(msgTurno.getPersonaje());
+					}else{
+						_agj.set_muerto(null);
+					}
 				}else{
 					// Si estás muerto vuelves a esperar la siguiente elección de jugador
 					_agj.addBehaviour(new ElegirPersonajeJugador(_agj));
