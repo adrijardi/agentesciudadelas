@@ -17,6 +17,7 @@ import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.ConstruirDistritoJugador;
+import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.PedirCartas;
@@ -65,7 +66,7 @@ public class JugadorDani extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
-			 
+
 			break;
 		case MAGO:
 
@@ -83,6 +84,8 @@ public class JugadorDani extends AgJugador {
 			ret = new HabilidadArquitecto(this, ret, msg_sender);
 			break;
 		case CONDOTIERO:
+			//TODO descomentar para probar condotiero
+			//ret=new DestruirDistritoJugador(this, ret, msg_sender);
 			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 			break;
 		}
@@ -162,6 +165,17 @@ public class JugadorDani extends AgJugador {
 		dd.setJugador(pd.getJugador1());
 		dd.setDistrito(basura);
 		dd.setPago(-1);
+	}
+
+	@Override
+	public Personaje seleccionarPersonajeRobo() {
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		llp.remove(Personajes.LADRON.getPj());
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+		}
+		return llp.get(dado.nextInt(llp.size()));
 	}
 
 }
