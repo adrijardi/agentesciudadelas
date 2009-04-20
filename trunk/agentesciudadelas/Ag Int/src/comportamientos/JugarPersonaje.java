@@ -5,6 +5,8 @@ import jade.lang.acl.ACLMessage;
 
 import java.util.LinkedList;
 
+import conceptos.Personaje;
+
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
@@ -29,6 +31,8 @@ public class JugarPersonaje extends Behaviour {
 		// Se obtiene el siguiente jugador que juega
 		ResumenJugador jugador = ep.getJugActual();
 		System.out.println("TOLON!! TOLON!! "+ jugador.getPersonaje().getNombre());
+		
+		Personaje aux=null;
 		
 		// Se notifica el nuevo jugador con la corona
 		if (Personajes.REY.isPersonaje(jugador.getPersonaje())) {
@@ -112,6 +116,17 @@ public class JugarPersonaje extends Behaviour {
 		DarTurno msgNotificar = new DarTurno();
 		msgNotificar.setJugador(jugador.getJugador());
 		msgNotificar.setMuerto(muerto);
+		
+		if(!muerto){
+			// si no hay muerto pongo haymuerto a false y en personaje muerto al jugador actual
+		      msgNotificar.setHaymuerto(false);
+		      msgNotificar.setPersonaje(ep.getJugActual().getPersonaje());
+		}else{
+			// si hay muerto pongo haymuerto a true y el muerto en el personaje
+		      msgNotificar.setHaymuerto(true);
+		      msgNotificar.setPersonaje(ep.getNombreMuerto().getPersonaje());
+		}
+		
 		// TODO cambiar
 		msgNotificar.setRobado(false);
 		
