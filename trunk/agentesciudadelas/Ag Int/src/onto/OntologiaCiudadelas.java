@@ -21,6 +21,7 @@ import acciones.DecirEstado;
 import acciones.DestruirDistrito;
 import acciones.ElegirPersonaje;
 import acciones.Matar;
+import acciones.Monedas;
 import acciones.NotificarAsesinado;
 import acciones.NotificarCorona;
 import acciones.NotificarDescartados;
@@ -171,7 +172,6 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String  DECIRESTADO_JUGADOR = "jugador";
 	
 	public static final String PEDIRDISTRIROJUGADORES = "PedirDistritoJugadores";
-
 	public static final String PEDIRDISTRIROJUGADORES_JUGADOR1 = "jugador1";
 	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS1 = "distritos1";
 	public static final String PEDIRDISTRIROJUGADORES_PERSONAJE1 = "personaje1";
@@ -181,6 +181,9 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String PEDIRDISTRIROJUGADORES_JUGADOR3 = "jugador3";
 	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS3 = "distritos3";
 	public static final String PEDIRDISTRIROJUGADORES_PERSONAJE3 = "personaje3";
+	
+	public static final String MONEDAS = "monedas";
+	public static final String MONEDAS_DINERO = "dinero";
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
@@ -226,6 +229,7 @@ public class OntologiaCiudadelas extends Ontology {
 			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
 			add(new AgentActionSchema(DECIRESTADO), DecirEstado.class);
 			add(new AgentActionSchema(PEDIRDISTRIROJUGADORES), PedirDistritoJugadores.class);
+			add(new AgentActionSchema(MONEDAS), Monedas.class);
 			
 
 			// Estructura del esquema para el concepto DISTRITO
@@ -373,6 +377,9 @@ public class OntologiaCiudadelas extends Ontology {
 			as.add(PEDIRDISTRIROJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
 			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 			as.add(PEDIRDISTRIROJUGADORES_PERSONAJE3, (ConceptSchema) getSchema(PERSONAJE));
+			
+			as = (AgentActionSchema) getSchema(MONEDAS);
+			as.add(MONEDAS_DINERO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
