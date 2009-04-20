@@ -23,7 +23,16 @@ public class ResumenJugador {
 	private Vector<conceptos.Distrito> construido=new Vector<conceptos.Distrito>();
 	private int construidos;
 	private int numVecesMuerto = 0;
+	private int numVecesRobado = 0;
 	
+	public void addVecesRobado(){
+		numVecesRobado++;
+	}
+	
+	public int getNumVecesRobado() {
+		return numVecesRobado;
+	}
+
 	public void addVecesMuerto(){
 		numVecesMuerto++;
 	}
