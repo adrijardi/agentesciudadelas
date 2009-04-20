@@ -204,7 +204,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	/*
 	 * Funcion que se bloquea esperando un mensaje con un determinado filtro
 	 */
-	public ACLMessage reciveBlockingMessage(String filtro, AID sender, long mills){
+	public ACLMessage reciveBlockingMessageFrom(String filtro, AID sender, long mills){
 		ACLMessage ret = null;
 		MessageTemplate filtroIdentificador = MessageTemplate.MatchConversationId(filtro);
 		MessageTemplate filtroEmisor = MessageTemplate.MatchSender(sender);
@@ -368,5 +368,5 @@ public abstract class AgJugador extends jade.core.Agent {
 	public abstract boolean seleccionarMonedasOCartas();
 	public abstract Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3);
 	public abstract void getDistritoDestruir(PedirDistritoJugadores pd, DestruirDistrito dd);
-
+	public abstract Personaje seleccionarPersonajeRobo();
 }

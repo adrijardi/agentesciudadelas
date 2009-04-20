@@ -28,7 +28,7 @@ public class CobrarRobo extends Behaviour {
 	@Override
 	public void action(){
 		
-		ACLMessage msg = _agj.reciveBlockingMessageFrom(Filtros.COBRARROBO,raid, false);
+		ACLMessage msg = _agj.reciveBlockingMessageFrom(Filtros.COBRARROBO,raid, 100);
 		
 		if(msg!=null){
 			Monedas m=new Monedas();;

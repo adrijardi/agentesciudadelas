@@ -36,7 +36,7 @@ public class RobarTablero extends Behaviour {
 				// tengo el mensaje y su contenido, ahora a actualizar el estado actual
 				
 				Personaje personajeRobado = contenido.getPersonaje();
-				ep.setRobado(personajeRobado);
+				ep.setNombreRobado(personajeRobado);
 				
 				NotificarRobado nr=new NotificarRobado();
 				nr.setPersonaje(personajeRobado);
