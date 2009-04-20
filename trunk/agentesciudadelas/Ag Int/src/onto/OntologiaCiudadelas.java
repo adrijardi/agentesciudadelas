@@ -171,16 +171,16 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String  DECIRESTADO = "DecirEstado";
 	public static final String  DECIRESTADO_JUGADOR = "jugador";
 	
-	public static final String PEDIRDISTRIROJUGADORES = "PedirDistritoJugadores";
-	public static final String PEDIRDISTRIROJUGADORES_JUGADOR1 = "jugador1";
-	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS1 = "distritos1";
-	public static final String PEDIRDISTRIROJUGADORES_PERSONAJE1 = "personaje1";
-	public static final String PEDIRDISTRIROJUGADORES_JUGADOR2 = "jugador2";
-	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS2 = "distritos2";
-	public static final String PEDIRDISTRIROJUGADORES_PERSONAJE2 = "personaje2";
-	public static final String PEDIRDISTRIROJUGADORES_JUGADOR3 = "jugador3";
-	public static final String PEDIRDISTRIROJUGADORES_DISTRITOS3 = "distritos3";
-	public static final String PEDIRDISTRIROJUGADORES_PERSONAJE3 = "personaje3";
+	public static final String PEDIRDISTRITOJUGADORES = "PedirDistritoJugadores";
+	public static final String PEDIRDISTRITOJUGADORES_JUGADOR1 = "jugador1";
+	public static final String PEDIRDISTRITOJUGADORES_DISTRITOS1 = "distritos1";
+	public static final String PEDIRDISTRITOJUGADORES_PERSONAJE1 = "personaje1";
+	public static final String PEDIRDISTRITOJUGADORES_JUGADOR2 = "jugador2";
+	public static final String PEDIRDISTRITOJUGADORES_DISTRITOS2 = "distritos2";
+	public static final String PEDIRDISTRITOJUGADORES_PERSONAJE2 = "personaje2";
+	public static final String PEDIRDISTRITOJUGADORES_JUGADOR3 = "jugador3";
+	public static final String PEDIRDISTRITOJUGADORES_DISTRITOS3 = "distritos3";
+	public static final String PEDIRDISTRITOJUGADORES_PERSONAJE3 = "personaje3";
 	
 	public static final String MONEDAS = "monedas";
 	public static final String MONEDAS_DINERO = "dinero";
@@ -228,7 +228,7 @@ public class OntologiaCiudadelas extends Ontology {
 			add(new AgentActionSchema(MATAR), Matar.class);
 			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
 			add(new AgentActionSchema(DECIRESTADO), DecirEstado.class);
-			add(new AgentActionSchema(PEDIRDISTRIROJUGADORES), PedirDistritoJugadores.class);
+			add(new AgentActionSchema(PEDIRDISTRITOJUGADORES), PedirDistritoJugadores.class);
 			add(new AgentActionSchema(MONEDAS), Monedas.class);
 			
 
@@ -367,16 +367,16 @@ public class OntologiaCiudadelas extends Ontology {
 			as = (AgentActionSchema) getSchema(DECIRESTADO);
 			as.add(DECIRESTADO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			
-			as = (AgentActionSchema) getSchema(PEDIRDISTRIROJUGADORES);
-			as.add(PEDIRDISTRIROJUGADORES_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
-			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS1, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
-			as.add(PEDIRDISTRIROJUGADORES_PERSONAJE1, (ConceptSchema) getSchema(PERSONAJE));
-			as.add(PEDIRDISTRIROJUGADORES_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
-			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS2, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
-			as.add(PEDIRDISTRIROJUGADORES_PERSONAJE2, (ConceptSchema) getSchema(PERSONAJE));
-			as.add(PEDIRDISTRIROJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
-			as.add(PEDIRDISTRIROJUGADORES_DISTRITOS3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
-			as.add(PEDIRDISTRIROJUGADORES_PERSONAJE3, (ConceptSchema) getSchema(PERSONAJE));
+			as = (AgentActionSchema) getSchema(PEDIRDISTRITOJUGADORES);
+			as.add(PEDIRDISTRITOJUGADORES_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRITOJUGADORES_DISTRITOS1, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(PEDIRDISTRITOJUGADORES_PERSONAJE1, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(PEDIRDISTRITOJUGADORES_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRITOJUGADORES_DISTRITOS2, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(PEDIRDISTRITOJUGADORES_PERSONAJE2, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(PEDIRDISTRITOJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
+			as.add(PEDIRDISTRITOJUGADORES_DISTRITOS3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(PEDIRDISTRITOJUGADORES_PERSONAJE3, (ConceptSchema) getSchema(PERSONAJE));
 			
 			as = (AgentActionSchema) getSchema(MONEDAS);
 			as.add(MONEDAS_DINERO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));

@@ -37,12 +37,41 @@ public class DestruirDistritoJugador extends Behaviour {
 		_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.PEDIRRESUMENESJUGADORES);
 		
 		/* ahora me quedo bloqueado esperando q me llege el mensaje con el resumen de los jugadres */
-		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.DARRESUMENESJUGADORES, false);
+		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.DARRESUMENESJUGADORES, true);
 		
 		if(msg!=null){
-			PedirDistritoJugadores pd=null;
 			try {
-				pd=(PedirDistritoJugadores)_agj.getContentManager().extractContent(msg);
+				PedirDistritoJugadores pd=(PedirDistritoJugadores)_agj.getContentManager().extractContent(msg);
+				
+				
+				System.out.println("Imprimimos pd");
+				System.out.println("person 1 = " + pd.getPersonaje1().getNombre() + "; jug 1 = " + pd.getJugador1().getNombre());
+				System.out.println("Imprimimos los distritos");
+				for(int i=0;i<pd.getDistritos1().size();i++)
+					System.out.print(": " + ((Distrito)(pd.getDistritos1().get(i))).getNombre());
+				System.out.println("");
+				System.out.println("---------------------------------------");
+				System.out.println("person 2 = " + pd.getPersonaje2().getNombre() + "; jug 2 = " + pd.getJugador2().getNombre());
+				System.out.println("Imprimimos los distritos");
+				for(int i=0;i<pd.getDistritos2().size();i++)
+					System.out.print(": " + ((Distrito)(pd.getDistritos2().get(i))).getNombre());
+				System.out.println("");
+				System.out.println("---------------------------------------");
+				System.out.println("person 3 = " + pd.getPersonaje3().getNombre() + "; jug 3 = " + pd.getJugador3().getNombre());
+				System.out.println("Imprimimos los distritos");
+				for(int i=0;i<pd.getDistritos3().size();i++)
+					System.out.print(": " + ((Distrito)(pd.getDistritos3().get(i))).getNombre());
+				System.out.println("");
+				System.out.println("---------------------------------------");
+
+				
+				DestruirDistrito dd= new DestruirDistrito();
+				/*FALLO! no se si el jugador es el condotiero y deberia */
+				completarDetruirDistrito(pd, dd);
+				
+				
+				_agj.sendMSG(ACLMessage.REQUEST, raid, dd, Filtros.DESTRUIRDISTRITO);	
+				
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -52,14 +81,7 @@ public class DestruirDistritoJugador extends Behaviour {
 			} catch (OntologyException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
-			DestruirDistrito dd= new DestruirDistrito();
-			/*FALLO! no se si el jugador es el condotiero y deberia */
-			completarDetruirDistrito(pd, dd);
-			
-			
-			_agj.sendMSG(ACLMessage.REQUEST, raid, dd, Filtros.DESTRUIRDISTRITO);		
+			}		
 		}
 		
 		
