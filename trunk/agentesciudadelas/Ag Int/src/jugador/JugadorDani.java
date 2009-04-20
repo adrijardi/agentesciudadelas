@@ -94,6 +94,7 @@ public class JugadorDani extends AgJugador {
 
 		if(this.get_robado()!=null){
 			if(Personajes.getPersonajeByPJ(pj_actual)==Personajes.getPersonajeByPJ(this.get_robado()))
+System.out.println("Entra en el pers jugado");
 				ret=new PagarRobo(this, ret, msg_sender);
 		}
 		

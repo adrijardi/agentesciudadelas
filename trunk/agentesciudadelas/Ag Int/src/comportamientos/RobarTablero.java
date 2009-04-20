@@ -31,6 +31,7 @@ public class RobarTablero extends Behaviour {
 
 		if(msg!=null){
 			try {
+System.out.println("Entra en RobarTablero");
 				NotificarRobado contenido = (NotificarRobado)myAgent.getContentManager().extractContent(msg);
 				
 				// tengo el mensaje y su contenido, ahora a actualizar el estado actual

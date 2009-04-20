@@ -29,6 +29,7 @@ public class CobrarRobo extends Behaviour {
 		ACLMessage msg = _agj.reciveBlockingMessageFrom(Filtros.COBRARROBO,raid, 100);
 		
 		if(msg!=null){
+System.out.println("ejecuta el CobrarRobo");
 			Monedas m=new Monedas();;
 			try {
 				m=(Monedas) _agj.getContentManager().extractContent(msg);
