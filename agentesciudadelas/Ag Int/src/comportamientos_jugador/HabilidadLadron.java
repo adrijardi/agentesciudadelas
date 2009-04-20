@@ -28,7 +28,7 @@ public class HabilidadLadron extends Behaviour{
 		NotificarRobado nr=new NotificarRobado();
 		nr.setPersonaje(p);
 		
-		_agj.sendMSG(ACLMessage.REQUEST, null, nr, Filtros.ROBAR);
+		_agj.sendMSG(ACLMessage.REQUEST, raid, nr, Filtros.ROBAR);
 	}
 
 	@Override

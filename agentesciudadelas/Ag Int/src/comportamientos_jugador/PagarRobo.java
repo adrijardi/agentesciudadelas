@@ -29,7 +29,7 @@ public class PagarRobo extends Behaviour{
 		
 		_agj.setMonedas(0);
 		
-		_agj.sendMSG(ACLMessage.REQUEST, null, m, Filtros.PAGARROBO);
+		_agj.sendMSG(ACLMessage.REQUEST, raid, m, Filtros.PAGARROBO);
 	}
 
 	@Override
