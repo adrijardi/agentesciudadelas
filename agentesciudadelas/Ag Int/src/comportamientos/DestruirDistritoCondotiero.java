@@ -58,9 +58,30 @@ public class DestruirDistritoCondotiero extends Behaviour {
 							//si no soy yo doy valores
 							valores++;
 							darValorPDJ(pdj, res, valores, i);
+System.out.println("Entro");							
 						}
 					}
 					
+System.out.println("Imprimimos pdj");
+System.out.println("person 1 = " + pdj.getPersonaje1().getNombre() + "; jug 1 = " + pdj.getJugador1().getNombre());
+System.out.println("Imprimimos los distritos");
+for(int i=0;i<pdj.getDistritos1().size();i++)
+	System.out.print(": " + ((Distrito)(pdj.getDistritos1().get(i))).getNombre());
+System.out.println("");
+System.out.println("---------------------------------------");
+System.out.println("person 2 = " + pdj.getPersonaje2().getNombre() + "; jug 2 = " + pdj.getJugador2().getNombre());
+System.out.println("Imprimimos los distritos");
+for(int i=0;i<pdj.getDistritos2().size();i++)
+	System.out.print(": " + ((Distrito)(pdj.getDistritos2().get(i))).getNombre());
+System.out.println("");
+System.out.println("---------------------------------------");
+System.out.println("person 3 = " + pdj.getPersonaje3().getNombre() + "; jug 3 = " + pdj.getJugador3().getNombre());
+System.out.println("Imprimimos los distritos");
+for(int i=0;i<pdj.getDistritos3().size();i++)
+	System.out.print(": " + ((Distrito)(pdj.getDistritos3().get(i))).getNombre());
+System.out.println("");
+System.out.println("---------------------------------------");
+
 					// Se le mandan los distritos al jugador
 					// preparar lo que se da
 					agt.sendMSG(ACLMessage.REQUEST, jugador, pdj, Filtros.DARRESUMENESJUGADORES);
@@ -110,15 +131,21 @@ System.out.println("Entra en la destruccion del distrito");
 		Vector<Distrito> d=new Vector<Distrito>();
 		switch (valores) {
 		case 1:
+System.out.println("entra en el 1");			
 			pdj.setJugador1(res[i].getJugador());
+			pdj.setPersonaje1(res[i].getPersonaje());
 			pdj.setDistritos1(obtenerDistritos(res, i));
 			break;
 		case 2:
+System.out.println("entra en el 2");
 			pdj.setJugador2(res[i].getJugador());
+			pdj.setPersonaje2(res[i].getPersonaje());
 			pdj.setDistritos2(obtenerDistritos(res, i));
 			break;
 		case 3:
+System.out.println("entra en el 3");
 			pdj.setJugador3(res[i].getJugador());
+			pdj.setPersonaje3(res[i].getPersonaje());
 			pdj.setDistritos3(obtenerDistritos(res, i));
 			break;
 		default:
