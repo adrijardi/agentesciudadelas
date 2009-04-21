@@ -43,6 +43,15 @@ public abstract class AgJugador extends jade.core.Agent {
 	protected AID msg_sender;
 	protected Personajes [] destapados;
 	protected Behaviour cambiarMano;
+	protected int turno = 0;
+	
+	public int getTurno() {
+		return turno;
+	}
+	
+	public void addTurno() {
+		this.turno++;
+	}
 	
 	public Behaviour getCambiarMano() {
 		return cambiarMano;
@@ -260,7 +269,9 @@ public abstract class AgJugador extends jade.core.Agent {
 		StringBuilder sb = new StringBuilder();
 		sb.append("> Soy ");
 		sb.append(getAID().getName());
-		sb.append(" mi estado es:\n");
+		sb.append(" mi estado del turno ");
+		sb.append(turno);
+		sb.append(" es:\n");
 		sb.append("> personaje: ");
 		sb.append(pj_actual.getNombre());
 		sb.append("\n> monedas: ");
