@@ -16,6 +16,7 @@ import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
+import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
@@ -68,10 +69,11 @@ public class JugadorDani extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
-			//ret = new HabilidadLadron(this, ret, msg_sender);
+			ret = new HabilidadLadron(this, ret, msg_sender);
 			break;
 		case MAGO:
-
+			if(cartasManoNoConstruidas() == 0)
+				ret = new CambiarCartasJugador(this, ret, msg_sender);
 			break;
 		case REY:
 			ret = new PedirCobrarRey(this, ret, msg_sender);

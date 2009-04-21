@@ -29,7 +29,7 @@ public class ActualizarCartas extends Behaviour{
 				fin = true;
 				//System.out.println("ENTRAAA");
 				DarDistritos contenido = (DarDistritos) _agj.getContentManager().extractContent(msg);
-				_agj.addDistritos(contenido.getDistritos());
+				//_agj.addDistritos(contenido.getDistritos());
 				_agj.cambiarMano(contenido.getDistritos());
 			}
 		} catch (UngroundedException e) {
