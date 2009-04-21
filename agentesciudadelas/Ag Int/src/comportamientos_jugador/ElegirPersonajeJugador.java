@@ -25,24 +25,30 @@ public class ElegirPersonajeJugador extends Behaviour {
 
 	@Override
 	public void action() {
-		
-		ACLMessage msgPersonajesDescartados = _agj.reciveBlockingMessage(Filtros.NOTIFICARDESCARTADOS, true, 100);
-		if(msgPersonajesDescartados != null){
+
+		ACLMessage msgPersonajesDescartados = _agj.reciveBlockingMessage(
+				Filtros.NOTIFICARDESCARTADOS, true, 100);
+		if (msgPersonajesDescartados != null) {
 			fin = true;
-			ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
-	
+			ACLMessage msg = _agj.reciveBlockingMessage(
+					Filtros.OFERTARPERSONAJES, true);
+
 			try {
-				NotificarDescartados nd= (NotificarDescartados) _agj.getContentManager().extractContent(msgPersonajesDescartados);
+				NotificarDescartados nd = (NotificarDescartados) _agj
+						.getContentManager().extractContent(
+								msgPersonajesDescartados);
 				_agj.setPersonajesDescartados(nd.getDestapados());
-				
-				OfertarPersonajes contenido = (OfertarPersonajes) _agj.getContentManager().extractContent(msg);
+
+				OfertarPersonajes contenido = (OfertarPersonajes) _agj
+						.getContentManager().extractContent(msg);
 				Personaje seleccionado = _agj.selectPersonaje(contenido);
-				
+
 				ElegirPersonaje salida = new ElegirPersonaje();
 				salida.setJugador(_agj.getJugador());
 				salida.setPersonaje(seleccionado);
-				_agj.sendMSG(ACLMessage.REQUEST, msg.getSender(), salida,Filtros.ELEGIRPERSONAJE);
-				
+				_agj.sendMSG(ACLMessage.REQUEST, msg.getSender(), salida,
+						Filtros.ELEGIRPERSONAJE);
+
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -59,9 +65,10 @@ public class ElegirPersonajeJugador extends Behaviour {
 
 	@Override
 	public boolean done() {
-	if(fin){
-		_agj.addBehaviour(new JugarPartida(_agj));
-		_agj.addBehaviour(new ActualizarCartas(_agj));
+		if (fin) {
+			_agj.addBehaviour(new JugarPartida(_agj));
+			_agj.setCambiarMano(new ActualizarCartas(_agj));
+			_agj.addBehaviour(_agj.getCambiarMano());
 		}
 		return fin;
 	}

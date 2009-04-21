@@ -20,6 +20,7 @@ public class CobrarRey extends Behaviour {
 	 */
 	
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public CobrarRey(AgTablero agTablero) {
 		agt = agTablero;
@@ -33,6 +34,7 @@ public class CobrarRey extends Behaviour {
 		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSREY,jugador, 100);
 		
 		if(msg!=null){
+			fin = true;
 			try {
 				CobrarDistritosRey contenido = (CobrarDistritosRey)myAgent.getContentManager().extractContent(msg);
 				
@@ -68,6 +70,6 @@ public class CobrarRey extends Behaviour {
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return fin;// siempre termina
 	}
 }
