@@ -21,6 +21,7 @@ public class CobrarCondotierro extends Behaviour {
 	 */
 	
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public CobrarCondotierro(AgTablero agTablero) {
 		agt = agTablero;
@@ -34,6 +35,7 @@ public class CobrarCondotierro extends Behaviour {
 		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSCONDOTIERRO,jugador, 100);
 		
 		if(msg!=null){
+			fin = true;
 			try {
 				CobrarDistritosCondotierro contenido = (CobrarDistritosCondotierro)myAgent.getContentManager().extractContent(msg);
 				
@@ -69,6 +71,6 @@ public class CobrarCondotierro extends Behaviour {
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return fin;// siempre termina
 	}
 }

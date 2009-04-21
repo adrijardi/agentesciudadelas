@@ -21,6 +21,7 @@ public class CobrarMercader extends Behaviour {
 	 */
 	
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public CobrarMercader(AgTablero agTablero) {
 		agt = agTablero;
@@ -34,6 +35,7 @@ public class CobrarMercader extends Behaviour {
 		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.COBRARDISTRITOSMERCADER,jugador, 100);
 		
 		if(msg!=null){
+			fin = true;
 			try {
 				CobrarDistritosMercader contenido = (CobrarDistritosMercader)myAgent.getContentManager().extractContent(msg);
 				
@@ -69,6 +71,6 @@ public class CobrarMercader extends Behaviour {
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return fin;// siempre termina
 	}
 }

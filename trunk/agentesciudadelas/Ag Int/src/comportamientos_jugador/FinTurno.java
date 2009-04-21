@@ -28,6 +28,8 @@ public class FinTurno extends Behaviour {
 	@Override
 	public boolean done() {
 		_agj.addBehaviour(new ElegirPersonajeJugador(_agj));
+		_agj.removeBehaviour(_agj.getCambiarMano());
+		_agj.setCambiarMano(null);
 		return true;
 	}
 

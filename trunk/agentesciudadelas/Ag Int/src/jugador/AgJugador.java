@@ -42,7 +42,14 @@ public abstract class AgJugador extends jade.core.Agent {
 	protected final LinkedList<Distrito> construidas = new LinkedList<Distrito>();
 	protected AID msg_sender;
 	protected Personajes [] destapados;
+	protected Behaviour cambiarMano;
 	
+	public Behaviour getCambiarMano() {
+		return cambiarMano;
+	}
+	public void setCambiarMano(Behaviour cambiarMano) {
+		this.cambiarMano = cambiarMano;
+	}
 	//private Codec codec = new SLCodec();
 	private Codec codec2 = new LEAPCodec();
 	private final OntologiaCiudadelas onto = OntologiaCiudadelas.getInstance();

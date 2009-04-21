@@ -38,8 +38,7 @@ public class CambiarCartas extends Behaviour {
 		 * a la espera de q llege un mensaje del agente pidiendo construir el
 		 * distrito
 		 */
-		ACLMessage msg = agt.reciveBlockingMessage(
-				Filtros.PEDIRCARTASJUGADORES);
+		ACLMessage msg = agt.reciveBlockingMessage(Filtros.PEDIRCARTASJUGADORES, 100);
 		if (msg != null) {
 			fin = true;
 			ContentElement contenido = null;

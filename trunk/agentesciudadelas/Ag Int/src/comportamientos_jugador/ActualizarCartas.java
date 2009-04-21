@@ -19,15 +19,15 @@ public class ActualizarCartas extends Behaviour{
 
 	@Override
 	public void action() {
-		System.out.println("-----------------EMPIEZA---------------");
+		//System.out.println("-----------------EMPIEZA---------------");
 
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARMANO,  false, 100);
 		fin = false;
 		try {
-			System.out.println("FUERAAAA");
+			//System.out.println("FUERAAAA");
 			if(msg != null){
 				fin = true;
-				System.out.println("ENTRAAA");
+				//System.out.println("ENTRAAA");
 				DarDistritos contenido = (DarDistritos) _agj.getContentManager().extractContent(msg);
 				_agj.addDistritos(contenido.getDistritos());
 				_agj.cambiarMano(contenido.getDistritos());
@@ -42,7 +42,7 @@ public class ActualizarCartas extends Behaviour{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("-----------------TERMINA---------------");
+		//System.out.println("-----------------TERMINA---------------");
 	}
 
 	@Override
