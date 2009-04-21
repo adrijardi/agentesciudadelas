@@ -58,7 +58,10 @@ public class CambiarCartasJugador extends Behaviour {
 			CartasJugadores cm=null;
 			try {
 				cm=(CartasJugadores)_agj.getContentManager().extractContent(msg);
-				de.setJugador(_agj.seleccionarJugadorCambiarCartas(cm.getJugador1(), cm.getJugador2(), cm.getJugador3()));
+				Jugador j = _agj.seleccionarJugadorCambiarCartas(cm.getJugador1(), cm.getJugador2(), cm.getJugador3());
+				if(j == null)
+					j = _agj.getJugador();
+				de.setJugador(j);
 				_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.CAMBIARMANO);
 				msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARMANO, false);
 			} catch (UngroundedException e) {
