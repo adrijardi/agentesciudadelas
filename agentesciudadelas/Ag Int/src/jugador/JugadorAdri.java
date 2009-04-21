@@ -107,7 +107,8 @@ public class JugadorAdri extends AgJugador {
 				ret = new HabilidadLadron(this, ret, msg_sender);
 				break;
 			case MAGO:
-				ret = new CambiarCartasJugador(this, ret, msg_sender);
+				if(cartasManoNoConstruidas() == 0)
+					ret = new CambiarCartasJugador(this, ret, msg_sender);
 				break;
 			case REY:
 				ret = new PedirCobrarRey(this, ret, msg_sender);
@@ -215,7 +216,15 @@ public class JugadorAdri extends AgJugador {
 
 	@Override
 	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3) {
-		// TODO Auto-generated method stub
+		int num = (int)(Math.random()*3);
+		switch(num){
+			case 0:
+				return jug1;
+			case 1:
+				return jug2;
+			case 2:
+				return jug3;
+		}
 		return null;
 	}
 
