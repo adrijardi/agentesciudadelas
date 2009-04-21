@@ -68,7 +68,7 @@ public class JugadorDani extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
-			ret = new HabilidadLadron(this, ret, msg_sender);
+			//ret = new HabilidadLadron(this, ret, msg_sender);
 			break;
 		case MAGO:
 
@@ -88,7 +88,7 @@ public class JugadorDani extends AgJugador {
 		case CONDOTIERO:
 			//TODO descomentar para probar condotiero
 			
-			ret=new DestruirDistritoJugador(this, ret, msg_sender);
+			//ret=new DestruirDistritoJugador(this, ret, msg_sender);
 			
 			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 			break;
