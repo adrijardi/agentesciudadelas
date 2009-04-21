@@ -13,9 +13,11 @@ import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
+import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
+import comportamientos_jugador.HabilidadLadron;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirCobrarCondotierro;
 import comportamientos_jugador.PedirCobrarMercader;
@@ -102,8 +104,10 @@ public class JugadorAdri extends AgJugador {
 				ret = new AsesinarPersonaje(this, ret, msg_sender);
 				break;
 			case LADRON:
+				ret = new HabilidadLadron(this, ret, msg_sender);
 				break;
 			case MAGO:
+				ret = new CambiarCartasJugador(this, ret, msg_sender);
 				break;
 			case REY:
 				ret = new PedirCobrarRey(this, ret, msg_sender);
