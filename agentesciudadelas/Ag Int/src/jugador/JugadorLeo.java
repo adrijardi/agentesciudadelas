@@ -162,13 +162,60 @@ public class JugadorLeo extends AgJugador {
 	public void getDistritoDestruir(PedirDistritoJugadores pd,
 			DestruirDistrito dd) {
 		// TODO Auto-generated method stub
+		int num=(int)(Math.random()*3);
+		int aux=0;
+		int dinero=this.monedas;
 		
+		Distrito[] val= new Distrito[0];
+		switch (num) {
+		case 0:
+			if(Personajes.OBISPO.toString().compareToIgnoreCase(pd.getPersonaje1().getNombre())==0) {
+				// si el jug 1 es el obispo cogo el jug 2
+				dd.setJugador(pd.getJugador2());
+				val=validos(pd.getDistritos2());
+			}else{
+				dd.setJugador(pd.getJugador1());
+				val=validos(pd.getDistritos1());
+			}
+			break;
+		case 1:
+			if(Personajes.OBISPO.toString().compareToIgnoreCase(pd.getPersonaje2().getNombre())==0) {
+				// si el jug 2 es el obispo cogo el jug 3
+				dd.setJugador(pd.getJugador3());
+				val=validos(pd.getDistritos3());
+			}else{
+				dd.setJugador(pd.getJugador2());
+				val=validos(pd.getDistritos2());
+			}
+			break;
+		case 2:
+			if(Personajes.OBISPO.toString().compareToIgnoreCase(pd.getPersonaje3().getNombre())==0) {
+				// si el jug 3 es el obispo cogo el jug 1
+				dd.setJugador(pd.getJugador1());
+				val=validos(pd.getDistritos1());				
+			}else{
+				dd.setJugador(pd.getJugador3());
+				val=validos(pd.getDistritos3());
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override
 	public Personaje seleccionarPersonajeRobo() {
 		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		llp.remove(Personajes.LADRON.getPj());
+		llp.remove(Personajes.MAGO.getPj());
+		llp.remove(Personajes.OBISPO.getPj());
+		if(this._muerto!=null) llp.remove(this._muerto);
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+		}
+		return llp.get(((int)(Math.random()))*llp.size());
 	}
 	
 	
