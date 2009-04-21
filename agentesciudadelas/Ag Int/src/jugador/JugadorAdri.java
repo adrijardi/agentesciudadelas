@@ -228,7 +228,7 @@ public class JugadorAdri extends AgJugador {
 		if(jug3.getMano() > 0)
 			jugadores.add(jug3);
 		
-		if(jugadores.size() == 0){
+		if(jugadores.size() != 0){
 			num = (int)(Math.random()*jugadores.size());
 			return jugadores.get(num);
 		}
