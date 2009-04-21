@@ -21,9 +21,14 @@ public class DarDistritos implements AgentAction {
 	}
 	
 	public jade.util.leap.List getDistritos(){
-		ArrayList al = new ArrayList(distritos.length);
-		for (int i = 0; i < distritos.length; i++) {
-			al.add(i, distritos[i]);
+		ArrayList al;
+		if(distritos != null){
+			 al= new ArrayList(distritos.length);
+			for (int i = 0; i < distritos.length; i++) {
+				al.add(i, distritos[i]);
+			}
+		}else{
+			al = new ArrayList(0);
 		}
 		return al;
 	}
