@@ -77,9 +77,24 @@ public class JugadorAdri extends AgJugador {
 	@Override
 	public Personaje getPersonajeMatar() {
 		int objetivo = (int)(Math.random()*2);
-		if(objetivo == 0)
+		Personajes aux = Personajes.ARQUITECTO;
+		int naux = 0;
+		
+		if(objetivo == 0 && destapados[0] != aux && destapados[1] != aux)
 			return Personajes.ARQUITECTO.getPj();
-		return Personajes.MERCADER.getPj();
+		
+		aux = Personajes.MERCADER;
+		if(destapados[0] != aux && destapados[1] != aux)
+			return Personajes.MERCADER.getPj();
+		
+		LinkedList<Personaje> pLista = Personajes.getNewListaPersonajes();
+		while(naux < 10){
+			objetivo = (int)(Math.random()*6+2);
+			if(pLista.get(objetivo) != destapados[0].getPj() && pLista.get(objetivo) != destapados[1].getPj())
+				return pLista.get(objetivo);
+			naux++;
+		}
+		return Personajes.MAGO.getPj();
 	}
 
 	@Override

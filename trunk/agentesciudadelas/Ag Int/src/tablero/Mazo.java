@@ -100,6 +100,9 @@ public class Mazo {
 			ret = distritos.removeFirst();
 		} else {
 			Distrito[] mazo = descarte.toArray(new Distrito[0]);
+if(mazo.length == 0)
+System.out.println("<<<<< Mazo sin cartas >>>>>");
+System.out.println(descarte);
 			descarte.clear();
 			barajarDistritos(mazo);
 			ret = distritos.removeFirst();
