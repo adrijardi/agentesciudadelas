@@ -16,4 +16,8 @@ public class NotificarRobado implements AgentAction {
 		this.personaje = personaje;
 	}
 	
+	@Override
+	public String toString() {
+		return "NotificarRobado: "+ personaje.getNombre();
+	}
 }

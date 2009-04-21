@@ -14,5 +14,10 @@ public class NotificarAsesinado implements AgentAction {
 	public void setPersonaje(Personaje personaje) {
 		this.personaje = personaje;
 	}
+	
+	@Override
+	public String toString() {
+		return "NotificarAsesinado: "+ personaje.getNombre();
+	}
 
 }
