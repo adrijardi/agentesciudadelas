@@ -1,6 +1,9 @@
 package jugador;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.Vector;
 
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
@@ -216,16 +219,18 @@ public class JugadorAdri extends AgJugador {
 
 	@Override
 	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3) {
-		int num = (int)(Math.random()*3);
-		switch(num){
-			case 0:
-				return jug1;
-			case 1:
-				return jug2;
-			case 2:
-				return jug3;
-		}
-		return null;
+		int num;
+		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+		if(jug1.getMano() > 0)
+			jugadores.add(jug1);
+		if(jug2.getMano() > 0)
+			jugadores.add(jug2);
+		if(jug3.getMano() > 0)
+			jugadores.add(jug3);
+		
+		num = (int)(Math.random()*jugadores.size());
+		
+		return jugadores.get(num);
 	}
 
 	@Override
