@@ -1,12 +1,16 @@
 package jugador;
 
+import java.util.LinkedList;
+
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
 import utils.Personajes;
 import utils.TipoDistrito;
+import acciones.DestruirDistrito;
 import acciones.Matar;
 import acciones.OfertarPersonajes;
+import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.ConstruirDistritoJugador;
@@ -20,6 +24,7 @@ import comportamientos_jugador.PedirCobrarRey;
 import comportamientos_jugador.PedirMonedas;
 
 import conceptos.Distrito;
+import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class JugadorAdri extends AgJugador {
@@ -162,5 +167,64 @@ public class JugadorAdri extends AgJugador {
 		
 		return pj_actual = (Personaje)personajes.get(0);
 		
+	}
+
+	@Override
+	public void getDistritoDestruir(PedirDistritoJugadores pd, DestruirDistrito dd) {
+		Distrito elegido = null;
+		Jugador jelec = null;
+		Distrito [] distritos = (Distrito[])pd.getDistritos1().toArray();
+		for (int i = 0; elegido != null && i < distritos.length; i++) {
+			if(distritos[i].getCoste() == 1){
+				elegido = distritos[i];
+				jelec = pd.getJugador1();
+			}
+		}
+		if(elegido != null){
+			distritos = (Distrito[])pd.getDistritos2().toArray();
+			for (int i = 0; elegido != null && i < distritos.length; i++) {
+				if(distritos[i].getCoste() == 1){
+					elegido = distritos[i];
+					jelec = pd.getJugador2();
+				}
+			}
+			if(elegido != null){
+				distritos = (Distrito[])pd.getDistritos3().toArray();
+				for (int i = 0; elegido != null && i < distritos.length; i++) {
+					if(distritos[i].getCoste() == 1){
+						elegido = distritos[i];
+						jelec = pd.getJugador3();
+					}
+				}
+			}
+		}
+		if(elegido != null){
+			dd.setDistrito(elegido);
+			dd.setJugador(jelec);
+			dd.setPago(0);
+		}else{
+			dd.setJugador(pd.getJugador1());
+			dd.setDistrito((Distrito)pd.getDistritos1().get(0));
+			dd.setPago(-1);
+		}
+	}
+
+	@Override
+	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Personaje seleccionarPersonajeRobo() {
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		llp.remove(Personajes.LADRON.getPj());
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+		}
+		if(llp.contains(Personajes.ARQUITECTO.getPj()))
+			return Personajes.ARQUITECTO.getPj();
+		return llp.get((int)(Math.random()*llp.size()));
 	}
 }
