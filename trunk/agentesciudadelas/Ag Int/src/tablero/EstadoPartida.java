@@ -254,7 +254,7 @@ public class EstadoPartida {
 	public ResumenJugador getResumenJugador(Jugador j) {
 		ResumenJugador ret = null;
 		for (ResumenJugador rj : resJugadores) {
-			if (rj.getIdentificador().toString().compareToIgnoreCase(j.toString())==0)
+			if (rj.getIdentificador().getName().toString().compareToIgnoreCase(j.getNombre())==0)
 				ret = rj;
 		}
 		return ret;
@@ -403,7 +403,6 @@ public class EstadoPartida {
 	public void cambiarMano(Jugador jugador, ResumenJugador jugActual2) {
 		// TODO Auto-generated method stub
 		ResumenJugador rj = getResumenJugador(jugador);
-		rj.cambiarMano(jugActual2);
-		
+		rj.cambiarMano(jugActual2);		
 	}
 }

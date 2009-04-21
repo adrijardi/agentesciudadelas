@@ -15,6 +15,7 @@ import conceptos.Personaje;
 public class HabilidadAsesino extends Behaviour {
 
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public HabilidadAsesino(AgTablero agTablero) {
 		agt = agTablero;
@@ -28,6 +29,7 @@ public class HabilidadAsesino extends Behaviour {
 		ACLMessage msg = agt.reciveBlockingMessageFrom(Filtros.MATAR,jugador, 100);
 
 		if(msg!=null){
+			fin = true;
 			try {
 				Matar contenido = (Matar)myAgent.getContentManager().extractContent(msg);
 				
@@ -57,6 +59,6 @@ public class HabilidadAsesino extends Behaviour {
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return fin;// siempre termina
 	}
 }

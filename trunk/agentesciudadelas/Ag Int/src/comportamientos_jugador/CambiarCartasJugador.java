@@ -48,7 +48,7 @@ public class CambiarCartasJugador extends Behaviour {
 		ResumenJugador jugador = ep.getJugActual();
 		
 		CambiarMano de = new CambiarMano();
-		
+		de.setJugador(ep.getJugActual().getJugador());
 		_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.PEDIRCARTASJUGADORES);
 		
 		/* ahora me quedo bloqueado esperando q me llege el mensaje con el resumen de los jugadres */
@@ -59,8 +59,8 @@ public class CambiarCartasJugador extends Behaviour {
 			try {
 				cm=(CartasJugadores)_agj.getContentManager().extractContent(msg);
 				de.setJugador(_agj.seleccionarJugadorCambiarCartas(cm.getJugador1(), cm.getJugador2(), cm.getJugador3()));
-				
-				_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.CAMBIARMANO);		
+				_agj.sendMSG(ACLMessage.REQUEST, raid, de, Filtros.CAMBIARMANO);
+				msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARMANO, false);
 			} catch (UngroundedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,8 +80,8 @@ public class CambiarCartasJugador extends Behaviour {
 
 	@Override
 	public boolean done() {
-		// TODO Auto-generated method stub
-		return false;
+		_agj.addBehaviour(beh);
+		return true;
 	}
 
 }

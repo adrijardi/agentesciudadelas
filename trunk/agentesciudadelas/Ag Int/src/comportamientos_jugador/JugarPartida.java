@@ -25,7 +25,6 @@ public class JugarPartida extends Behaviour {
 		if(msg != null){
 			try {
 				DarTurno msgTurno = (DarTurno) _agj.getContentManager().extractContent(msg);
-				
 				if(!msgTurno.getMuerto()){
 					//Se realizan las acciones definidas por el agente
 					_agj.addBehaviour(_agj.jugarTurno(msg));

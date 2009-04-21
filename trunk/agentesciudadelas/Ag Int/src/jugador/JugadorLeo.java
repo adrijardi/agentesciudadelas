@@ -5,6 +5,7 @@ import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 import tablero.ResumenJugador;
@@ -15,11 +16,17 @@ import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
 import comportamientos.CambiarCartas;
+import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
+import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.PedirCartas;
+import comportamientos_jugador.PedirCobrarCondotierro;
+import comportamientos_jugador.PedirCobrarMercader;
+import comportamientos_jugador.PedirCobrarObispo;
+import comportamientos_jugador.PedirCobrarRey;
 import comportamientos_jugador.PedirMonedas;
 
 import conceptos.Distrito;
@@ -48,10 +55,32 @@ public class JugadorLeo extends AgJugador {
 		
 		// añade el comportamiento del mago 
 		
-		Personajes p=null;
-		if(p.MAGO.isPersonaje(this.pj_actual)){
-			//Cambiar con jugador o con mazo random
+		switch(Personajes.getPersonajeByPJ(pj_actual)){
+		case ASESINO:
+			ret = new AsesinarPersonaje(this, ret, msg_sender);
+			break;
+		case LADRON:
+			break;
+		case MAGO:
 			ret=new CambiarCartasJugador(this, ret, msg_sender);
+			break;
+		case REY:
+			ret = new PedirCobrarRey(this, ret, msg_sender);
+			break;
+		case OBISPO:
+			ret = new PedirCobrarObispo(this, ret, msg_sender);
+			break;
+		case MERCADER:
+			ret = new PedirCobrarMercader(this, ret, msg_sender);
+			break;
+		case ARQUITECTO:
+			ret = new HabilidadArquitecto(this, ret, msg_sender);
+			break;
+		case CONDOTIERO:
+			// añade el comportamiento del condotiero 
+			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
+			//ret=new DestruirDistritoJugador(this, ret, msg_sender);
+			break;
 		}
 		
 		// Construir distrito
@@ -63,7 +92,6 @@ public class JugadorLeo extends AgJugador {
 		}else{
 			ret = new PedirMonedas(this, ret, msg_sender);
 		}
-		
 		return ret;
 	}
 
@@ -106,8 +134,12 @@ public class JugadorLeo extends AgJugador {
 
 	@Override
 	public Personaje getPersonajeMatar() {
-		// TODO Auto-generated method stub
-		return null;
+		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
+		llp.remove(Personajes.ASESINO.getPj());
+		for (int i = 0; i < destapados.length; i++) {
+			llp.remove(destapados[i]);
+			}
+		return llp.get(dado.nextInt(llp.size()));
 	}
 
 	@Override
@@ -129,6 +161,12 @@ public class JugadorLeo extends AgJugador {
 			DestruirDistrito dd) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Personaje seleccionarPersonajeRobo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
