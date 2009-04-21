@@ -78,7 +78,9 @@ public class JugarPersonaje extends Behaviour {
 				
 				break;	
 			case MAGO:
-				
+				beh = new CambiarCartas(agt);
+				agt.addBehaviour(beh);
+				llb.add(beh);
 				break;
 			case REY:
 				beh = new CobrarRey(agt);

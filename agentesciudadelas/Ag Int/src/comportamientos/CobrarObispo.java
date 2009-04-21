@@ -21,6 +21,7 @@ public class CobrarObispo extends Behaviour {
 	 */
 	
 	private final AgTablero agt;
+	private boolean fin = false;
 
 	public CobrarObispo(AgTablero agTablero) {
 		agt = agTablero;
@@ -35,6 +36,7 @@ public class CobrarObispo extends Behaviour {
 		
 		if(msg!=null){
 			try {
+				fin = true;
 				CobrarDistritosObispo contenido = (CobrarDistritosObispo)myAgent.getContentManager().extractContent(msg);
 				
 				// tengo el mensaje y su contenido, ahora a actualizar el estado actual
@@ -69,6 +71,6 @@ public class CobrarObispo extends Behaviour {
 
 	@Override
 	public boolean done() {
-		return true;// siempre termina
+		return fin;// siempre termina
 	}
 }

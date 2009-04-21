@@ -34,13 +34,12 @@ public class CambiarCartas extends Behaviour {
 	@Override
 	public void action() {
 		EstadoPartida ep = EstadoPartida.getInstance();
-		Filtros filtros = new Filtros();
 		/*
 		 * a la espera de q llege un mensaje del agente pidiendo construir el
 		 * distrito
 		 */
 		ACLMessage msg = agt.reciveBlockingMessage(
-				Filtros.PEDIRCARTASJUGADORES, 100);
+				Filtros.PEDIRCARTASJUGADORES);
 		if (msg != null) {
 			fin = true;
 			ContentElement contenido = null;
@@ -64,7 +63,7 @@ public class CambiarCartas extends Behaviour {
 				agt.sendMSG(ACLMessage.REQUEST, ep.getJugActual(), cj,
 						Filtros.ENTREGARCARTAS);
 				msg = agt.reciveBlockingMessage(
-						Filtros.CAMBIARMANO, 100);
+						Filtros.CAMBIARMANO);
 				if (msg != null) {
 					fin = true;
 					contenido = null;
@@ -75,6 +74,7 @@ public class CambiarCartas extends Behaviour {
 					
 					obj.setDistritos(ep.getJugActual().getCartasMano());
 					agt.sendMSG(ACLMessage.INFORM, ep.getJugActual(), obj, Filtros.NOTIFICARMANO);
+					obj = new DarDistritos();
 					obj.setDistritos(ep.getResumenJugador(cm.getJugador()).getCartasMano());
 					agt.sendMSG(ACLMessage.INFORM, ep.getResumenJugador(cm.getJugador()), obj, Filtros.NOTIFICARMANO);
 				}

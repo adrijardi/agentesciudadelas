@@ -94,6 +94,13 @@ public abstract class AgJugador extends jade.core.Agent {
 		addBehaviour(comp);
 	}
 
+	public void cambiarMano(List manoNueva){
+		this.mano.clear();
+		for (int i = 0; i < manoNueva.size(); i++){
+			this.mano.add((Distrito)manoNueva.get(i));
+		}
+	}
+	
 	/*
 	 * Se liberan los ercursos
 	 * @see jade.core.Agent#takeDown()
@@ -178,6 +185,8 @@ public abstract class AgJugador extends jade.core.Agent {
 		}		
 		return ret;
 	}
+	
+	
 	
 	public ACLMessage reciveBlockingMessage(String filtro, boolean global, long mills){
 		ACLMessage ret = null;

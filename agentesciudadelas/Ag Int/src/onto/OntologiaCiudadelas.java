@@ -8,6 +8,7 @@ import jade.content.schema.ConceptSchema;
 import jade.content.schema.ObjectSchema;
 import jade.content.schema.PrimitiveSchema;
 import acciones.CambiarMano;
+import acciones.CartasJugadores;
 import acciones.CobrarDistritos;
 import acciones.CobrarDistritosCondotierro;
 import acciones.CobrarDistritosMercader;
@@ -68,8 +69,7 @@ public class OntologiaCiudadelas extends Ontology {
 	// ACCIONES
 
 	public static final String CAMBIARMANO = "CambiarMano";
-	public static final String CAMBIARMANO_JUGADOR1 = "jugador1";
-	public static final String CAMBIARMANO_JUGADOR2 = "jugador2";
+	public static final String CAMBIARMANO_JUGADOR = "jugador";
 	
 	public static final String OBTENER_MONEDAS = "ObtenerMonedas";
 	public static final String OBTENER_MONEDAS_JUGADOR = "jugador";
@@ -185,6 +185,11 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String MONEDAS = "monedas";
 	public static final String MONEDAS_DINERO = "dinero";
 	
+	public static final String CARTASJUGADORES = "CartasJugadores";
+	public static final String CARTASJUGADORES_JUGADOR1 = "jugador1";
+	public static final String CARTASJUGADORES_JUGADOR2 = "jugador2";
+	public static final String CARTASJUGADORES_JUGADOR3 = "jugador3";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelas() {
@@ -228,6 +233,7 @@ public class OntologiaCiudadelas extends Ontology {
 			add(new AgentActionSchema(MATAR), Matar.class);
 			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
 			add(new AgentActionSchema(DECIRESTADO), DecirEstado.class);
+			add(new AgentActionSchema(CARTASJUGADORES), CartasJugadores.class);
 			add(new AgentActionSchema(PEDIRDISTRITOJUGADORES), PedirDistritoJugadores.class);
 			add(new AgentActionSchema(MONEDAS), Monedas.class);
 			
@@ -326,8 +332,8 @@ public class OntologiaCiudadelas extends Ontology {
 			as.add(COBRARPORMERCADER_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
 			
 			as = (AgentActionSchema) getSchema(CAMBIARMANO);
-			as.add(CAMBIARMANO_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
-			as.add(CAMBIARMANO_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
+			as.add(CAMBIARMANO_JUGADOR, (ConceptSchema) getSchema(JUGADOR));
+			
 
 			
 			as = (AgentActionSchema) getSchema(SUSTITUIRMANO);
@@ -380,6 +386,11 @@ public class OntologiaCiudadelas extends Ontology {
 			
 			as = (AgentActionSchema) getSchema(MONEDAS);
 			as.add(MONEDAS_DINERO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));
+			
+			as = (AgentActionSchema) getSchema(CARTASJUGADORES);
+			as.add(CARTASJUGADORES_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
+			as.add(CARTASJUGADORES_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
+			as.add(CARTASJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();

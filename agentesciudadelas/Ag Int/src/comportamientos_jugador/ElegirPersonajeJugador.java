@@ -59,8 +59,10 @@ public class ElegirPersonajeJugador extends Behaviour {
 
 	@Override
 	public boolean done() {
-		if(fin)
-			_agj.addBehaviour(new JugarPartida(_agj));
+	if(fin){
+		_agj.addBehaviour(new JugarPartida(_agj));
+		_agj.addBehaviour(new ActualizarCartas(_agj));
+		}
 		return fin;
 	}
 
