@@ -1,23 +1,22 @@
 package jugador;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Set;
-import java.util.Vector;
-
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.DestruirDistrito;
-import acciones.Matar;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
+import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.HabilidadLadron;
@@ -126,6 +125,7 @@ public class JugadorAdri extends AgJugador {
 				ret = new HabilidadArquitecto(this, ret, msg_sender);
 				break;
 			case CONDOTIERO:
+				ret = new DestruirDistritoJugador(this, ret, msg_sender);
 				ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 				break;
 		}
@@ -228,9 +228,11 @@ public class JugadorAdri extends AgJugador {
 		if(jug3.getMano() > 0)
 			jugadores.add(jug3);
 		
-		num = (int)(Math.random()*jugadores.size());
-		
-		return jugadores.get(num);
+		if(jugadores.size() == 0){
+			num = (int)(Math.random()*jugadores.size());
+			return jugadores.get(num);
+		}
+		return null;
 	}
 
 	@Override
