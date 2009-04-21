@@ -30,6 +30,7 @@ public class ElegirPersonajeJugador extends Behaviour {
 				Filtros.NOTIFICARDESCARTADOS, true, 100);
 		if (msgPersonajesDescartados != null) {
 			fin = true;
+			_agj.addTurno();
 			ACLMessage msg = _agj.reciveBlockingMessage(
 					Filtros.OFERTARPERSONAJES, true);
 
