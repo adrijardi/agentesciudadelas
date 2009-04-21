@@ -146,7 +146,7 @@ System.out.println("Entra en el pers jugado");
 		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
 		llp.remove(Personajes.ASESINO.getPj());
 		for (int i = 0; i < destapados.length; i++) {
-			llp.remove(destapados[i]);
+			llp.remove(destapados[i].getPj());
 			System.out.println(destapados[i]); // TODO quitar
 		}
 		return llp.get(dado.nextInt(llp.size()));
@@ -184,7 +184,7 @@ System.out.println("Entra en el pers jugado");
 		llp.remove(Personajes.ASESINO.getPj());
 		llp.remove(Personajes.LADRON.getPj());
 		for (int i = 0; i < destapados.length; i++) {
-			llp.remove(destapados[i]);
+			llp.remove(destapados[i].getPj());
 		}
 		return llp.get(dado.nextInt(llp.size()));
 	}
