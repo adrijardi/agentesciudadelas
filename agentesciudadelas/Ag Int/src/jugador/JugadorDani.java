@@ -91,7 +91,6 @@ public class JugadorDani extends AgJugador {
 			//TODO descomentar para probar condotiero
 			
 			ret=new DestruirDistritoJugador(this, ret, msg_sender);
-			
 			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 			break;
 		}
