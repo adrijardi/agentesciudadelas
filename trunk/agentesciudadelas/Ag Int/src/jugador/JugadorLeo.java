@@ -22,6 +22,7 @@ import comportamientos_jugador.ConstruirDistritoJugador;
 import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
+import comportamientos_jugador.HabilidadLadron;
 import comportamientos_jugador.PedirCartas;
 import comportamientos_jugador.PedirCobrarCondotierro;
 import comportamientos_jugador.PedirCobrarMercader;
@@ -60,6 +61,7 @@ public class JugadorLeo extends AgJugador {
 			ret = new AsesinarPersonaje(this, ret, msg_sender);
 			break;
 		case LADRON:
+			ret = new HabilidadLadron(this, ret, msg_sender);
 			break;
 		case MAGO:
 			ret=new CambiarCartasJugador(this, ret, msg_sender);
@@ -78,7 +80,7 @@ public class JugadorLeo extends AgJugador {
 			break;
 		case CONDOTIERO:
 			// añade el comportamiento del condotiero 
-			ret = new PedirCobrarCondotierro(this, ret, msg_sender);
+			//ret = new PedirCobrarCondotierro(this, ret, msg_sender);
 			//ret=new DestruirDistritoJugador(this, ret, msg_sender);
 			break;
 		}
