@@ -24,7 +24,18 @@ public class ResumenJugador {
 	private int construidos;
 	private int numVecesMuerto = 0;
 	private int numVecesRobado = 0;
+	private boolean jugo;
 	
+	
+	
+	public boolean getJugo() {
+		return jugo;
+	}
+
+	public void setJugo(boolean jugo) {
+		this.jugo = jugo;
+	}
+
 	public void addVecesRobado(){
 		numVecesRobado++;
 	}
