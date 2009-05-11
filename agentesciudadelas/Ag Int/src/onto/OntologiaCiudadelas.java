@@ -21,6 +21,7 @@ import acciones.DarMonedas;
 import acciones.DecirEstado;
 import acciones.DestruirDistrito;
 import acciones.ElegirPersonaje;
+import acciones.InfoPartida;
 import acciones.Matar;
 import acciones.Monedas;
 import acciones.NotificarAsesinado;
@@ -190,6 +191,20 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String CARTASJUGADORES_JUGADOR2 = "jugador2";
 	public static final String CARTASJUGADORES_JUGADOR3 = "jugador3";
 	
+	public static final String INFOPARTIDA = "InfoPartida";
+	public static final String INFOPARTIDA_JUGADOR1 = "jugador1";
+	public static final String INFOPARTIDA_JUGADOR2 = "jugador2";
+	public static final String INFOPARTIDA_JUGADOR3 = "jugador3";
+	public static final String INFOPARTIDA_JUGADOR4 = "jugador4";
+	public static final String INFOPARTIDA_PERSONAJE1 = "personaje1";
+	public static final String INFOPARTIDA_PERSONAJE2 = "personaje2";
+	public static final String INFOPARTIDA_PERSONAJE3 = "personaje3";
+	public static final String INFOPARTIDA_PERSONAJE4 = "personaje4";
+	public static final String INFOPARTIDA_DISTRITOSJ1 = "distritosJ1";
+	public static final String INFOPARTIDA_DISTRITOSJ2 = "distritosJ2";
+	public static final String INFOPARTIDA_DISTRITOSJ3 = "distritosJ3";
+	public static final String INFOPARTIDA_DISTRITOSJ4 = "distritosJ4";
+	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
 	private OntologiaCiudadelas() {
@@ -234,6 +249,7 @@ public class OntologiaCiudadelas extends Ontology {
 			add(new AgentActionSchema(NOTIFICARASESINADO), NotificarAsesinado.class);
 			add(new AgentActionSchema(DECIRESTADO), DecirEstado.class);
 			add(new AgentActionSchema(CARTASJUGADORES), CartasJugadores.class);
+			add(new AgentActionSchema(INFOPARTIDA), InfoPartida.class);
 			add(new AgentActionSchema(PEDIRDISTRITOJUGADORES), PedirDistritoJugadores.class);
 			add(new AgentActionSchema(MONEDAS), Monedas.class);
 			
@@ -391,6 +407,20 @@ public class OntologiaCiudadelas extends Ontology {
 			as.add(CARTASJUGADORES_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
 			as.add(CARTASJUGADORES_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
 			as.add(CARTASJUGADORES_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
+			
+			as = (AgentActionSchema) getSchema(INFOPARTIDA);
+			as.add(INFOPARTIDA_JUGADOR1, (ConceptSchema) getSchema(JUGADOR));
+			as.add(INFOPARTIDA_JUGADOR2, (ConceptSchema) getSchema(JUGADOR));
+			as.add(INFOPARTIDA_JUGADOR3, (ConceptSchema) getSchema(JUGADOR));
+			as.add(INFOPARTIDA_JUGADOR4, (ConceptSchema) getSchema(JUGADOR));
+			as.add(INFOPARTIDA_PERSONAJE1, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(INFOPARTIDA_PERSONAJE2, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(INFOPARTIDA_PERSONAJE3, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(INFOPARTIDA_PERSONAJE4, (ConceptSchema) getSchema(PERSONAJE));
+			as.add(INFOPARTIDA_DISTRITOSJ1, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(INFOPARTIDA_DISTRITOSJ2, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(INFOPARTIDA_DISTRITOSJ3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(INFOPARTIDA_DISTRITOSJ4, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
