@@ -14,9 +14,13 @@ public class InfoPartida {
 	private Jugador jugador3;
 	private Jugador jugador4;
 	private Personaje personaje1;
+	private boolean jugoP1;
 	private Personaje personaje2;
+	private boolean jugoP2;
 	private Personaje personaje3;
+	private boolean jugoP3;
 	private Personaje personaje4;
+	private boolean jugoP4;
 	private Distrito[] distritosJ1;
 	private Distrito[] distritosJ2;
 	private Distrito[] distritosJ3;
