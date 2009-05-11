@@ -75,6 +75,9 @@ public class EstadoPartida {
 		pjActual = null;
 		resetPersoJugador();
 		jugActual = tieneCorona;
+		for(int i = 0; i < this.resJugadores.size(); i++){
+			this.resJugadores.get(i).setJugo(false);
+		}
 	}
 
 	public void initFaseJugarPersonajes() {
@@ -244,6 +247,13 @@ public class EstadoPartida {
 				ret = rj;
 		}
 		return ret;
+	}
+	
+	/*
+	 * Obtiene el ResumenJugador que corresponde a un aid
+	 */
+	public ResumenJugador getResumenJugador(int num) {
+		return resJugadores.get(num);
 	}
 	
 	/*
