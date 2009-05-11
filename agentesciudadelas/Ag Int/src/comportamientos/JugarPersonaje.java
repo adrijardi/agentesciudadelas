@@ -15,6 +15,7 @@ import tablero.ResumenJugador;
 import utils.Filtros;
 import utils.Personajes;
 import acciones.DarTurno;
+import acciones.InfoPartida;
 import acciones.NotificarCorona;
 
 
@@ -120,6 +121,21 @@ public class JugarPersonaje extends Behaviour {
 			System.out.println("Jugador "+jugador.getJugador().getNombre()+" muerto");
 			muerto = true;
 		}
+		
+		
+		// Notifica la informacion de la partida
+		InfoPartida msgInfo = new InfoPartida();
+		msgInfo.setJugador1(ep.getResumenJugador(0).getJugador());
+		msgInfo.setJugador2(ep.getResumenJugador(1).getJugador());
+		msgInfo.setJugador3(ep.getResumenJugador(2).getJugador());
+		msgInfo.setJugador4(ep.getResumenJugador(3).getJugador());
+		//POR AQUI
+		//msgInfo.setPersonaje1();
+		
+		//agt.sendMSG(ACLMessage.REQUEST, jugador, msgInfo, Filtros.NOTIFICARTURNO);
+
+		
+		
 		// Notifica el turno a un jugador
 		DarTurno msgNotificar = new DarTurno();
 		msgNotificar.setJugador(jugador.getJugador());
@@ -148,6 +164,7 @@ public class JugarPersonaje extends Behaviour {
 		
 		
 		agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
+		ep.getJugActual().setJugo(true);
 	}
 
 	@Override
