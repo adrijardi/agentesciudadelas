@@ -204,6 +204,11 @@ public class OntologiaCiudadelas extends Ontology {
 	public static final String INFOPARTIDA_DISTRITOSJ2 = "distritosJ2";
 	public static final String INFOPARTIDA_DISTRITOSJ3 = "distritosJ3";
 	public static final String INFOPARTIDA_DISTRITOSJ4 = "distritosJ4";
+	public static final String INFOPARTIDA_JUGOP2 = "jugoP1";
+	public static final String INFOPARTIDA_JUGOP3 = "jugoP2";
+	public static final String INFOPARTIDA_JUGOP4 = "jugoP3";
+	public static final String INFOPARTIDA_JUGOP1 = "jugoP4";
+	
 	
 	// Protected constructor is sufficient to suppress unauthorized calls to the
 	// constructor
@@ -421,6 +426,10 @@ public class OntologiaCiudadelas extends Ontology {
 			as.add(INFOPARTIDA_DISTRITOSJ2, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 			as.add(INFOPARTIDA_DISTRITOSJ3, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
 			as.add(INFOPARTIDA_DISTRITOSJ4, (ConceptSchema) getSchema(DISTRITO), 0, ObjectSchema.UNLIMITED);
+			as.add(INFOPARTIDA_JUGOP1, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
+			as.add(INFOPARTIDA_JUGOP2, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
+			as.add(INFOPARTIDA_JUGOP3, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
+			as.add(INFOPARTIDA_JUGOP4, (PrimitiveSchema) getSchema(BasicOntology.BOOLEAN));
 			
 		} catch (OntologyException oe) {
 			oe.printStackTrace();
