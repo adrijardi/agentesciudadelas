@@ -1,5 +1,6 @@
 package comportamientos;
 
+import jade.content.AgentAction;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
@@ -7,6 +8,7 @@ import java.util.LinkedList;
 
 import comportamientos_jugador.HabilidadLadron;
 
+import conceptos.Distrito;
 import conceptos.Personaje;
 
 import tablero.AgTablero;
@@ -129,10 +131,53 @@ public class JugarPersonaje extends Behaviour {
 		msgInfo.setJugador2(ep.getResumenJugador(1).getJugador());
 		msgInfo.setJugador3(ep.getResumenJugador(2).getJugador());
 		msgInfo.setJugador4(ep.getResumenJugador(3).getJugador());
-		//POR AQUI
-		//msgInfo.setPersonaje1();
+		for(int i = 0; i < 4; i++){
+			if(ep.getResumenJugador(i).getJugo()){
+				switch (i){
+				case 0:
+					msgInfo.setPersonaje1(ep.getResumenJugador(i).getPersonaje());
+					msgInfo.setJugoP1(true);
+				break;
+				case 1:
+					msgInfo.setPersonaje2(ep.getResumenJugador(i).getPersonaje());
+					msgInfo.setJugoP2(true);
+				break;
+				case 2:
+					msgInfo.setPersonaje3(ep.getResumenJugador(i).getPersonaje());
+					msgInfo.setJugoP3(true);
+				break;
+				case 3:
+					msgInfo.setPersonaje4(ep.getResumenJugador(i).getPersonaje());
+					msgInfo.setJugoP4(true);
+				break;
+				}
+			}else{
+				switch (i){
+				case 0:
+					msgInfo.setPersonaje1(Personajes.ASESINO.getPj());
+					msgInfo.setJugoP1(false);
+				break;
+				case 1:
+					msgInfo.setPersonaje2(Personajes.ASESINO.getPj());
+					msgInfo.setJugoP1(false);
+				break;
+				case 2:
+					msgInfo.setPersonaje3(Personajes.ASESINO.getPj());
+					msgInfo.setJugoP1(false);
+				break;
+				case 3:
+					msgInfo.setPersonaje4(Personajes.ASESINO.getPj());
+					msgInfo.setJugoP1(false);
+				break;
+				}
+			}
+		}
+		msgInfo.setDistritosJ1(ep.getResumenJugador(0).getConstruido2());
+		msgInfo.setDistritosJ1(ep.getResumenJugador(1).getConstruido2());
+		msgInfo.setDistritosJ1(ep.getResumenJugador(2).getConstruido2());
+		msgInfo.setDistritosJ1(ep.getResumenJugador(3).getConstruido2());
 		
-		//agt.sendMSG(ACLMessage.REQUEST, jugador, msgInfo, Filtros.NOTIFICARTURNO);
+		agt.sendMSG(ACLMessage.REQUEST, jugador, (AgentAction) msgInfo, Filtros.NOTIFICARTURNO);
 
 		
 		
