@@ -27,6 +27,40 @@ public class InfoPartida {
 	private Distrito[] distritosJ4;
 	
 	
+	
+	
+	public boolean getJugoP1() {
+		return jugoP1;
+	}
+
+	public void setJugoP1(boolean jugoP1) {
+		this.jugoP1 = jugoP1;
+	}
+
+	public boolean getJugoP2() {
+		return jugoP2;
+	}
+
+	public void setJugoP2(boolean jugoP2) {
+		this.jugoP2 = jugoP2;
+	}
+
+	public boolean getJugoP3() {
+		return jugoP3;
+	}
+
+	public void setJugoP3(boolean jugoP3) {
+		this.jugoP3 = jugoP3;
+	}
+
+	public boolean getJugoP4() {
+		return jugoP4;
+	}
+
+	public void setJugoP4(boolean jugoP4) {
+		this.jugoP4 = jugoP4;
+	}
+
 	public Jugador getJugador1() {
 		return jugador1;
 	}
