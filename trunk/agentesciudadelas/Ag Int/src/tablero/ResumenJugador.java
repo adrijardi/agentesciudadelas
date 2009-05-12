@@ -205,6 +205,13 @@ public class ResumenJugador {
 		return construido;
 	}
 
+	public Distrito[] getConstruido2(){
+		Distrito[] d = new Distrito[construido.size()];
+		for(int i = 0; i < construido.size(); i++){
+			d[i] = construido.get(i);
+		}
+		return d;
+	}
 		
 	public Personaje getPersonaje() {
 		return personaje;
