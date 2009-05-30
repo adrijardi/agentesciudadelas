@@ -12,6 +12,7 @@ import utils.Distritos;
 import utils.Personajes;
 
 import acciones.DestruirDistrito;
+import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
@@ -187,6 +188,12 @@ System.out.println("Entra en el pers jugado");
 			llp.remove(destapados[i].getPj());
 		}
 		return llp.get(dado.nextInt(llp.size()));
+	}
+
+	@Override
+	public void setInfo(InfoPartida msgInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

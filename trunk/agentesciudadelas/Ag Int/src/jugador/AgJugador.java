@@ -23,6 +23,7 @@ import tablero.ResumenJugador;
 import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.DestruirDistrito;
+import acciones.InfoPartida;
 import acciones.NotificarFinTurnoJugador;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
@@ -63,7 +64,7 @@ public abstract class AgJugador extends jade.core.Agent {
 	private Codec codec2 = new LEAPCodec();
 	private final OntologiaCiudadelas onto = OntologiaCiudadelas.getInstance();
 	
-	private InfoPartida infoPartida = new InfoPartida();
+	private InfoPartidaPropia infoPartida = new InfoPartidaPropia();
 	
 	// almacena el personaje muerto en este turno
 	protected Personaje _muerto;
@@ -130,10 +131,10 @@ public abstract class AgJugador extends jade.core.Agent {
 	    }
 	    System.out.println("Seller-agent "+getAID().getName()+" terminating."); // Esribe en pantalla un mensaje de terminaci�n
 	}
-	public InfoPartida getInfoPartida() {
+	public InfoPartidaPropia getInfoPartida() {
 		return infoPartida;
 	}
-	public void setInfoPartida(InfoPartida infoPartida) {
+	public void setInfoPartida(InfoPartidaPropia infoPartida) {
 		this.infoPartida = infoPartida;
 	}
 	
@@ -422,4 +423,5 @@ public abstract class AgJugador extends jade.core.Agent {
 	public abstract Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3);
 	public abstract void getDistritoDestruir(PedirDistritoJugadores pd, DestruirDistrito dd);
 	public abstract Personaje seleccionarPersonajeRobo();
+	public abstract void setInfo(InfoPartida msgInfo);
 }

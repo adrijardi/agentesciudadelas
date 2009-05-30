@@ -1,6 +1,6 @@
 package jugador;
 
-public class InfoPartida {
+public class InfoPartidaPropia {
 	private int mano;
 	private int puntos;
 	private int monedas;

@@ -14,6 +14,7 @@ import utils.Personajes;
 import utils.TipoDistrito;
 
 import acciones.DestruirDistrito;
+import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
@@ -250,5 +251,11 @@ public class JugadorPablo extends AgJugador {
 			llp.remove(destapados[i]);
 		}
 		return llp.get(((int)(Math.random()))*llp.size());
+	}
+
+	@Override
+	public void setInfo(InfoPartida msgInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -50,4 +50,9 @@ public class Jugador implements Concept,Comparable<Jugador> {
 				return true;
 		return super.equals(obj);
 	}
+	
+	@Override
+	public String toString() {
+		return nombre+" Mano:"+mano+" Monedas:"+monedas+" Pnts:"+puntos;
+	}
 }

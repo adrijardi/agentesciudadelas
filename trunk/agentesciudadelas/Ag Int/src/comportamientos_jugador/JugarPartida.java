@@ -1,6 +1,7 @@
 package comportamientos_jugador;
 
 import acciones.DarTurno;
+import acciones.InfoPartida;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -21,9 +22,11 @@ public class JugarPartida extends Behaviour {
 	public void action() {
 		//Se espera a que el tablero nos entrege el turno
 		ACLMessage msg = _agj.reciveBlockingMessage(Filtros.NOTIFICARTURNO, false);
-		
+		ACLMessage info = _agj.reciveBlockingMessage(Filtros.INFOPARTIDA, false);
 		if(msg != null){
 			try {
+				InfoPartida msgInfo = (InfoPartida) _agj.getContentManager().extractContent(info);
+				_agj.setInfo(msgInfo);
 				DarTurno msgTurno = (DarTurno) _agj.getContentManager().extractContent(msg);
 				if(!msgTurno.getMuerto()){
 					//Se realizan las acciones definidas por el agente

@@ -2,12 +2,13 @@ package acciones;
 
 import java.util.Vector;
 
+import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
 import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;
 
-public class InfoPartida {
+public class InfoPartida implements AgentAction {
 
 	private Jugador jugador1;
 	private Jugador jugador2;
@@ -21,10 +22,10 @@ public class InfoPartida {
 	private boolean jugoP3;
 	private Personaje personaje4;
 	private boolean jugoP4;
-	private Distrito[] distritosJ1;
-	private Distrito[] distritosJ2;
-	private Distrito[] distritosJ3;
-	private Distrito[] distritosJ4;
+	private Distrito[] distritosJ1 = new Distrito[0];
+	private Distrito[] distritosJ2 = new Distrito[0];
+	private Distrito[] distritosJ3 = new Distrito[0];
+	private Distrito[] distritosJ4 = new Distrito[0];
 	
 	
 	
@@ -134,7 +135,10 @@ public class InfoPartida {
 	}
 	
 	public void setDistritosJ1(Distrito[] d){
-		distritosJ1 = d;
+		if(d != null)
+			distritosJ1 = d;
+		else
+			distritosJ1 = new Distrito[0];
 	}
 	
 	public jade.util.leap.List getDistritosJ1(){
@@ -159,7 +163,10 @@ public class InfoPartida {
 	}
 	
 	public void setDistritosJ2(Distrito[] d){
-		distritosJ2 = d;
+		if(d != null)
+			distritosJ2 = d;
+		else
+			distritosJ2 = new Distrito[0];
 	}
 	
 	public jade.util.leap.List getDistritosJ2(){
@@ -184,7 +191,10 @@ public class InfoPartida {
 	}
 	
 	public void setDistritosJ3(Distrito[] d){
-		distritosJ3 = d;
+		if(d != null)
+			distritosJ3 = d;
+		else
+			distritosJ3 = new Distrito[0];
 	}
 	
 	public jade.util.leap.List getDistritosJ3(){
@@ -209,7 +219,10 @@ public class InfoPartida {
 	}
 	
 	public void setDistritosJ4(Distrito[] d){
-		distritosJ4 = d;
+		if(d != null)
+			distritosJ4 = d;
+		else
+			distritosJ4 = new Distrito[0];
 	}
 	
 	public jade.util.leap.List getDistritosJ4(){
@@ -228,32 +241,26 @@ public class InfoPartida {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Vector<Distrito[]> store = new Vector<Distrito[]>(4,1);
-		store.add(distritosJ1);
-		store.add(distritosJ2);
-		store.add(distritosJ3);
-		store.add(distritosJ4);
-		for(int j = 0; j < store.size(); j++){
-			sb.append("Distritos Jugador " + j+1 + " :");
-			for (int i = 0; i < store.get(j).length; i++) {
-				if(j == 0){
-					sb.append(distritosJ1[i].getNombre());
-					sb.append(" ");
-				}
-				if(j == 1){
-					sb.append(distritosJ2[i].getNombre());
-					sb.append(" ");
-				}
-				if(j == 2){
-					sb.append(distritosJ3[i].getNombre());
-					sb.append(" ");
-				}
-				if(j == 3){
-					sb.append(distritosJ4[i].getNombre());
-					sb.append(" ");
-				}
-			}
+		sb.append("\n\t"+jugador1+" ["+personaje1+"] "+jugoP1+"\n");
+		for(int j = 0; j < distritosJ1.length; j++){
+			sb.append(distritosJ1[j].getNombre());
+			sb.append(" ");
 		}
+		sb.append("\n\t"+jugador2+" ["+personaje2+"] "+jugoP2+"\n");
+		for(int j = 0; j < distritosJ2.length; j++){
+			sb.append(distritosJ2[j].getNombre());
+			sb.append(" ");
+		}
+		sb.append("\n\t"+jugador3+" ["+personaje3+"] "+jugoP3+"\n");
+		for(int j = 0; j < distritosJ3.length; j++){
+			sb.append(distritosJ3[j].getNombre());
+			sb.append(" ");
+		}
+		sb.append("\n\t"+jugador4+" ["+personaje4+"] "+jugoP4+"\n");
+		for(int j = 0; j < distritosJ4.length; j++){
+			sb.append(distritosJ4[j].getNombre());
+			sb.append(" ");
+		}		
 		return sb.toString();
 	}
 }

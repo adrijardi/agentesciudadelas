@@ -64,6 +64,7 @@ public class EleccionCartasODinero extends Behaviour {
 					DarMonedas obj=new DarMonedas();
 					obj.setMonedas(2);
 					agt.sendMSG(ACLMessage.REQUEST, jugador, obj, Filtros.DARMONEDAS);
+					jugador.setDinero(2+jugador.getDinero());
 				}
 				
 			} catch (UngroundedException e) {

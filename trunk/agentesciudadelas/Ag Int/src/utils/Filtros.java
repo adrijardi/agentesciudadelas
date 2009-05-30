@@ -76,4 +76,6 @@ public class Filtros {
 	public static final String COBRARROBO = "CobrarRobo";
 	
 	public static final String PAGARROBO = "PagarRobo";
+	
+	public static final String INFOPARTIDA = "InfoPartida";
 }
