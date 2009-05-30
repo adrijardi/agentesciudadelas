@@ -1,15 +1,9 @@
 package comportamientos;
 
-import jade.content.AgentAction;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
 import java.util.LinkedList;
-
-import comportamientos_jugador.HabilidadLadron;
-
-import conceptos.Distrito;
-import conceptos.Personaje;
 
 import tablero.AgTablero;
 import tablero.EstadoPartida;
@@ -19,6 +13,7 @@ import utils.Personajes;
 import acciones.DarTurno;
 import acciones.InfoPartida;
 import acciones.NotificarCorona;
+import conceptos.Personaje;
 
 
 public class JugarPersonaje extends Behaviour {

@@ -1,7 +1,5 @@
 package comportamientos_jugador;
 
-import acciones.DarTurno;
-import acciones.InfoPartida;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -9,6 +7,8 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 import utils.Filtros;
+import acciones.DarTurno;
+import acciones.InfoPartida;
 
 public class JugarPartida extends Behaviour {
 	

@@ -1,15 +1,14 @@
 package comportamientos;
 
-import java.util.Iterator;
-
-import conceptos.Distrito;
 import jade.content.ContentElement;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.util.leap.List;
+
+import java.util.Iterator;
+
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
@@ -19,6 +18,7 @@ import acciones.DarDistritos;
 import acciones.DarMonedas;
 import acciones.ObtenerDistritos;
 import acciones.ObtenerMonedas;
+import conceptos.Distrito;
 
 public class EleccionCartasODinero extends Behaviour {
 	

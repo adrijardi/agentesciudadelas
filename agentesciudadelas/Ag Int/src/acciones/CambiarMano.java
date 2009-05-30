@@ -1,6 +1,5 @@
 package acciones;
 
-import tablero.ResumenJugador;
 import jade.content.AgentAction;
 import conceptos.Jugador;
 

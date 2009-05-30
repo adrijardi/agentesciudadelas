@@ -1,9 +1,5 @@
 package comportamientos_jugador;
 
-import conceptos.Distrito;
-import utils.Filtros;
-import acciones.DarDistritos;
-import acciones.ObtenerDistritos;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -11,6 +7,10 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.DarDistritos;
+import acciones.ObtenerDistritos;
+import conceptos.Distrito;
 
 public class PedirCartas extends Behaviour {
 	

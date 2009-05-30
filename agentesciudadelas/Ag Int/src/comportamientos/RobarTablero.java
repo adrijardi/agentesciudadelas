@@ -9,9 +9,7 @@ import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
 import utils.Filtros;
-import acciones.Matar;
 import acciones.NotificarRobado;
-import acciones.Robar;
 import conceptos.Personaje;
 
 public class RobarTablero extends Behaviour {

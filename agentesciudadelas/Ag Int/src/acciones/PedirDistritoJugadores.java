@@ -2,8 +2,8 @@ package acciones;
 
 import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
-import conceptos.Jugador;
 import conceptos.Distrito;
+import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class PedirDistritoJugadores implements AgentAction{

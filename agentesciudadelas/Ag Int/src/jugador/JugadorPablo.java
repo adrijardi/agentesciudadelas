@@ -4,15 +4,10 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jade.util.leap.List;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.Vector;
 
 import utils.Distritos;
 import utils.Personajes;
-import utils.TipoDistrito;
-
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
@@ -20,7 +15,6 @@ import acciones.PedirDistritoJugadores;
 
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.ConstruirDistritoJugador;
-import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.HabilidadLadron;

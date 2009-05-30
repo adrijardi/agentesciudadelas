@@ -1,14 +1,11 @@
 package comportamientos_jugador;
 
-import utils.Filtros;
-import acciones.Monedas;
-import jade.content.lang.Codec.CodecException;
-import jade.content.onto.OntologyException;
-import jade.content.onto.UngroundedException;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.Monedas;
 
 public class PagarRobo extends Behaviour{
 	private final AgJugador _agj;

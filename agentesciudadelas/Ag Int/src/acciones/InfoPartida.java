@@ -1,7 +1,5 @@
 package acciones;
 
-import java.util.Vector;
-
 import jade.content.AgentAction;
 import jade.util.leap.ArrayList;
 import conceptos.Distrito;

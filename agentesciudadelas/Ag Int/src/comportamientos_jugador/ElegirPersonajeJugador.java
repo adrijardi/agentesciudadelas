@@ -7,7 +7,6 @@ import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 import utils.Filtros;
-import utils.Personajes;
 import acciones.ElegirPersonaje;
 import acciones.NotificarDescartados;
 import acciones.OfertarPersonajes;

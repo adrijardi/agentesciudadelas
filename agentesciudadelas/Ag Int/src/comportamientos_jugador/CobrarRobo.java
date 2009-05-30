@@ -1,10 +1,5 @@
 package comportamientos_jugador;
 
-import tablero.EstadoPartida;
-import tablero.ResumenJugador;
-import utils.Filtros;
-import acciones.Monedas;
-import acciones.Robar;
 import jade.content.lang.Codec.CodecException;
 import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
@@ -12,6 +7,8 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.Monedas;
 
 public class CobrarRobo extends Behaviour {
 
