@@ -39,6 +39,7 @@ public class FinalizarTurno extends Behaviour {
 	@Override
 	public boolean done() {
 		if(fin){
+			ep.getJugActual().getPuntos();
 			ep.nextJugadorPorTurnoPersonaje();
 		
 			switch (ep.getFase()) {

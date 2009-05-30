@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.DestruirDistrito;
+import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
@@ -261,5 +262,11 @@ public class JugadorAdri extends AgJugador {
 		if(llp.contains(Personajes.ARQUITECTO.getPj()))
 			return Personajes.ARQUITECTO.getPj();
 		return llp.get((int)(Math.random()*llp.size()));
+	}
+
+	@Override
+	public void setInfo(InfoPartida msgInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 }

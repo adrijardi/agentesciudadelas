@@ -154,30 +154,30 @@ public class JugarPersonaje extends Behaviour {
 			}else{
 				switch (i){
 				case 0:
-					msgInfo.setPersonaje1(Personajes.ASESINO.getPj());
+					msgInfo.setPersonaje1(Personajes.PREVIO.getPj());
 					msgInfo.setJugoP1(false);
 				break;
 				case 1:
-					msgInfo.setPersonaje2(Personajes.ASESINO.getPj());
-					msgInfo.setJugoP1(false);
+					msgInfo.setPersonaje2(Personajes.PREVIO.getPj());
+					msgInfo.setJugoP2(false);
 				break;
 				case 2:
-					msgInfo.setPersonaje3(Personajes.ASESINO.getPj());
-					msgInfo.setJugoP1(false);
+					msgInfo.setPersonaje3(Personajes.PREVIO.getPj());
+					msgInfo.setJugoP3(false);
 				break;
 				case 3:
-					msgInfo.setPersonaje4(Personajes.ASESINO.getPj());
-					msgInfo.setJugoP1(false);
+					msgInfo.setPersonaje4(Personajes.PREVIO.getPj());
+					msgInfo.setJugoP4(false);
 				break;
 				}
 			}
 		}
 		msgInfo.setDistritosJ1(ep.getResumenJugador(0).getConstruido2());
-		msgInfo.setDistritosJ1(ep.getResumenJugador(1).getConstruido2());
-		msgInfo.setDistritosJ1(ep.getResumenJugador(2).getConstruido2());
-		msgInfo.setDistritosJ1(ep.getResumenJugador(3).getConstruido2());
+		msgInfo.setDistritosJ2(ep.getResumenJugador(1).getConstruido2());
+		msgInfo.setDistritosJ3(ep.getResumenJugador(2).getConstruido2());
+		msgInfo.setDistritosJ4(ep.getResumenJugador(3).getConstruido2());
 		
-		agt.sendMSG(ACLMessage.REQUEST, jugador, (AgentAction) msgInfo, Filtros.NOTIFICARTURNO);
+		//agt.sendMSG(ACLMessage.REQUEST, jugador, msgInfo, Filtros.INFOPARTIDA);
 
 		
 		
@@ -209,6 +209,7 @@ public class JugarPersonaje extends Behaviour {
 		
 		
 		agt.sendMSG(ACLMessage.REQUEST, jugador, msgNotificar, Filtros.NOTIFICARTURNO);
+		agt.sendMSG(ACLMessage.REQUEST, jugador, msgInfo, Filtros.INFOPARTIDA);
 		ep.getJugActual().setJugo(true);
 	}
 

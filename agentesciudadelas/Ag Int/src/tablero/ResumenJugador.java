@@ -84,7 +84,8 @@ public class ResumenJugador {
 
 	public int getPuntos() {
 		int pnts = 0;
-		pnts += EstadoPartida.getInstance().getPnts8dist();
+		if(construido.size() >= 8)
+			pnts += EstadoPartida.getInstance().getPnts8dist();
 		if(construidos5Colores())
 			pnts += 3;
 		for (Distrito d : construido) {

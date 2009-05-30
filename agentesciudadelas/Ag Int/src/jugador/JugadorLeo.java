@@ -12,6 +12,7 @@ import tablero.ResumenJugador;
 import utils.Personajes;
 
 import acciones.DestruirDistrito;
+import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
@@ -178,6 +179,12 @@ public class JugadorLeo extends AgJugador {
 			llp.remove(destapados[i]);
 		}
 		return llp.get(((int)(Math.random()))*llp.size());
+	}
+
+	@Override
+	public void setInfo(InfoPartida msgInfo) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
