@@ -6,17 +6,13 @@ import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
-import tablero.Mazo;
 import tablero.ResumenJugador;
 import utils.Filtros;
 import acciones.CambiarMano;
 import acciones.CartasJugadores;
 import acciones.DarDistritos;
-import conceptos.Distrito;
-import conceptos.Jugador;
 
 public class CambiarCartas extends Behaviour {
 	/*

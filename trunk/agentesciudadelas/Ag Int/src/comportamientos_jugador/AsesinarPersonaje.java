@@ -1,11 +1,11 @@
 package comportamientos_jugador;
 
-import utils.Filtros;
-import acciones.Matar;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
+import utils.Filtros;
+import acciones.Matar;
 
 public class AsesinarPersonaje extends Behaviour {
 

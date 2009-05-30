@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import utils.TipoDistrito;
-
 import conceptos.Distrito;
 import conceptos.Jugador;
 import conceptos.Personaje;

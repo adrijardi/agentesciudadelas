@@ -1,13 +1,12 @@
 package comportamientos_jugador;
 
-import conceptos.Personaje;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 import utils.Filtros;
-import acciones.Monedas;
 import acciones.NotificarRobado;
+import conceptos.Personaje;
 
 public class HabilidadLadron extends Behaviour{
 	private final AgJugador _agj;

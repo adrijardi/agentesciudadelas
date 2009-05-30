@@ -1,26 +1,14 @@
 package comportamientos;
 
-import java.util.Iterator;
-
-import jade.content.ContentElement;
-import jade.content.lang.Codec.CodecException;
-import jade.content.onto.OntologyException;
-import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.Mazo;
 import tablero.ResumenJugador;
 import utils.Filtros;
 import acciones.DarDistritos;
-import acciones.DarMonedas;
-import acciones.ObtenerDistritos;
-import acciones.ObtenerMonedas;
-import acciones.PedirDistritosArquitecto;
 import conceptos.Distrito;
-import conceptos.Jugador;
 
 public class HabilidadArquitecto extends Behaviour {
 

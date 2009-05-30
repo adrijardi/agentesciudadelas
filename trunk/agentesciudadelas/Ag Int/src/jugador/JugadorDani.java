@@ -10,7 +10,6 @@ import java.util.Random;
 
 import utils.Distritos;
 import utils.Personajes;
-
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
@@ -19,7 +18,6 @@ import acciones.PedirDistritoJugadores;
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
-import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.HabilidadLadron;

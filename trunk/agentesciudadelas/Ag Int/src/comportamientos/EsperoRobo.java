@@ -5,17 +5,11 @@ import jade.content.onto.OntologyException;
 import jade.content.onto.UngroundedException;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-
-import java.util.LinkedList;
-
-import acciones.Matar;
-import acciones.Monedas;
-import conceptos.Personaje;
-
 import tablero.AgTablero;
 import tablero.EstadoPartida;
 import tablero.ResumenJugador;
 import utils.Filtros;
+import acciones.Monedas;
 
 public class EsperoRobo extends Behaviour {
 

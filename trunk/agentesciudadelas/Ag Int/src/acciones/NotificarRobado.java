@@ -1,7 +1,6 @@
 package acciones;
 
 import jade.content.AgentAction;
-import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class NotificarRobado implements AgentAction {

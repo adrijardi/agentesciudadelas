@@ -8,24 +8,19 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import tablero.ResumenJugador;
 import utils.Personajes;
-
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
 import acciones.PedirDistritoJugadores;
 
-import comportamientos.CambiarCartas;
 import comportamientos_jugador.AsesinarPersonaje;
 import comportamientos_jugador.CambiarCartasJugador;
 import comportamientos_jugador.ConstruirDistritoJugador;
-import comportamientos_jugador.DestruirDistritoJugador;
 import comportamientos_jugador.FinTurno;
 import comportamientos_jugador.HabilidadArquitecto;
 import comportamientos_jugador.HabilidadLadron;
 import comportamientos_jugador.PedirCartas;
-import comportamientos_jugador.PedirCobrarCondotierro;
 import comportamientos_jugador.PedirCobrarMercader;
 import comportamientos_jugador.PedirCobrarObispo;
 import comportamientos_jugador.PedirCobrarRey;

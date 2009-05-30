@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import onto.OntologiaCiudadelas;
-import tablero.ResumenJugador;
 import utils.Personajes;
 import utils.TipoDistrito;
 import acciones.DestruirDistrito;
