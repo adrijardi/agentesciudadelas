@@ -8,6 +8,7 @@ import jade.lang.acl.ACLMessage;
 import jugador.AgJugador;
 import utils.Filtros;
 import acciones.ElegirPersonaje;
+import acciones.InfoPartida;
 import acciones.NotificarDescartados;
 import acciones.OfertarPersonajes;
 import conceptos.Personaje;
@@ -30,10 +31,13 @@ public class ElegirPersonajeJugador extends Behaviour {
 		if (msgPersonajesDescartados != null) {
 			fin = true;
 			_agj.addTurno();
-			ACLMessage msg = _agj.reciveBlockingMessage(
-					Filtros.OFERTARPERSONAJES, true);
-
+			ACLMessage msg = _agj.reciveBlockingMessage(Filtros.OFERTARPERSONAJES, true);
+			ACLMessage info = _agj.reciveBlockingMessage(Filtros.INFOPARTIDA, false);
+			
 			try {
+				InfoPartida msgInfo = (InfoPartida) _agj.getContentManager().extractContent(info);
+				_agj.setInfo(msgInfo);
+				
 				NotificarDescartados nd = (NotificarDescartados) _agj
 						.getContentManager().extractContent(
 								msgPersonajesDescartados);
