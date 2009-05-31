@@ -45,7 +45,6 @@ public abstract class AgJugador extends jade.core.Agent {
 	protected Behaviour cambiarMano;
 	protected int turno = 0;
 	
-	protected String miNombre=this.getName();
 	
 	public int getTurno() {
 		return turno;
