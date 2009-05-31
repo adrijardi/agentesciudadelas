@@ -279,7 +279,9 @@ public class JugadorPablo extends AgJugador {
 		/*
 		 * leo la informacion pasada en el mensaje de tipo InfoPartida
 		 */
-		_resumen=ResumenInfoPartida.getInstance(msgInfo, pj_actual);
+		
+		
+		_resumen=ResumenInfoPartida.getInstance(msgInfo, this.miNombre);
 		
 		/*
 		 * se da peso a los personajes preferidos
