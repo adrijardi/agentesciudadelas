@@ -2,13 +2,16 @@ package jugador;
 
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
+import jade.util.leap.ArrayList;
 import jade.util.leap.List;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import utils.Distritos;
 import utils.Personajes;
 import utils.ResumenInfoPartida;
+import utils.TipoDistrito;
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
@@ -43,7 +46,7 @@ public class JugadorPablo extends AgJugador {
 		
 		ronda++;
 		// Se selecciona un personaje aleatorio de la oferta
-		pj_actual = (Personaje)contenido.getDisponibles().get(((int)(Math.random()*(contenido.getDisponibles().size()))));
+		pj_actual = elegir(contenido);
 		return pj_actual;
 	}
 
@@ -117,16 +120,33 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
-		// si solo le doy 2, puedo hacerlo de otro modo
+		//descarto el q tenga construido o uno al azar
 		
 		int num=distritos.size()-1;
 		Distrito[] descartado = new Distrito[num];
-		int elegido=((int)(Math.random()*distritos.size()));
+		
+		int elegido=-1;
 		int cont=0;
+		
+		List construido=_resumen.getDistritos(_resumen.get_miPosicion());
+		for(int i=0;i<construido.size();i++){
+			if(elegido<0){
+				if(((Distrito)construido.get(i)).equals((Distrito)(distritos.get(0))))
+					elegido=0;
+				else if(((Distrito)construido.get(i)).equals((Distrito)(distritos.get(1))))
+					elegido=1;
+			}
+		}
+		
+		if(elegido<0){
+			elegido=((int)(Math.random()*distritos.size()));
+		}
+		
 		for(int i=0;i<distritos.size();i++){
 			if(i==elegido) mano.add((Distrito)(distritos.get(i)));
 			else descartado[cont++]=((Distrito)(distritos.get(i)));
 		}
+		
 		return descartado;
 	}
 
@@ -136,7 +156,7 @@ public class JugadorPablo extends AgJugador {
 		// TODO Auto-generated method stub
 		int num=(int)(Math.random()*3);
 		int aux=0;
-		int dinero=this.monedas;
+		//int dinero=this.monedas;
 		
 		Distrito[] val= new Distrito[0];
 		switch (num) {
@@ -201,10 +221,8 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public Personaje getPersonajeMatar() {
+		
 		if(this.monedas>3) return Personajes.LADRON.getPj();
-		if(this.construidas.size()==6 && (this.pj_actual.getTurno()!=Personajes.CONDOTIERO.getPj().getTurno()
-				|| this.pj_actual.getTurno()!=Personajes.OBISPO.getPj().getTurno()))
-				return Personajes.CONDOTIERO.getPj();
 		if(this.mano.size()>2) return Personajes.MAGO.getPj();
 		
 		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
@@ -266,12 +284,17 @@ public class JugadorPablo extends AgJugador {
 		/*
 		 * se da peso a los personajes preferidos
 		 */
+		for(int i=0;i<prioridadPersonajes.length;i++) prioridadPersonajes[i]=1;
 		//1º hay mucho dinero en la mesa
 		prioridadLadron();
 		//si hay alguien con 6 o 7 distritos
 		muchosDistritos();
 		//si tengo pocas cartas
 		muchasCartas();
+		prioridadArquitecto();
+		orden();
+		mercaderExtra();
+		prioridadPorColor();
 	}
 
 	private void prioridadLadron() {
@@ -315,6 +338,10 @@ public class JugadorPablo extends AgJugador {
 				prioridadPersonajes[Personajes.ARQUITECTO.getPosision()]+=5;
 			}
 		}
+		
+		if(_resumen.getDistritos(_resumen.get_miPosicion()).size()==6 &&
+				_resumen.get_jugadores()[_resumen.get_miPosicion()].getMonedas()>3)
+			prioridadPersonajes[Personajes.ARQUITECTO.getPosision()]+=10;
 	}
 	
 	private void orden(){
@@ -330,6 +357,52 @@ public class JugadorPablo extends AgJugador {
 	}
 	
 	private void prioridadPorColor(){
+		int rojo=0;
+		int verde=0;
+		int azul=0;
+		int amarillo=0;
+		jade.util.leap.LinkedList lista=_resumen.getDistritos(_resumen.get_miPosicion());
+		for(int i=0;i<lista.size();i++){
+			if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.COMERCIAL.getColor())){
+				verde++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.NOBLE.getColor())){
+				amarillo++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.MILITAR.getColor())){
+				rojo++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.RELIGIOSO.getColor())){
+				azul++;
+			}
+		}
+		prioridadPersonajes[Personajes.MERCADER.getPosision()]+=verde*2;
+		prioridadPersonajes[Personajes.OBISPO.getPosision()]+=azul*2;
+		prioridadPersonajes[Personajes.REY.getPosision()]+=amarillo*2;
+		prioridadPersonajes[Personajes.CONDOTIERO.getPosision()]+=rojo*2;
+	}
+	
+	private Personaje elegir(OfertarPersonajes contenido){
+		Personaje salida=null;
+		int contador=0;
 		
+		List lista = contenido.getDisponibles();
+		int[] pesos = new int[lista.size()];
+		for(int i=0;i<lista.size();i++){
+			pesos[i]=prioridadPersonajes[((Personaje)lista.get(i)).getTurno()-1];
+		}
+		
+		for(int i=0;i<pesos.length;i++){
+			contador+=pesos[i];
+		}
+		
+		int inicio=(int)(Math.random()*lista.size());
+		int numero=(int)(Math.random()*contador);
+		
+		for(int i=0;i<pesos.length;i++){
+			numero-=pesos[(inicio+i)%pesos.length];
+			if(numero<=0){
+				salida=(Personaje)lista.get(i);
+			}
+			
+		}
+		return salida;
 	}
 }
