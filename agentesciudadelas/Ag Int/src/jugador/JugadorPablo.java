@@ -41,6 +41,7 @@ public class JugadorPablo extends AgJugador {
 	
 	int ronda=0;
 	
+	boolean iniciadoResumen=false;
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
 		
@@ -281,22 +282,31 @@ public class JugadorPablo extends AgJugador {
 		 */
 		
 		
-		_resumen=ResumenInfoPartida.getInstance(msgInfo, this.miNombre);
+		System.out.println("2 - en setInfo: mi nombre = " +this.getName());
+		if(!iniciadoResumen)
+			_resumen=ResumenInfoPartida.getInstance(msgInfo, this.getName());
+		else{
+			if(_resumen.isInicializado())
+				_resumen.darValores(this.getName());
+			_resumen.actualizarPartida(msgInfo);
+		}
 		
 		/*
 		 * se da peso a los personajes preferidos
 		 */
 		for(int i=0;i<prioridadPersonajes.length;i++) prioridadPersonajes[i]=1;
-		//1º hay mucho dinero en la mesa
-		prioridadLadron();
-		//si hay alguien con 6 o 7 distritos
-		muchosDistritos();
-		//si tengo pocas cartas
-		muchasCartas();
-		prioridadArquitecto();
-		orden();
-		mercaderExtra();
-		prioridadPorColor();
+		if(_resumen.isInicializado()){
+			//1º hay mucho dinero en la mesa
+			prioridadLadron();
+			//si hay alguien con 6 o 7 distritos
+			muchosDistritos();
+			//si tengo pocas cartas
+			muchasCartas();
+			prioridadArquitecto();
+			orden();
+			mercaderExtra();
+			prioridadPorColor();
+		}
 	}
 
 	private void prioridadLadron() {
