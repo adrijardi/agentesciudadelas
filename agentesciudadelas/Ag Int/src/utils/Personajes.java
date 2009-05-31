@@ -152,6 +152,13 @@ public enum Personajes {
 		llp.add(CONDOTIERO.getPj());
 		return llp;
 	}
+	
+	/*
+	 * posicion sin tener en cuenta el previo
+	 */
+	public int getPosision(){
+		return this.turno-1;
+	}
 
 	
 }
