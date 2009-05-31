@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import utils.Distritos;
 import utils.Personajes;
+import utils.ResumenInfoPartida;
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
@@ -31,6 +32,10 @@ import conceptos.Personaje;
 
 public class JugadorPablo extends AgJugador {
 
+	//prioridad para elegir personaje
+	public int[] prioridadPersonajes=new int[8];
+	ResumenInfoPartida _resumen;
+	
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
 		// Se selecciona un personaje aleatorio de la oferta
@@ -249,7 +254,9 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public void setInfo(InfoPartida msgInfo) {
-		// TODO Auto-generated method stub
-		
+		/*
+		 * leo la informacion pasada en el mensaje de tipo InfoPartida
+		 */
+		_resumen=ResumenInfoPartida.getInstance(msgInfo, pj_actual);
 	}
 }
