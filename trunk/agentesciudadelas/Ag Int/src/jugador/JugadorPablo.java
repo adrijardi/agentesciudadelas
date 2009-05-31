@@ -36,8 +36,12 @@ public class JugadorPablo extends AgJugador {
 	public int[] prioridadPersonajes=new int[8];
 	ResumenInfoPartida _resumen;
 	
+	int ronda=0;
+	
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
+		
+		ronda++;
 		// Se selecciona un personaje aleatorio de la oferta
 		pj_actual = (Personaje)contenido.getDisponibles().get(((int)(Math.random()*(contenido.getDisponibles().size()))));
 		return pj_actual;
@@ -258,5 +262,74 @@ public class JugadorPablo extends AgJugador {
 		 * leo la informacion pasada en el mensaje de tipo InfoPartida
 		 */
 		_resumen=ResumenInfoPartida.getInstance(msgInfo, pj_actual);
+		
+		/*
+		 * se da peso a los personajes preferidos
+		 */
+		//1º hay mucho dinero en la mesa
+		prioridadLadron();
+		//si hay alguien con 6 o 7 distritos
+		muchosDistritos();
+		//si tengo pocas cartas
+		muchasCartas();
+	}
+
+	private void prioridadLadron() {
+		int media=0;
+		for(int i=0;i<_resumen.get_jugadores().length;i++){
+			media+=_resumen.get_jugadores()[i].getMonedas();
+			if(_resumen.get_jugadores()[i].getMonedas()>=4)
+				prioridadPersonajes[Personajes.LADRON.getPosision()]+=5;
+		}
+		media=media/4;
+		if(media>=3)prioridadPersonajes[Personajes.LADRON.getPosision()]+=3;
+		if(_resumen.get_jugadores()[_resumen.get_miPosicion()].getMonedas()<3)
+			prioridadPersonajes[Personajes.LADRON.getPosision()]+=3;
+	}
+	
+	private void muchosDistritos() {
+		for(int i=0;i<_resumen.get_jugadores().length;i++){
+			if(_resumen.getDistritos(i).size()==7) 
+				prioridadPersonajes[Personajes.ASESINO.getPosision()]+=5;
+			else if(_resumen.getDistritos(i).size()==6) 
+				prioridadPersonajes[Personajes.ASESINO.getPosision()]+=3;
+		}
+	}
+	
+	private void muchasCartas(){
+		int diff=0;
+		if(_resumen.get_jugadores()[_resumen.get_miPosicion()].getMano()<2){
+			for(int i=0;i<_resumen.get_jugadores().length;i++){
+				if(i!=_resumen.get_miPosicion()){
+					diff=_resumen.get_jugadores()[i].getMano() - _resumen.get_jugadores()[_resumen.get_miPosicion()].getMano();
+					if(diff>0)
+						prioridadPersonajes[Personajes.MAGO.getPosision()]+=diff;
+				}
+			}
+		}
+	}
+	
+	private void prioridadArquitecto(){
+		if(_resumen.get_jugadores()[_resumen.get_miPosicion()].getMano()>2){
+			if(_resumen.get_jugadores()[_resumen.get_miPosicion()].getMonedas()>5){
+				prioridadPersonajes[Personajes.ARQUITECTO.getPosision()]+=5;
+			}
+		}
+	}
+	
+	private void orden(){
+		for(int i=0;i<prioridadPersonajes.length;i++){
+			prioridadPersonajes[i]+=((prioridadPersonajes.length-1)-i);
+		}
+	}
+	private void mercaderExtra(){
+		if(_resumen.get_jugadores()[_resumen.get_miPosicion()].getMonedas()<2)
+			prioridadPersonajes[Personajes.MERCADER.getPosision()]+=3;
+		
+		prioridadPersonajes[Personajes.MERCADER.getPosision()]+=2;
+	}
+	
+	private void prioridadPorColor(){
+		
 	}
 }
