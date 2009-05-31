@@ -13,19 +13,19 @@ import conceptos.Personaje;
 public class ResumenInfoPartida {
 
 	Jugador _yo;
-	int _miPosicion;
+	int _miPosicion=-1;
 	Personaje[] _personajes=new Personaje[4];
 	Jugador[] _jugadores=new Jugador[4];
 	LinkedList[] _distrotosConstruidos=new LinkedList[4];
 	
 	public static ResumenInfoPartida Instance=null;
 	
-	private ResumenInfoPartida(InfoPartida msgInfo, Personaje pj_actual) {
+	private ResumenInfoPartida(InfoPartida msgInfo, String nombre) {
 		
 		_jugadores[0]=msgInfo.getJugador1();
-		_jugadores[1]=msgInfo.getJugador1();
-		_jugadores[2]=msgInfo.getJugador1();
-		_jugadores[3]=msgInfo.getJugador1();
+		_jugadores[1]=msgInfo.getJugador2();
+		_jugadores[2]=msgInfo.getJugador3();
+		_jugadores[3]=msgInfo.getJugador4();
 		_personajes[0]=null;
 		_personajes[1]=null;
 		_personajes[2]=null;
@@ -34,13 +34,13 @@ public class ResumenInfoPartida {
 			_personajes[0]=msgInfo.getPersonaje1();
 		}
 		if(msgInfo.getJugoP2()){
-			_personajes[1]=msgInfo.getPersonaje1();
+			_personajes[1]=msgInfo.getPersonaje2();
 		}
 		if(msgInfo.getJugoP3()){
-			_personajes[2]=msgInfo.getPersonaje1();
+			_personajes[2]=msgInfo.getPersonaje3();
 		}
 		if(msgInfo.getJugoP4()){
-			_personajes[3]=msgInfo.getPersonaje1();
+			_personajes[3]=msgInfo.getPersonaje4();
 		}
 		for(int i=0;i<_distrotosConstruidos.length;i++) 
 			_distrotosConstruidos[i]=new LinkedList();
@@ -58,8 +58,8 @@ public class ResumenInfoPartida {
 			_distrotosConstruidos[3].add(msgInfo.getDistritosJ4().get(i));
 		}
 		
-		for(int i=0;i<_personajes.length;i++){
-			if(_personajes.equals(pj_actual)) _miPosicion=i;
+		for(int i=0;i<_jugadores.length;i++){
+				if(_jugadores[i].getNombre().compareToIgnoreCase(nombre)==0) _miPosicion=i;			
 		}
 		_yo=_jugadores[_miPosicion];
 	}
@@ -67,9 +67,9 @@ public class ResumenInfoPartida {
 	private ResumenInfoPartida(InfoPartida msgInfo) {
 		
 		_jugadores[0]=msgInfo.getJugador1();
-		_jugadores[1]=msgInfo.getJugador1();
-		_jugadores[2]=msgInfo.getJugador1();
-		_jugadores[3]=msgInfo.getJugador1();
+		_jugadores[1]=msgInfo.getJugador2();
+		_jugadores[2]=msgInfo.getJugador3();
+		_jugadores[3]=msgInfo.getJugador4();
 		_personajes[0]=null;
 		_personajes[1]=null;
 		_personajes[2]=null;
@@ -78,13 +78,13 @@ public class ResumenInfoPartida {
 			_personajes[0]=msgInfo.getPersonaje1();
 		}
 		if(msgInfo.getJugoP2()){
-			_personajes[1]=msgInfo.getPersonaje1();
+			_personajes[1]=msgInfo.getPersonaje2();
 		}
 		if(msgInfo.getJugoP3()){
-			_personajes[2]=msgInfo.getPersonaje1();
+			_personajes[2]=msgInfo.getPersonaje3();
 		}
 		if(msgInfo.getJugoP4()){
-			_personajes[3]=msgInfo.getPersonaje1();
+			_personajes[3]=msgInfo.getPersonaje4();
 		}
 		for(int i=0;i<_distrotosConstruidos.length;i++) 
 			_distrotosConstruidos[i]=new LinkedList();
@@ -104,15 +104,12 @@ public class ResumenInfoPartida {
 		
 	}
 	
-	public static ResumenInfoPartida getInstance(InfoPartida msgInfo, Personaje pj_actual){
-		if(Instance==null) Instance=new ResumenInfoPartida(msgInfo, pj_actual);
+	public static ResumenInfoPartida getInstance(InfoPartida msgInfo, String nombre){
+		if(Instance==null) Instance=new ResumenInfoPartida(msgInfo, nombre);
 		else Instance=new ResumenInfoPartida(msgInfo);
 		return Instance;
 	}
 
-	public Jugador get_yo() {
-		return _yo;
-	}
 
 	public int get_miPosicion() {
 		return _miPosicion;
@@ -134,7 +131,7 @@ public class ResumenInfoPartida {
 		return _distrotosConstruidos[i];
 	}
 	
-	
-	
-	
+	public void setYO(String nombre){
+		
+	}	
 }
