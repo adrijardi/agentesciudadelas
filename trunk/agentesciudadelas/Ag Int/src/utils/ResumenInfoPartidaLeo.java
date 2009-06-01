@@ -9,7 +9,7 @@ import acciones.InfoPartida;
 
 import conceptos.Jugador;
 import conceptos.Personaje;
-
+//Almacena la informacion de la partida, es decir el conocimineto para el AgenteLeo
 public class ResumenInfoPartidaLeo {
 
 	Jugador leo;
