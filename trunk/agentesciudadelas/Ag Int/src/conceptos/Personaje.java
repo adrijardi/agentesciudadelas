@@ -27,7 +27,9 @@ public class Personaje implements Concept, Comparable<Personaje> {
 		this.color = color;
 	}
 	public int compareTo(Personaje o) {
-		return turno.compareTo(o.turno);
+		if(o != null)
+			return turno.compareTo(o.turno);
+		return -1;
 	}
 	@Override
 	public boolean equals(Object obj) {
