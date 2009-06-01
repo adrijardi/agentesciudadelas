@@ -37,8 +37,8 @@ public class JugadorAdri extends AgJugador {
 	
 	private Objetivos _objetivos = new Objetivos();
 	
-	private JugadorObjetivo _asesino;
-	private JugadorObjetivo _ladron;
+	private boolean _asesinado;
+	private boolean _robado;
 	
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
@@ -362,11 +362,13 @@ public class JugadorAdri extends AgJugador {
 			jugador.cartas = j.getMano();
 			
 			if(personaje == Personajes.ASESINO.getPj()){
-				_asesino = jugador;
 				jugador.personajesElegidos[0]++;
+				if(_asesinado)
+					jugador.odio+=2;
 			}else if(personaje == Personajes.LADRON.getPj()){
-				_ladron = jugador;
 				jugador.personajesElegidos[1]++;
+				if(_robado)
+					jugador.odio++;
 			}else if(personaje == Personajes.MAGO.getPj()){
 				jugador.personajesElegidos[2]++;
 			}else if(personaje == Personajes.REY.getPj()){
@@ -381,6 +383,8 @@ public class JugadorAdri extends AgJugador {
 				jugador.personajesElegidos[7]++;
 			}
 		}
+		_asesinado = false;
+		_robado = false;
 	}
 	
 	class Objetivos{
@@ -493,14 +497,14 @@ public class JugadorAdri extends AgJugador {
 	public void set_muerto(Personaje muerto) {
 		super.set_muerto(muerto);
 		if(muerto != null && pj_actual.compareTo(muerto) == 0)
-			_asesino.odio++;
+			_asesinado = true;
 	}
 
 	@Override
 	public void set_robado(Personaje robado) {
 		super.set_robado(robado);
 		if(robado != null && pj_actual.compareTo(robado) == 0)
-			_ladron.odio++;
+			_robado = true;
 	}
 	
 	
