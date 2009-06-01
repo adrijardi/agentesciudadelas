@@ -367,17 +367,17 @@ public class JugadorDani extends AgJugador {
 	public Distrito getDistritoConstruir() {
 		Distrito ret = null;
 		Distrito[] dist = getDistritosConstruibles();
-		if(maxbuilded <= 4){
-			if(noMasCaraQueMondeas()){
+		if(maxbuilded <= 3){
+			if(noMasCaraQueMondeas() || monedas > 6){
 				for (int i = 0; i < dist.length; i++) {
-					if(ret == null)
+					if(ret == null){
 						ret = dist[i];
-					else if(noTengoColor(dist[i].getColor()))
+					}else if(noTengoColor(dist[i].getColor())){
 						if(!noTengoColor(ret.getColor()))
 							ret = dist[i];
 						else if(dist[i].getPuntos() > ret.getPuntos())
 							ret = dist[i];
-					else if(dist[i].getPuntos() > ret.getPuntos())
+					}else if(dist[i].getPuntos() > ret.getPuntos())
 						ret = dist[i];
 				}
 			}
