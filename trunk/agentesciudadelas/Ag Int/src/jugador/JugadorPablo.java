@@ -311,7 +311,7 @@ public class JugadorPablo extends AgJugador {
 			_resumen=ResumenInfoPartida.getInstance(msgInfo, this.getName());
 			iniciadoResumen=true;
 		}else{
-			if(_resumen.isInicializado())
+			if(!_resumen.isInicializado())
 				_resumen.darValores(this.getName());
 			_resumen.actualizarPartida(msgInfo);
 		}
