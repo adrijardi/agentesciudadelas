@@ -193,8 +193,10 @@ public class JugadorLeo extends AgJugador {
 
 	@Override
 	public void setInfo(InfoPartida msgInfo) {
-		if(!iniciadoResumen)
+		if(!iniciadoResumen){
+			iniciadoResumen = true;
 			res = ResumenInfoPartida.getInstance(msgInfo, this.getName());
+		}
 		else{
 			if(res.isInicializado())
 				res.darValores(this.getName());
