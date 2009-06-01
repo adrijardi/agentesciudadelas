@@ -58,12 +58,12 @@ public class ResumenInfoPartida {
 		for(int i=0;i<msgInfo.getDistritosJ4().size();i++){
 			_distrotosConstruidos[3].add(msgInfo.getDistritosJ4().get(i));
 		}
-		System.out.println("en ResumenPartida mi nombre = " + nombre);
+		//TODO System.out.println("en ResumenPartida mi nombre = " + nombre);
 		for(int i=0;i<_jugadores.length;i++){
 			if(_jugadores[i]!=null){
-				System.out.println("nombre del agente =  " + _jugadores[i].getNombre());
+				//TODO System.out.println("nombre del agente =  " + _jugadores[i].getNombre());
 				if(_jugadores[i].getNombre().compareToIgnoreCase(nombre)==0){
-System.out.println("en el constructor: ENTRA en Agente propio encontrado ");
+					//TODO System.out.println("en el constructor: ENTRA en Agente propio encontrado ");
 					_miPosicion=i;
 					_yo=_jugadores[_miPosicion];
 					inicializado=true;
@@ -77,9 +77,9 @@ System.out.println("en el constructor: ENTRA en Agente propio encontrado ");
 		if(!inicializado){
 			for(int i=0;i<_jugadores.length;i++){
 				if(_jugadores[i]!=null){
-					System.out.println("nombre del agente =  " + _jugadores[i].getNombre());
+					//TODO System.out.println("nombre del agente =  " + _jugadores[i].getNombre());
 					if(_jugadores[i].getNombre().compareToIgnoreCase(nombre)==0){
-	System.out.println("en darValores: ENTRA en Agente propio encontrado ");
+						//TODO System.out.println("en darValores: ENTRA en Agente propio encontrado ");
 						_miPosicion=i;
 						_yo=_jugadores[_miPosicion];
 						inicializado=true;
