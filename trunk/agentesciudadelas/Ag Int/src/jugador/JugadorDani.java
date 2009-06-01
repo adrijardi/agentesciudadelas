@@ -43,6 +43,14 @@ public class JugadorDani extends AgJugador {
 	private int[] buildedinfo = new int[5];
 	
 	private HashMap<String, InfoJugador> hmInfo = new HashMap<String, InfoJugador>();
+	private int asesino = 0;
+	private int ladron = 0;
+	private int mago = 0;
+	private int rey = 0;
+	private int obispo = 0;
+	private int mercader = 0;
+	private int arquitecto = 0;
+	private int condotiero = 0;
 
 	private final int red = 0;
 	private final int blue = 1;
@@ -56,6 +64,8 @@ public class JugadorDani extends AgJugador {
 	private boolean magoDestapado;
 	
 	private int maxbuilded = 0;
+	
+	private int pos;
 
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
@@ -75,12 +85,15 @@ public class JugadorDani extends AgJugador {
 		ladronDestapado = estaDestapado(Personajes.LADRON);
 		magoDestapado = estaDestapado(Personajes.MAGO);
 		modifyRisk();
+		
+		pos = 6 - pjDisponibles.size();
 
 		// Se selecciona un personaje en funcion de las amenazas, los deseos y
 		// los personajes ofertados
 		for (int i = 0; i < pjDisponibles.size(); i++) {
 			parcial = (Personaje) pjDisponibles.get(i);
 			fitnessParcial = calcularFitness(parcial);
+			System.out.println(pos + "@@@@@ "+parcial.getNombre()+" "+fitnessParcial);
 			if (seleccionado == null || fitness < fitnessParcial) {
 				seleccionado = parcial;
 				fitness = fitnessParcial;
@@ -88,9 +101,47 @@ public class JugadorDani extends AgJugador {
 		}
 
 		pj_actual = seleccionado;
+		mostrarHistSelecc(pj_actual);
 		return pj_actual;
 	}
 	
+	private void mostrarHistSelecc(Personaje pj_actual) {
+		switch (Personajes.getPersonajeByPJ(pj_actual)) {
+		case ARQUITECTO:
+			arquitecto++;
+			break;
+		case CONDOTIERO:
+			condotiero++;
+			break;
+		case ASESINO:
+			asesino++;
+			break;
+		case LADRON:
+			ladron++;
+			break;
+		case MAGO:
+			mago++;
+			break;
+		case MERCADER:
+			mercader++;
+			break;
+		case OBISPO:
+			obispo++;
+			break;
+		case REY:
+			rey++;
+			break;
+		}
+		System.out.println("asesino "+asesino);
+		System.out.println("ladron "+ladron);
+		System.out.println("mago "+mago);
+		System.out.println("rey "+rey);
+		System.out.println("obispo "+obispo);
+		System.out.println("mercader "+mercader);
+		System.out.println("arquitecto "+arquitecto);
+		System.out.println("condotiero "+condotiero);		
+	}
+
 	private boolean estaDestapado(Personajes pj){
 		boolean ret = false;
 		for (int i = 0; i < destapados.length; i++) {
@@ -106,24 +157,24 @@ public class JugadorDani extends AgJugador {
 		switch (Personajes.getPersonajeByPJ(parcial)) {
 		case ARQUITECTO:
 			fitness = 1 * Desire.CARDS.weight;
-			fitness += 0.5 * Desire.COLORS.weight;
+			fitness += fitness * 0.5 * Desire.COLORS.weight;
 			fitness += 0.2 * Desire.MONEY.weight;
-			fitness -= 7/8 * Risk.DELEGATE_TURN.weight;
+			fitness -= fitness *(7/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness*(1/5 * Risk.CHANGED.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -=  fitness *(1/5 * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= 0.85 * Risk.KILLED.weight;
+				fitness -= fitness *(0.5 + (0.5  * Risk.KILLED.weight));
 				
 			break;
 		case ASESINO:
-			fitness = 0.3 * Desire.CARDS.weight;
-			fitness = 0.3 * Desire.MONEY.weight;
-			fitness = 0.15 * Desire.COLORS.weight;
+			fitness = 0.1 * Desire.CARDS.weight;
+			fitness += 0.1 * Desire.MONEY.weight;
+			fitness += 0.15 * Desire.COLORS.weight;
 			
 			if(!ladronDestapado)
 				fitness +=  1 * Risk.STOLEN.weight;
@@ -133,90 +184,91 @@ public class JugadorDani extends AgJugador {
 			fitness = 0.2 * Desire.CARDS.weight;
 			fitness += 0.2 * Desire.COLORS.weight;
 			fitness += (0.2+(0.15*buildedinfo[red])) * Desire.MONEY.weight;
-			fitness -= 1 * Risk.DELEGATE_TURN.weight;
+			fitness -= fitness *(1 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness *(1/6 * Risk.CHANGED.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -=  fitness *((0.1+(0.05*buildedinfo[red])) * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= (0.2+(0.2*buildedinfo[red])) * Risk.KILLED.weight;
+				fitness -= fitness *((0.1+(0.05*buildedinfo[red])) * Risk.KILLED.weight);
 		
 			break;
 		case LADRON:
 			fitness = 0.2 * Desire.CARDS.weight;
 			fitness += 0.2 * Desire.COLORS.weight;
-			fitness += (0.2+(0.1*getProbMoney())) * Desire.MONEY.weight;
-			fitness -= 2/8 * Risk.DELEGATE_TURN.weight;
+			fitness += (0.2+(0.2*getProbMoney())) * Desire.MONEY.weight;
+			fitness -= fitness *(2/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness *(1/6 * Risk.CHANGED.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= 1/5 * Risk.KILLED.weight;
+				fitness -= fitness *(1/5 * Risk.KILLED.weight);
 
 			break;
 		case MAGO:
 			fitness = (0.2+(0.1*getMaxCartas())) * Desire.CARDS.weight;
-			fitness += (0.2+(0.1*getMaxCartas())) * Desire.COLORS.weight;
+			fitness += (0.2) * Desire.COLORS.weight;
 			fitness += (0.2+0.15+(0.15*buildedinfo[green])) * Desire.MONEY.weight;
-			fitness -= 6/8 * Risk.DELEGATE_TURN.weight;
+			fitness -= fitness *(6/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -=  fitness*(1/5 * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= 1/5 * Risk.KILLED.weight;
+				fitness -= fitness*(1/5 * Risk.KILLED.weight);
 			
 			break;
 		case MERCADER:
 			fitness = 0.2 * Desire.CARDS.weight;
 			fitness += 0.2 * Desire.COLORS.weight;
 			fitness += (0.2+0.15+(0.15*buildedinfo[green])) * Desire.MONEY.weight;
-			fitness -= 6/8 * Risk.DELEGATE_TURN.weight;
+			fitness -= fitness*(6/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness*(1/5 * Risk.CHANGED.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -= fitness*( (0.1+(0.1*buildedinfo[green])) * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= (0.2+0.2+(0.2*buildedinfo[yellow])) * Risk.KILLED.weight;
+				fitness -= fitness *((0.1+0.1+(0.05*buildedinfo[green])) * Risk.KILLED.weight);
 			
 			break;
 		case OBISPO:
 			fitness = 0.2 * Desire.CARDS.weight;
 			fitness += 0.2 * Desire.COLORS.weight;
 			fitness += (0.2+(0.15*buildedinfo[blue])) * Desire.MONEY.weight;
-			fitness -= 5/8 * Risk.DELEGATE_TURN.weight;
+			fitness -= fitness*(5/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness*(1/5 * Risk.CHANGED.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -=  fitness *((0.1+(0.05*buildedinfo[blue])) * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= (0.2+(0.2*buildedinfo[blue])) * Risk.KILLED.weight;
+				fitness -= fitness *((0.1+(0.05*buildedinfo[blue])) * Risk.KILLED.weight);
 			
 			break;
 		case REY:
 			fitness = 0.2 * Desire.CARDS.weight;
 			fitness += 0.2 * Desire.COLORS.weight;
 			fitness += (0.2+(0.15*buildedinfo[yellow])) * Desire.MONEY.weight;
-			fitness -= 4/8 * Risk.DELEGATE_TURN.weight;
+			fitness += 0.1 *pos;
+			fitness -= fitness *(4/8 * Risk.DELEGATE_TURN.weight);
 			
 			if(!magoDestapado)
-				fitness -= 1/5 * Risk.CHANGED.weight;
+				fitness -= fitness*(1/5 * Risk.CHANGED.weight);
 			
 			if(!ladronDestapado)
-				fitness -=  1/5 * Risk.STOLEN.weight;
+				fitness -=  fitness *((0.1+(0.05*buildedinfo[yellow])) * Risk.STOLEN.weight);
 			
 			if(!asesinoDestapado)
-				fitness -= (0.2+(0.2*buildedinfo[yellow])) * Risk.KILLED.weight;
+				fitness -= fitness *((0.1+(0.05*buildedinfo[yellow])) * Risk.KILLED.weight);
 			break;
 		}
 		return fitness;
@@ -346,27 +398,31 @@ public class JugadorDani extends AgJugador {
 	}
 
 	private boolean noMasCaraQueMondeas() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean ret = false;
+		for (Distrito d : construidas) {
+			if(d.getCoste() > monedas)
+				ret = true;
+		}
+		return ret;
 	}
 
 	private boolean noTengoColor(String color) {
-		boolean ret = true;
+		boolean ret = false;
 		switch (TipoDistrito.getByColor(color)) {
 		case COMERCIAL:
-			ret = buildedinfo[green] >0;
+			ret = buildedinfo[green] ==0;
 			break;
 		case MARAVILLA:
-			ret = buildedinfo[purple] >0;
+			ret = buildedinfo[purple] ==0;
 			break;
 		case MILITAR:
-			ret = buildedinfo[red] >0;
+			ret = buildedinfo[red] ==0;
 			break;
 		case NOBLE:
-			ret = buildedinfo[yellow] >0;
+			ret = buildedinfo[yellow] ==0;
 			break;
 		case RELIGIOSO:
-			ret = buildedinfo[blue] >0;
+			ret = buildedinfo[blue] ==0;
 			break;
 		}
 		return ret;
@@ -375,28 +431,54 @@ public class JugadorDani extends AgJugador {
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
 		Distrito[] descartado = new Distrito[distritos.size() - 1];
-		int selecc = dado.nextInt(distritos.size());
-		int i = 0;
 		Iterator it = distritos.iterator();
+		Distrito selec = null;
 		Distrito d;
+		int i = 0;
 		while (it.hasNext()) {
 			d = (Distrito) it.next();
-			if (i == selecc) {
-				mano.add(d);
-				selecc = -1;
+			if (selec == null) {
+				selec = d;
 			} else {
-				descartado[i++] = d;
+				if(noTengo(d) && d.getPuntos() > selec.getPuntos()){
+					descartado[i++] = selec;
+					selec = d;
+				}else{
+					descartado[i++] = d;
+				}
 			}
 		}
 		return descartado;
 	}
 
+	private boolean noTengo(Distrito d) {
+		boolean ret = false;
+		for (Distrito dc : construidas) {
+			if(dc.getNombre().compareTo(d.getNombre())==0)
+				ret = true;
+		}
+		if(!ret){
+			for (Distrito dc : mano) {
+				if(dc.getNombre().compareTo(d.getNombre())==0)
+					ret = true;
+			}
+		}
+		return ret;
+	}
+
 	@Override
 	public boolean seleccionarMonedasOCartas() {
-		if (cartasManoNoConstruidas() == 0) {
+		if (cartasManoNoConstruidas() == 0 && noSoy(Personajes.MAGO) && noSoy(Personajes.ARQUITECTO)) {
 			return true;
 		}
 		return false;
+	}
+
+	private boolean noSoy(Personajes pj) {
+		boolean ret = true;
+		if(pj_actual.compareTo(pj.getPj())==0)
+			ret = false;
+		return ret;
 	}
 
 	@Override
@@ -405,24 +487,29 @@ public class JugadorDani extends AgJugador {
 		llp.remove(Personajes.ASESINO.getPj());
 		for (int i = 0; i < destapados.length; i++) {
 			llp.remove(destapados[i].getPj());
-			System.out.println(destapados[i]); // TODO quitar
 		}
-		return llp.get(dado.nextInt(llp.size()));
+		if(llp.contains(Personajes.ARQUITECTO.getPj()))
+			return Personajes.ARQUITECTO.getPj();
+		else if(llp.contains(Personajes.MERCADER.getPj()))
+			return Personajes.MERCADER.getPj();
+		else
+			return llp.get(dado.nextInt(llp.size()));
 	}
 
 	@Override
-	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2,
-			Jugador jug3) {
+	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2,Jugador jug3) {
 		Jugador ret = null;
-		LinkedList<Jugador> jugadores = new LinkedList<Jugador>();
-		if (jug1.getMano() > 0)
-			jugadores.add(jug1);
-		if (jug2.getMano() > 0)
-			jugadores.add(jug1);
-		if (jug3.getMano() > 0)
-			jugadores.add(jug1);
-		if (jugadores.size() > 0) {
-			ret = jugadores.get(dado.nextInt(jugadores.size()));
+		ret = jug1;
+		if(monedas >= 4){
+			if(ret.getMonedas() < jug2.getMonedas())
+				ret = jug2;
+			if(ret.getMonedas() < jug3.getMonedas())
+				ret = jug3;
+		}else{
+			if(ret.getMano() < jug2.getMano())
+				ret = jug2;
+			if(ret.getMano() < jug3.getMano())
+				ret = jug3;
 		}
 		return ret;
 	}
@@ -586,9 +673,9 @@ public class JugadorDani extends AgJugador {
 	}
 
 	private double getRiskChanged() {
-		double ret = 0.2;
+		double ret = 0.1;
 		if(mano.size() > 1)
-			ret += 0.2 * alguienSinCartas();
+			ret += 0.1 * alguienSinCartas();
 		return ret;
 	}
 
@@ -606,7 +693,7 @@ public class JugadorDani extends AgJugador {
 	}
 
 	private double getRiskDelegate() {
-		return 0.5;
+		return maxbuilded * (1/8);
 	}
 
 	private double getRiskStolen() {
@@ -621,7 +708,7 @@ public class JugadorDani extends AgJugador {
 	private double getRiskKilled() {
 		double ret = 0.2;
 		if(soyMasPuntos())
-			ret += 0.8;
+			ret += 0.6;
 		return ret;
 	}
 
