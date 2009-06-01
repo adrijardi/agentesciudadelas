@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import utils.Personajes;
+import utils.ResumenInfoPartida;
+import utils.TipoDistrito;
 import acciones.DestruirDistrito;
 import acciones.InfoPartida;
 import acciones.OfertarPersonajes;
@@ -32,15 +34,22 @@ import conceptos.Personaje;
 
 public class JugadorLeo extends AgJugador {
 	private final Random dado =  new Random();
+	private int[] ordenPersonajes = new int[8];
+	private ResumenInfoPartida res;
+	private boolean iniciadoResumen;
 
 	@Override
 	public Personaje selectPersonaje(OfertarPersonajes contenido) {
-		// Se selecciona un personaje aleatorio de los que llegan:
-		int sel = dado.nextInt(contenido.getDisponibles().size());
-		pj_actual = (Personaje)contenido.getDisponibles().get(sel);
+		pj_actual = seleccionarPersonaje(contenido);
 		return pj_actual;
 	}
 
+	public void initOrdenPersonajes(){
+		for(int i = 0; i < this.ordenPersonajes.length; i++){
+			this.ordenPersonajes[i] = 1;
+		}
+	}
+	
 	@Override
 	public Behaviour jugarTurno(ACLMessage msg) {
 		Behaviour ret;
@@ -137,6 +146,12 @@ public class JugadorLeo extends AgJugador {
 		for (int i = 0; i < destapados.length; i++) {
 			llp.remove(destapados[i]);
 			}
+		if(llp.contains(Personajes.ARQUITECTO)){
+			return llp.get(llp.indexOf(Personajes.ARQUITECTO));
+		}
+		if(llp.contains(Personajes.MERCADER)){
+			return llp.get(llp.indexOf(Personajes.MERCADER));
+		}
 		return llp.get(dado.nextInt(llp.size()));
 	}
 
@@ -178,10 +193,156 @@ public class JugadorLeo extends AgJugador {
 
 	@Override
 	public void setInfo(InfoPartida msgInfo) {
-		// TODO Auto-generated method stub
+		if(!iniciadoResumen)
+			res = ResumenInfoPartida.getInstance(msgInfo, this.getName());
+		else{
+			if(res.isInicializado())
+				res.darValores(this.getName());
+			res.actualizarPartida(msgInfo);
+		}
 		
+		initOrdenPersonajes();
+		if(res.isInicializado()){
+			prioridadLadron();
+			prioridadMago();
+			prioridadArquitecto();
+			prioridadAsesino();
+			prioridadRey();
+			prioridadPorColor();
+			prioridadMercader();
+		}
+	}
+	
+	private void prioridadMago(){
+		int media=0;
+		for(int i = 0; i < res.get_jugadores().length;i++){
+			media += res.get_jugadores()[i].getMano();
+		}
+		if(res.get_jugadores()[res.get_miPosicion()].getMano() < 3){
+			if(media >= 10)
+				ordenPersonajes[Personajes.MAGO.getPosision()] += 10;
+			if(media >= 5 && media < 10)
+				ordenPersonajes[Personajes.MAGO.getPosision()] += 6;
+			if(media >= 1 && media < 5)
+				ordenPersonajes[Personajes.MAGO.getPosision()] += 1;
+			if(media == 0)
+				ordenPersonajes[Personajes.MAGO.getPosision()] -= 1;
+			}else{
+				if(media >= 10)
+					ordenPersonajes[Personajes.MAGO.getPosision()] += 7;
+				if(media >= 5 && media < 10)
+					ordenPersonajes[Personajes.MAGO.getPosision()] += 4;
+				if(media >= 1 && media < 5)
+					ordenPersonajes[Personajes.MAGO.getPosision()] += 3;
+				if(media == 0)
+					ordenPersonajes[Personajes.MAGO.getPosision()] -= 2;	
+			}
+		}
+		
+	private void prioridadLadron() {
+		int media=0;
+		for(int i = 0; i < res.get_jugadores().length;i++){
+			media += res.get_jugadores()[i].getMonedas();
+			if(res.get_jugadores()[i].getMonedas()>= 6)
+				ordenPersonajes[Personajes.LADRON.getPosision()] += 5;
+			if(res.get_jugadores()[i].getMonedas()>= 4 && res.get_jugadores()[i].getMonedas()< 6)
+				ordenPersonajes[Personajes.LADRON.getPosision()] += 3;
+			if(res.get_jugadores()[i].getMonedas() == 3)
+				ordenPersonajes[Personajes.LADRON.getPosision()] += 2;
+		}
+		media=media/4;
+		if(media >= 10)
+			ordenPersonajes[Personajes.LADRON.getPosision()] += 10;
+		if(media >= 5 && media < 10)
+			ordenPersonajes[Personajes.LADRON.getPosision()] += 6;
+		if(media >= 1 && media < 5)
+			ordenPersonajes[Personajes.LADRON.getPosision()] += 1;
+		if(media == 0)
+			ordenPersonajes[Personajes.LADRON.getPosision()] -= 1;
+		if(res.get_jugadores()[res.get_miPosicion()].getMonedas()<3)
+			ordenPersonajes[Personajes.LADRON.getPosision()] += 3;
+		if(res.get_jugadores()[res.get_miPosicion()].getMonedas() <= 1)
+			ordenPersonajes[Personajes.LADRON.getPosision()] += 7;
+	}
+	
+	public void prioridadRey() {
+		ordenPersonajes[Personajes.REY.getPosision()] += 8;
+	}
+	
+	public void prioridadAsesino() {
+		ordenPersonajes[Personajes.ASESINO.getPosision()] += 11;
+	}
+	
+	public void prioridadMercader() {
+		ordenPersonajes[Personajes.MERCADER.getPosision()] += 6;
+	}
+	
+	private void prioridadArquitecto(){
+		if(res.get_jugadores()[res.get_miPosicion()].getMano() > 2){
+			if(res.get_jugadores()[res.get_miPosicion()].getMonedas()>5){
+				if(res.get_jugadores()[res.get_miPosicion()].getMano() < 2)
+					ordenPersonajes[Personajes.ARQUITECTO.getPosision()] += 8;
+				else
+					ordenPersonajes[Personajes.ARQUITECTO.getPosision()] += 5;
+			}
+		}
+		
+		if(res.getDistritos(res.get_miPosicion()).size() == 6 &&
+				res.get_jugadores()[res.get_miPosicion()].getMonedas() > 5)
+			ordenPersonajes[Personajes.ARQUITECTO.getPosision()]+= 12;
+		if(res.getDistritos(res.get_miPosicion()).size() == 6 &&
+				res.get_jugadores()[res.get_miPosicion()].getMonedas() < 5)
+			ordenPersonajes[Personajes.ARQUITECTO.getPosision()]+= 8;
 	}
 	
 	
-
+	private void prioridadPorColor(){
+		int rojo=0;
+		int verde=0;
+		int azul=0;
+		int amarillo=0;
+		jade.util.leap.LinkedList lista = res.getDistritos(res.get_miPosicion());
+		for(int i=0;i<lista.size();i++){
+			if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.COMERCIAL.getColor())){
+				verde++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.NOBLE.getColor())){
+				amarillo++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.MILITAR.getColor())){
+				rojo++;
+			}else if(((Distrito)lista.get(i)).getColor().equalsIgnoreCase(TipoDistrito.RELIGIOSO.getColor())){
+				azul++;
+			}
+		}
+		if(verde > 2)
+			ordenPersonajes[Personajes.MERCADER.getPosision()] += verde + 8;
+		else
+			ordenPersonajes[Personajes.MERCADER.getPosision()] += verde +5;
+		if(azul > 2)
+			ordenPersonajes[Personajes.OBISPO.getPosision()] += azul + 5;
+		else
+			ordenPersonajes[Personajes.OBISPO.getPosision()] += azul + 3;
+		if(amarillo > 2)
+			ordenPersonajes[Personajes.REY.getPosision()] += amarillo + 7;
+		else
+			ordenPersonajes[Personajes.REY.getPosision()] += amarillo + 4;
+		if(rojo > 2)
+			ordenPersonajes[Personajes.CONDOTIERO.getPosision()]+= rojo + 5;
+		else
+			ordenPersonajes[Personajes.CONDOTIERO.getPosision()]+= rojo + 3;
+	}
+	
+	private Personaje seleccionarPersonaje(OfertarPersonajes contenido){
+		Personaje salida=null;
+		List lista = contenido.getDisponibles();
+		int peso = 0;
+		int pesoA = -5;
+		for(int i=0;i<lista.size();i++){
+			peso = ordenPersonajes[((Personaje)lista.get(i)).getTurno()-1];
+			if(pesoA < peso){
+				salida = (Personaje)lista.get(i);
+				pesoA = peso;
+			}
+		}
+		return salida;
+	}
 }
