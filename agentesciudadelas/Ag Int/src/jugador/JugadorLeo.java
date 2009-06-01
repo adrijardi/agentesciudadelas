@@ -188,6 +188,9 @@ public class JugadorLeo extends AgJugador {
 		for (int i = 0; i < destapados.length; i++) {
 			llp.remove(destapados[i]);
 		}
+		if(llp.contains(Personajes.MAGO)){
+			return llp.get(llp.indexOf(Personajes.MAGO));
+		}
 		return llp.get(((int)(Math.random()))*llp.size());
 	}
 
