@@ -7,6 +7,7 @@ import jade.util.leap.List;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import utils.Distritos;
 import utils.Personajes;
@@ -102,19 +103,42 @@ public class JugadorPablo extends AgJugador {
 
 	@Override
 	public Distrito getDistritoConstruir() {
-		// la politica es construir la mas cara que pueda costearme
+		// la politica es construir la mas cara que pueda costearme de un color q no tenga
+		// si tengo los dos o no tengo ninguno cogo la mas cara
 		int max=0;
 		int posDistMax=-1;
 		Distrito ret = null;
 		Distrito[] dist = getDistritosConstruibles();
+		
+		Vector<Distrito> validos=new Vector<Distrito>();
+		
 		if(dist != null && dist.length > 0){
 			for(int i=0;i<dist.length;i++){
-				if(dist[i].getCoste()>max){
-					max=dist[i].getCoste();
-					posDistMax=i;
+				if(!tengoColor(dist[i])){
+					validos.add(dist[i]);
 				}
 			}
-			return dist[posDistMax];
+		}
+		if(validos.size()==0){
+			if(dist != null && dist.length > 0){
+				for(int i=0;i<dist.length;i++){
+					if(dist[i].getCoste()>max){
+						max=dist[i].getCoste();
+						posDistMax=i;
+					}
+				}
+				return dist[posDistMax];
+			}
+		}else{
+			
+				for(int i=0;i<validos.size();i++){
+					if(validos.get(i).getCoste()>max){
+						max=validos.get(i).getCoste();
+						posDistMax=i;
+					}
+				}
+				return validos.get(posDistMax);
+			
 		}
 		return ret;
 	}
@@ -230,7 +254,7 @@ public class JugadorPablo extends AgJugador {
 		llp.remove(Personajes.ASESINO.getPj());
 		for (int i = 0; i < destapados.length; i++) {
 			llp.remove(destapados[i]);
-			System.out.println(destapados[i]); // TODO quitar
+			//TODO System.out.println(destapados[i]); // TODO quitar
 		}
 		return llp.get((int)(Math.random()*llp.size()));
 	}
@@ -282,10 +306,11 @@ public class JugadorPablo extends AgJugador {
 		 */
 		
 		
-		System.out.println("2 - en setInfo: mi nombre = " +this.getName());
-		if(!iniciadoResumen)
+		//TODO System.out.println("2 - en setInfo: mi nombre = " +this.getName());
+		if(!iniciadoResumen){
 			_resumen=ResumenInfoPartida.getInstance(msgInfo, this.getName());
-		else{
+			iniciadoResumen=true;
+		}else{
 			if(_resumen.isInicializado())
 				_resumen.darValores(this.getName());
 			_resumen.actualizarPartida(msgInfo);
