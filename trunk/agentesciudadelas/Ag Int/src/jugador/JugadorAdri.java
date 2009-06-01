@@ -6,6 +6,7 @@ import jade.util.leap.List;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import utils.Personajes;
 import utils.TipoDistrito;
@@ -33,6 +34,11 @@ import conceptos.Jugador;
 import conceptos.Personaje;
 
 public class JugadorAdri extends AgJugador {
+	
+	private Objetivos _objetivos = new Objetivos();
+	
+	private JugadorObjetivo _asesino;
+	private JugadorObjetivo _ladron;
 	
 	@Override
 	public Distrito[] descartaDistritos(List distritos) {
@@ -81,6 +87,16 @@ public class JugadorAdri extends AgJugador {
 		Personajes aux = Personajes.ARQUITECTO;
 		int naux = 0;
 		
+		// Elimina al personaje más odiado
+		JugadorObjetivo[] jugadoresPorOdio = _objetivos.jugadoresPorOdio();
+		for (JugadorObjetivo jugadorObjetivo : jugadoresPorOdio) {
+			Personajes persObjetivo = jugadorObjetivo.getPersonajeEstimado();
+			if(destapados[0] != persObjetivo && destapados[1] != persObjetivo && persObjetivo != Personajes.ASESINO)
+				return persObjetivo.getPj();
+		}
+		
+
+		// Elimina al arquitecto o al mercader
 		if(objetivo == 0 && destapados[0] != aux && destapados[1] != aux)
 			return Personajes.ARQUITECTO.getPj();
 		
@@ -197,27 +213,57 @@ public class JugadorAdri extends AgJugador {
 	public void getDistritoDestruir(PedirDistritoJugadores pd, DestruirDistrito dd) {
 		Distrito elegido = null;
 		Jugador jelec = null;
-		Distrito [] distritos = (Distrito[])pd.getDistritos1().toArray();
-		for (int i = 0; elegido != null && i < distritos.length; i++) {
-			if(distritos[i].getCoste() == 1){
-				elegido = distritos[i];
-				jelec = pd.getJugador1();
+		Distrito [] distritos = null;
+		
+		// Se elige el distrito de menos coste del jugador más odiado
+		JugadorObjetivo[] jugadoresPorOdio = _objetivos.jugadoresPorOdio();
+		if(jugadoresPorOdio[0].nombre.compareTo(pd.getJugador1().getNombre()) == 0){
+			jelec = pd.getJugador1();
+			distritos = (Distrito[])pd.getDistritos1().toArray();
+		}
+		if(jugadoresPorOdio[0].nombre.compareTo(pd.getJugador2().getNombre()) == 0){
+			jelec = pd.getJugador2();
+			distritos = (Distrito[])pd.getDistritos2().toArray();
+		}
+		if(jugadoresPorOdio[0].nombre.compareTo(pd.getJugador3().getNombre()) == 0){
+			jelec = pd.getJugador3();
+			distritos = (Distrito[])pd.getDistritos3().toArray();
+		}
+		
+		int coste = 0;
+		if(distritos != null){
+			for (Distrito distrito : distritos) {
+				if(elegido == null || distrito.getCoste() < coste){
+					coste = distrito.getCoste();
+					elegido = distrito;
+				}
 			}
 		}
-		if(elegido != null){
-			distritos = (Distrito[])pd.getDistritos2().toArray();
+		
+		if(elegido == null){
+			// Se elige un distrito de coste 1
+			distritos = (Distrito[])pd.getDistritos1().toArray();
 			for (int i = 0; elegido != null && i < distritos.length; i++) {
 				if(distritos[i].getCoste() == 1){
 					elegido = distritos[i];
-					jelec = pd.getJugador2();
+					jelec = pd.getJugador1();
 				}
 			}
 			if(elegido != null){
-				distritos = (Distrito[])pd.getDistritos3().toArray();
+				distritos = (Distrito[])pd.getDistritos2().toArray();
 				for (int i = 0; elegido != null && i < distritos.length; i++) {
 					if(distritos[i].getCoste() == 1){
 						elegido = distritos[i];
-						jelec = pd.getJugador3();
+						jelec = pd.getJugador2();
+					}
+				}
+				if(elegido != null){
+					distritos = (Distrito[])pd.getDistritos3().toArray();
+					for (int i = 0; elegido != null && i < distritos.length; i++) {
+						if(distritos[i].getCoste() == 1){
+							elegido = distritos[i];
+							jelec = pd.getJugador3();
+						}
 					}
 				}
 			}
@@ -225,7 +271,7 @@ public class JugadorAdri extends AgJugador {
 		if(elegido != null){
 			dd.setDistrito(elegido);
 			dd.setJugador(jelec);
-			dd.setPago(0);
+			dd.setPago(elegido.getCoste()-1);
 		}else{
 			dd.setJugador(pd.getJugador1());
 			dd.setDistrito((Distrito)pd.getDistritos1().get(0));
@@ -237,22 +283,48 @@ public class JugadorAdri extends AgJugador {
 	public Jugador seleccionarJugadorCambiarCartas(Jugador jug1, Jugador jug2, Jugador jug3) {
 		int num;
 		ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-		if(jug1.getMano() > 0)
-			jugadores.add(jug1);
-		if(jug2.getMano() > 0)
-			jugadores.add(jug2);
-		if(jug3.getMano() > 0)
-			jugadores.add(jug3);
+		JugadorObjetivo[] jugadoresPorOdio = _objetivos.jugadoresPorOdio();
+		Jugador objetivo = null;
 		
-		if(jugadores.size() != 0){
-			num = (int)(Math.random()*jugadores.size());
-			return jugadores.get(num);
+		for (JugadorObjetivo actual : jugadoresPorOdio) {
+			if(actual.nombre.compareTo(jug1.getNombre()) == 0 && jug1.getMano() > 0)
+				objetivo = jug1;
+			if(actual.nombre.compareTo(jug2.getNombre()) == 0 && jug2.getMano() > 0)
+				objetivo = jug2;
+			if(actual.nombre.compareTo(jug3.getNombre()) == 0 && jug3.getMano() > 0)
+				objetivo = jug3;
 		}
-		return null;
+		
+		if(objetivo == null){
+			
+			if(jug1.getMano() > 0)
+				jugadores.add(jug1);
+			if(jug2.getMano() > 0)
+				jugadores.add(jug2);
+			if(jug3.getMano() > 0)
+				jugadores.add(jug3);
+			
+			if(jugadores.size() != 0){
+				num = (int)(Math.random()*jugadores.size());
+				return jugadores.get(num);
+			}
+		}
+		return objetivo;
 	}
 
 	@Override
 	public Personaje seleccionarPersonajeRobo() {
+		// Roba al personaje más odiado
+		JugadorObjetivo[] jugadoresPorOdio = _objetivos.jugadoresPorOdio();
+		for (JugadorObjetivo jugadorObjetivo : jugadoresPorOdio) {
+			if(jugadorObjetivo.monedas > 0){
+				Personajes persObjetivo = jugadorObjetivo.getPersonajeEstimado();
+				if(persObjetivo != Personajes.ASESINO && persObjetivo != Personajes.LADRON && destapados[0] != persObjetivo && destapados[1] != persObjetivo)
+					return persObjetivo.getPj();
+			}
+		}
+		
+		
 		LinkedList<Personaje> llp = Personajes.getNewListaPersonajes();
 		llp.remove(Personajes.ASESINO.getPj());
 		llp.remove(Personajes.LADRON.getPj());
@@ -266,7 +338,170 @@ public class JugadorAdri extends AgJugador {
 
 	@Override
 	public void setInfo(InfoPartida msgInfo) {
-		// TODO Auto-generated method stub
-		
+		//Se actualiza la info del j1;
+		Jugador j = msgInfo.getJugador1();
+		setConcreteInfo(j, msgInfo.getPersonaje1(), msgInfo.getDistritosJ1(), msgInfo.getJugoP1());
+		//Se actualiza la info del j2;
+		j = msgInfo.getJugador2();
+		setConcreteInfo(j, msgInfo.getPersonaje2(), msgInfo.getDistritosJ2(), msgInfo.getJugoP2());
+		//Se actualiza la info del j3;
+		j = msgInfo.getJugador3();
+		setConcreteInfo(j, msgInfo.getPersonaje3(),msgInfo.getDistritosJ3(), msgInfo.getJugoP3());
+		//Se actualiza la info del j4;
+		j = msgInfo.getJugador4();
+		setConcreteInfo(j, msgInfo.getPersonaje4(),msgInfo.getDistritosJ4(), msgInfo.getJugoP4());
 	}
+	
+	private void setConcreteInfo(Jugador j, Personaje personaje, List list, boolean b) {
+		// Si es un contrincante
+		if(j.getNombre().compareTo(this.getName())!=0){
+			JugadorObjetivo jugador = _objetivos.getJugador(j.getNombre());
+			jugador.jugado = b;
+			jugador.puntos = j.getPuntos();
+			jugador.monedas = j.getMonedas();
+			jugador.cartas = j.getMano();
+			
+			if(personaje == Personajes.ASESINO.getPj()){
+				_asesino = jugador;
+				jugador.personajesElegidos[0]++;
+			}else if(personaje == Personajes.LADRON.getPj()){
+				_ladron = jugador;
+				jugador.personajesElegidos[1]++;
+			}else if(personaje == Personajes.MAGO.getPj()){
+				jugador.personajesElegidos[2]++;
+			}else if(personaje == Personajes.REY.getPj()){
+				jugador.personajesElegidos[3]++;
+			}else if(personaje == Personajes.OBISPO.getPj()){
+				jugador.personajesElegidos[4]++;
+			}else if(personaje == Personajes.MERCADER.getPj()){
+				jugador.personajesElegidos[5]++;
+			}else if(personaje == Personajes.ARQUITECTO.getPj()){
+				jugador.personajesElegidos[6]++;
+			}else if(personaje == Personajes.CONDOTIERO.getPj()){
+				jugador.personajesElegidos[7]++;
+			}
+		}
+	}
+	
+	class Objetivos{
+		Vector<JugadorObjetivo> objetivos = new Vector<JugadorObjetivo>(3);
+		
+		public Objetivos(){}
+		
+		JugadorObjetivo getJugador(String name){
+			for (int i = 0; i < objetivos.size(); i++) {
+				if(objetivos.get(i).nombre.compareTo(name) == 0)
+					return objetivos.get(i);
+			}
+			JugadorObjetivo nuevo = new JugadorObjetivo();
+			nuevo.nombre = name;
+			objetivos.add(nuevo);
+			return nuevo;
+		}
+		
+		JugadorObjetivo[] jugadoresPorOdio(){
+			JugadorObjetivo[] objetivosPorOdio = new JugadorObjetivo[3];
+			objetivosPorOdio[0] = objetivos.get(0);
+			if(objetivos.get(1).calcularOdioFinal() > objetivosPorOdio[0].calcularOdioFinal()){
+				objetivosPorOdio[1] = objetivosPorOdio[0];
+				objetivosPorOdio[0] = objetivos.get(1);
+			}else{
+				objetivosPorOdio[1] = objetivos.get(1);
+			}
+			
+			if(objetivos.get(2).calcularOdioFinal() > objetivosPorOdio[0].calcularOdioFinal()){
+				objetivosPorOdio[2] = objetivosPorOdio[1];
+				objetivosPorOdio[1] = objetivosPorOdio[0];
+				objetivosPorOdio[0] = objetivos.get(2);
+			}else{
+				if(objetivos.get(2).calcularOdioFinal() > objetivosPorOdio[1].calcularOdioFinal()){
+					objetivosPorOdio[2] = objetivosPorOdio[1];
+					objetivosPorOdio[1] = objetivos.get(2);
+				}else{
+					objetivosPorOdio[2] = objetivos.get(2);
+				}
+			}
+			return objetivosPorOdio;
+		}
+	}
+	
+	class JugadorObjetivo implements Comparable<JugadorObjetivo>{
+		String nombre;
+		int puntos;
+		int cartas;
+		int monedas;
+		int odio;
+		boolean jugado;
+		int personajesElegidos[] = new int[8];
+		
+		int calcularOdioFinal(){
+			return odio+puntos/2+monedas+4+cartas/4;
+		}
+		
+		Personajes getPersonajeEstimado(){
+			Personajes p = Personajes.ASESINO;
+			int actual = personajesElegidos[0];
+			if(personajesElegidos[1] > actual){
+				p = Personajes.LADRON;
+				actual = personajesElegidos[1];
+			}
+			if(personajesElegidos[2] > actual){
+				p = Personajes.MAGO;
+				actual = personajesElegidos[2];
+			}
+			if(personajesElegidos[3] > actual){
+				p = Personajes.REY;
+				actual = personajesElegidos[3];
+			}
+			if(personajesElegidos[4] > actual){
+				p = Personajes.OBISPO;
+				actual = personajesElegidos[4];
+			}
+			if(personajesElegidos[5] > actual){
+				p = Personajes.MERCADER;
+				actual = personajesElegidos[5];
+			}
+			if(personajesElegidos[6] > actual){
+				p = Personajes.ARQUITECTO;
+				actual = personajesElegidos[6];
+			}
+			if(personajesElegidos[7] > actual){
+				p = Personajes.CONDOTIERO;
+				actual = personajesElegidos[7];
+			}
+			return p;
+		}
+		
+		@Override
+		public int compareTo(JugadorObjetivo o) {
+			return nombre.compareTo(o.nombre);
+		}
+		public int compareTo(String o) {
+			return nombre.compareTo(o);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if(obj instanceof JugadorObjetivo)
+				if(nombre.compareTo(((JugadorObjetivo) obj).nombre) == 0)
+					return true;
+			return nombre.equals(obj);
+		}
+	}
+
+	@Override
+	public void set_muerto(Personaje muerto) {
+		super.set_muerto(muerto);
+		if(pj_actual.compareTo(muerto) == 0)
+			_asesino.odio++;
+	}
+
+	@Override
+	public void set_robado(Personaje robado) {
+		super.set_robado(robado);
+		if(pj_actual.compareTo(robado) == 0)
+			_ladron.odio++;
+	}
+	
+	
 }
