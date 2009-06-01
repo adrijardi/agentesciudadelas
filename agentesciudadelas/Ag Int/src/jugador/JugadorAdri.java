@@ -492,14 +492,14 @@ public class JugadorAdri extends AgJugador {
 	@Override
 	public void set_muerto(Personaje muerto) {
 		super.set_muerto(muerto);
-		if(pj_actual.compareTo(muerto) == 0)
+		if(muerto != null && pj_actual.compareTo(muerto) == 0)
 			_asesino.odio++;
 	}
 
 	@Override
 	public void set_robado(Personaje robado) {
 		super.set_robado(robado);
-		if(pj_actual.compareTo(robado) == 0)
+		if(robado != null && pj_actual.compareTo(robado) == 0)
 			_ladron.odio++;
 	}
 	
